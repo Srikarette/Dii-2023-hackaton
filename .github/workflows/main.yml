@@ -1,8 +1,9 @@
+name: GitHub Springboot Workflow
 on: [push]
 
 jobs:
   build:
-    name: Run springboot-test
+    name: running springboot-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
