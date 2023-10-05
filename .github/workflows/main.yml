@@ -11,4 +11,4 @@ jobs:
         with:
           java-version: 1.11
       - name: Use autotest action
-        run: mvn verify --file pom.xml 
+        run: mvn verify --file springboot-rest/pom.xml 
