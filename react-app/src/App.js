@@ -1,8 +1,17 @@
-import Container from "./component/container";
+import React from "react";
+
+import ComponentContainer from "./component/ComponentContainer";
+import GlobalStyle from "./component/GlobalStyle";
+
 
 function App() {
   return (
-   <Container />
+    <>
+      <GlobalStyle>
+        <ComponentContainer />
+      </GlobalStyle>
+      
+    </>
   );
 }
 
