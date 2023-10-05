@@ -19,11 +19,13 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
+    // Get all account
     @GetMapping("/accounts")
     public Collection<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
 
+    // Get account by Id
     @GetMapping("/accounts/{id}")
     public ResponseEntity getAccountById(@PathVariable long id) {
         Optional<Account> optAcc = accountRepository.findById(id);
@@ -37,6 +39,7 @@ public class AccountController {
         return ResponseEntity.ok(acc);
     }
 
+    // Create account
     @PostMapping("/accounts")
     public ResponseEntity<String> createAccount(@RequestBody Account account) {
         // chesk if id already exist
@@ -48,6 +51,7 @@ public class AccountController {
         return ResponseEntity.ok("Account created success!");
     }
 
+    // Update account
     @PutMapping("/accounts/")
     public ResponseEntity<String> updateAccount(@RequestBody Account account) {
         // check if id not exists
@@ -63,6 +67,7 @@ public class AccountController {
         return ResponseEntity.ok("Account updated");
     }
 
+    // Delete account
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable long id) {
         // check if id not exists
