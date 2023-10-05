@@ -1,10 +1,8 @@
+import Container from "./component/container";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-      </header>
-    </div>
+   <Container />
   );
 }
 
