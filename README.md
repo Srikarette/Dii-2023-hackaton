@@ -3,7 +3,7 @@
  
  **Discord**:https://discord.gg/JVHkgDfq
 
- **Topic**: Not decide
+ **Topic**: Not decide yet
 
  **IDE**:Vs code or your choice
  **Browser**:Chrome version 16 or above
