@@ -10,5 +10,5 @@ jobs:
       - uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.11
-      - name: Use autotest action
+      - name: Autotest Action
         run: mvn verify --file springboot-rest/pom.xml 
