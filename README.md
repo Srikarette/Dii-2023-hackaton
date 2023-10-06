@@ -28,15 +28,30 @@
  **For backend**: java-springboot
 
 # Library In use
+ ***Make sure to initiate path by***
+
+    cd path\...\react-app> 
  1.React
 
-    1.1 React Router Dom(Already Installed)
+    1.1 React Router Dom
 
-    1.2 Redux tools(Already Installed)
+      npm install react-router-dom --save
 
-    1.3 Styled Component(Already Installed)
+    1.2 Redux tools
 
- 2.Tailwind Css(Already Installed)
+      npm install react-redux @reduxjs/toolkit --save
+
+    1.3 Styled Component
+
+      npm install styled-components --save
+    
+    1.4 Axios
+
+      npm install axios --save
+
+ 2.Tailwind Css
+
+      npm install -D tailwindcss
 
  # Coding Rule
   1.*Class* and *Component* start with *Uppercase*
