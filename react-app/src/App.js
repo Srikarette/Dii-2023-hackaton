@@ -9,9 +9,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-        <ComponentContainer>
           <Map />
-        </ComponentContainer>
     </>
   );
 }
