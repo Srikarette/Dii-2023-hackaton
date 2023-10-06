@@ -41,11 +41,11 @@
 
      example: Navbar.js , Profile.js, AccountController.java, etc..
 
-  1.1*folder* start with *lowercase*
+     1.1 folder start with *lowercase*
 
      example: img, resource, pictur, etc..
 
-  1.2*Do not use camel case* use *-*
+     1.2 Do not use camel case use - between word
 
      example: account-delete-btn , profile-edit-btn , history-service
 
