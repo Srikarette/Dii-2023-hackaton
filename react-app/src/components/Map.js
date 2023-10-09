@@ -9,6 +9,10 @@ function Map({ className }) {
     const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
     const initialZoomLevel = 6; // Initial zoom level
 
+    const southwestBound = L.latLng(5, 90); // Define the southwest corner of the allowed area
+    const northeastBound = L.latLng(25, 120); // Define the northeast corner of the allowed area
+    const bounds = L.latLngBounds(southwestBound, northeastBound); // Create a bounds object
+
 
     const dangerZoneMarker = L.divIcon({
         className: 'custom-marker-icon',
@@ -24,6 +28,7 @@ function Map({ className }) {
     const [zoom, setZoom] = useState(initialZoomLevel);
     const [center, setCenter] = useState(initialCenter);
     const [mapReady, setMapReady] = useState(false);
+    
     const [showDangerZone, setShowDangerZone] = useState(false);
     const [showUserLocation, setShowUserLocation] = useState(false);
     const [dangerZoneRadius, setDangerZoneRadius] = useState(1000); // Default radius in meters (1 kilometer)
@@ -79,7 +84,7 @@ function Map({ className }) {
                 </div>
                 <div className='info'>
                     {userLocation && (
-                        <MapContainer center={center} zoom={zoom} className="MapContainer">
+                        <MapContainer center={center} zoom={zoom} className="MapContainer" bounds={bounds} minZoom={6}>
                             <TileLayer
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -88,8 +93,10 @@ function Map({ className }) {
                                 <>
                                    <Circle center={userLocation} radius={dangerZoneRadius} color="red">
                                         <Tooltip permanent>
-                                            Test Disaster<br />
-                                            {dangerZoneRadius / 1000} km
+                                            <div className='disaster-info'>
+                                                Test Disaster<br />
+                                                {dangerZoneRadius / 1000} km
+                                            </div>
                                         </Tooltip>
                                     </Circle>
                                     <Marker position={userLocation} icon={dangerZoneMarker}>
@@ -123,6 +130,10 @@ export default styled(Map)`
 }
 .info {
     /* margin-top: 65px; */
+}
+.disaster-info{
+    text-align:justify;
+    width: 100px;
 }
 .playground {
     width: 100%;
