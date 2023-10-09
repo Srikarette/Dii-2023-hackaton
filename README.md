@@ -46,14 +46,14 @@
 
       npm install styled-components --save
 
+    1.4 Axios
+
+      npm install axios --save
+
     1.5 react-dom leaflet
 
       npm install react react-dom leaflet --save
       npm install react-leaflet --save
-    
-    1.4 Axios
-
-      npm install axios --save
 
   2.Tailwind Css
 
