@@ -1,8 +1,8 @@
 import React from "react";
 
-import ComponentContainer from "./component/ComponentContainer";
-import GlobalStyle from "./component/GlobalStyle";
-import Map from "./component/Map";
+import ComponentContainer from "./components/ComponentContainer";
+import GlobalStyle from "./components/GlobalStyle";
+import Map from "./components/Map";
 
 
 function App() {

@@ -31,6 +31,8 @@
  ***Make sure to initiate path by***
 
     cd path\...\react-app> 
+
+    npm install
     
   1.React
 
