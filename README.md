@@ -58,7 +58,9 @@
     1.6 react-native
 
       npx create-expo-app@latest -e with router (alreay installed)
+      
       cd into ...\react-mobile-app
+
       npm start (to run the apps)
 
       1.6.1 react-native-package

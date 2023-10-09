@@ -1,4 +1,7 @@
-import { View, Text } from "react-native";
+import { useState } from "react";
+import { View, Text, SafeAreaView } from "react-native";
+import { Stack,router } from "expo-router";
+
 
 const Home = () =>{
     return (
