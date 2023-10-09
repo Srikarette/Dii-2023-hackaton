@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-          <Map />
+        <Map />
     </>
   );
 }
