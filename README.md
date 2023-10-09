@@ -55,6 +55,20 @@
       npm install react react-dom leaflet --save
       npm install react-leaflet --save
 
+    1.6 react-native
+
+      npx create-expo-app@latest -e with router (alreay installed)
+      cd into ...\react-mobile-app
+      npm start (to run the apps)
+
+      1.6.1 react-native-package
+
+        cd into ...\react-mobile-app
+
+        npm install expo-font axios react-native-dotenv
+
+        npm install -g expo-cli
+
   2.Tailwind Css
 
       npm install -D tailwindcss
