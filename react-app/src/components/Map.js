@@ -42,6 +42,7 @@ function Map({ className }) {
                 setCenter([latitude, longitude]); // Set the center to the user's location
                 setZoom(16); // Set a custom zoom level to zoom in on the user's location
                 setShowDangerZone(true); // Show the danger zone
+                setShowUserLocation(false)
             });
         } else {
             alert('Geolocation is not supported in your browser.');
@@ -98,6 +99,7 @@ function Map({ className }) {
                                                 {dangerZoneRadius / 1000} km
                                             </div>
                                         </Tooltip>
+                                        <Popup>Dangerzone</Popup>
                                     </Circle>
                                     <Marker position={userLocation} icon={dangerZoneMarker}>
                                         <Popup>You are here</Popup>

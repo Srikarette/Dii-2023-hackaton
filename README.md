@@ -73,6 +73,9 @@
 
         npm install -g expo-cli
 
+        npm install react-redux
+
+
         npm install react-native-maps --save
 
         npm install expo-location --save
@@ -81,10 +84,7 @@
 
         npm install @react-navigation/native @react-navigation/stack --save
 
-        npm install @react-native-community/geolocation --save
-
-
-
+        npm install react-native-geolocation-service --save
 
   2.Tailwind Css
 
