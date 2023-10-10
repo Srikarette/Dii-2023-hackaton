@@ -59,32 +59,34 @@
 
     1.6 react-native
 
-      npx create-expo-app@latest -e with router (alreay installed)
-      
-      cd into ...\react-mobile-app
+      npx create-expo-app react-native-app (already installed)
 
-      npm start (to run the apps)
+      cd into ...\react-native-app
+
+      npx expo start
 
       1.6.1 react-native-package
 
-        cd into ...\react-mobile-app
+        cd into ...\react-native-app
 
-        npm install expo-font axios react-native-dotenv
+        Notification library
+          Document: https://docs.expo.dev/versions/latest/sdk/notifications/
 
-        npm install -g expo-cli
+          Document: https://expo.dev/notifications
 
-        npm install react-redux
+          npx expo install expo-notifications
 
+          npm install expo-device --save
 
-        npm install react-native-maps --save
+        Map library
+        
+          npx expo install react-native-maps
+          Document: https://docs.expo.dev/versions/latest/sdk/map-view/
 
-        npm install expo-location --save
+          npx expo install expo-location
+          Document: https://docs.expo.dev/versions/latest/sdk/location/
 
-        npm install react-native-maps --save
-
-        npm install @react-navigation/native @react-navigation/stack --save
-
-        npm install react-native-geolocation-service --save
+    
 
   2.Tailwind Css
 

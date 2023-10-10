@@ -92,7 +92,7 @@ function Map({ className }) {
                             />
                             {showDangerZone && (
                                 <>
-                                   <Circle center={userLocation} radius={dangerZoneRadius} color="red">
+                                   <Circle center={userLocation} radius={dangerZoneRadius} color="red" stroke={0}>
                                         <Tooltip permanent>
                                             <div className='disaster-info'>
                                                 Test Disaster<br />
