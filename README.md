@@ -86,7 +86,11 @@
           npx expo install expo-location
           Document: https://docs.expo.dev/versions/latest/sdk/location/
 
-    
+        Input library
+
+          npx expo install react-native-picker-select
+
+          npm install react-native-modal-dropdown --save
 
   2.Tailwind Css
 
