@@ -9,7 +9,7 @@
         <version>2.4.4</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>user.service</groupId>
+    <groupId>spring.hk</groupId>
     <artifactId>accounting-service</artifactId>
     <name>accounting-service</name>
     <version>1.0-SNAPSHOT</version>
