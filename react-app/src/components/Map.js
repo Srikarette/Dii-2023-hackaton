@@ -124,11 +124,6 @@ Map.propTypes = {
     className: PropTypes.string.isRequired
 }
 
-
-Map.propTypes = {
-    className: PropTypes.string.isRequired
-}
-
 export default styled(Map)`
 
 .MapContainer {
