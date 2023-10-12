@@ -90,14 +90,16 @@ Map.propTypes = {
 export default styled(Map)`
 
 .MapContainer {
+
     width: 100%;
     height: 1000px;
 }
 .info {
-    /* margin-top: 65px; */
+
 }
 .playground {
     width: 100%;
+    margin-top: 40px;
 }
 .emergency-btn{
     margin-left: 50%;
