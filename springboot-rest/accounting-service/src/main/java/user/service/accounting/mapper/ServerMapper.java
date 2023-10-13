@@ -5,8 +5,10 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import user.service.accounting.dto.AdminDTO;
+import user.service.accounting.dto.DeviceDTO;
 import user.service.accounting.dto.UserDTO;
 import user.service.accounting.model.Admin;
+import user.service.accounting.model.Device;
 import user.service.accounting.model.User;
 
 
@@ -17,4 +19,7 @@ public interface ServerMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAdminFromDto(AdminDTO dto, @MappingTarget Admin entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateADeviceFromDto(DeviceDTO dto, @MappingTarget Device entity);
 }

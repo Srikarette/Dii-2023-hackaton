@@ -1,6 +1,7 @@
 package user.service.accounting.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -13,6 +14,10 @@ public class User {
 
     private String email;
     private Date create_at;
+
+    //relationship
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    private List<Device> device;
     
     public User(){}
     public User(Long id, String email, Date create_at) {
