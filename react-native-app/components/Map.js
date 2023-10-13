@@ -19,6 +19,7 @@ export default function Map() {
 
   const [emergencySent, setEmergencySent] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [description, setDescription] = useState('Your Location');
 
   const [showChoices, setShowChoices] = useState(false);
 
@@ -58,14 +59,16 @@ export default function Map() {
     if (selectedChoice) {
       setIsCircleVisible(true);
       setEmergencySent(true);
+      setDescription(`Emergency Alert:  ${selectedChoice} !`);
       
       setTimeout(() => {
         setIsCircleVisible(false);
         setEmergencySent(false);
         setDisableButton(false);
+        setSelectedChoice(null);
+        setDescription('Your Location')
       }, 3600);
-      // 1 hours = 3600000 millisecound
-
+       // 1 hours = 3600000 millisecound
       setDisableButton(true);
     }
   };
@@ -78,7 +81,14 @@ export default function Map() {
   return (
     <View style={styles.container}>
       <MapView style={styles.map} region={mapRegion}>
-        <Marker coordinate={mapRegion} title='Marker' />
+        <Marker 
+        coordinate={mapRegion} 
+        title='Your Location' 
+        description={description}
+        // image={require('./path/to/custom-marker.png')}
+        pinColor="blue" // Change the pin color
+        />
+
         {isCircleVisible && (
           <Circle
             radius={statusRadius}
