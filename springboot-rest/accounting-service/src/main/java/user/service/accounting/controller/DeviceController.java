@@ -38,7 +38,7 @@ public class DeviceController {
         return ResponseEntity.ok("device created");
     }
 
-    // connet device and user
+    // connect device and user
     @PutMapping("devices/{device_id}/users/{user_id}")
     public ResponseEntity<String> connectDeviceUser(@PathVariable Long device_id, @PathVariable Long user_id) {
         Optional<User> userOptional = userRepository.findById(user_id);
