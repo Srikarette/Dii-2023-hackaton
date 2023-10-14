@@ -1,5 +1,5 @@
 import React from "react";
-import input from './input.css' //If not import can't use Taiwindcss
+import input from './index.css' //If not import can't use Taiwindcss
 import ComponentContainer from "./components/ComponentContainer";
 import GlobalStyle from "./components/GlobalStyle";
 import Map from "./components/Map";
