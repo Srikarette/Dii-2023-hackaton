@@ -11,9 +11,9 @@ public interface EventRepository extends CrudRepository<Event, Long> {
 
     public Optional<Event> findById(Long id);
 
-    public List<Event> findByEvent_name(String name);
+    public List<Event> findByName(String name);
 
-    public List<Event> findByEvent_category(String category);
+    public List<Event> findByCategory(String category);
 
     public List<Event> findByStatus(int status);
 }

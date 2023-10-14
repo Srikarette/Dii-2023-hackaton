@@ -6,25 +6,15 @@ import spring.hk.notification.model.Notification;
 public class HistoryDTO {
     private Long id;
 
-    private Event event;
     private Notification notification;
-
-    private String event_name;
-    private String event_category;
-    private String message;
-    private int status;
+    private int user_count;
 
     public HistoryDTO(){}
 
-    public HistoryDTO(Long id, Event event, Notification notification, String event_name, String event_category,
-            String message, int status) {
+    public HistoryDTO(Long id, Notification notification, int user_count) {
         this.id = id;
-        this.event = event;
         this.notification = notification;
-        this.event_name = event_name;
-        this.event_category = event_category;
-        this.message = message;
-        this.status = status;
+        this.user_count = user_count;
     }
 
     public Long getId() {
@@ -35,14 +25,6 @@ public class HistoryDTO {
         this.id = id;
     }
 
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
     public Notification getNotification() {
         return notification;
     }
@@ -51,37 +33,14 @@ public class HistoryDTO {
         this.notification = notification;
     }
 
-    public String getEvent_name() {
-        return event_name;
+    public int getUser_count() {
+        return user_count;
     }
 
-    public void setEvent_name(String event_name) {
-        this.event_name = event_name;
+    public void setUser_count(int user_count) {
+        this.user_count = user_count;
     }
 
-    public String getEvent_category() {
-        return event_category;
-    }
-
-    public void setEvent_category(String event_category) {
-        this.event_category = event_category;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 
     
 }

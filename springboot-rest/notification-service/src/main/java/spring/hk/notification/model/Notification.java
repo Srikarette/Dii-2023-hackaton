@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Notification {
@@ -19,13 +20,10 @@ public class Notification {
     private Long id;
 
     private Long user_id;
-    
+
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
-
-    @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL)
-    private History histories;
 
     private Long longitude;
     private Long latitude;
@@ -33,12 +31,10 @@ public class Notification {
     
     public Notification(){}
 
-    public Notification(Long id, Long user_id, Event event, History histories, Long longitude, Long latitude,
-            Date sent_at) {
+    public Notification(Long id, Long user_id, Event event, Long longitude, Long latitude, Date sent_at) {
         this.id = id;
         this.user_id = user_id;
         this.event = event;
-        this.histories = histories;
         this.longitude = longitude;
         this.latitude = latitude;
         this.sent_at = sent_at;
@@ -68,14 +64,6 @@ public class Notification {
         this.event = event;
     }
 
-    public History getHistories() {
-        return histories;
-    }
-
-    public void setHistories(History histories) {
-        this.histories = histories;
-    }
-
     public Long getLongitude() {
         return longitude;
     }
@@ -99,7 +87,6 @@ public class Notification {
     public void setSent_at(Date sent_at) {
         this.sent_at = sent_at;
     }
-
 
     
 }

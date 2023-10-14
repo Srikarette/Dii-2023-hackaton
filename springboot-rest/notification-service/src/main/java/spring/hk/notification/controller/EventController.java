@@ -46,20 +46,20 @@ public class EventController {
     }
 
     // get event by category
-    @GetMapping("/event/category/{category}")
+    @GetMapping("/events/category/{category}")
     public ResponseEntity<?> getEventByCategory(@PathVariable String category) {
-        List<Event> evetns = eventRepository.findByEvent_category(category);
+        List<Event> evetns = eventRepository.findByCategory(category);
         return ResponseEntity.ok(evetns);
     }
 
     // get event by status
-    @GetMapping("/event/status/{status}")
-    public ResponseEntity<?> getEventByStatus(@PathVariable String status) {
-        List<Event> evetns = eventRepository.findByEvent_category(status);
+    @GetMapping("/events/status/{status}")
+    public ResponseEntity<?> getEventByStatus(@PathVariable int status) {
+        List<Event> evetns = eventRepository.findByStatus(status);
         return ResponseEntity.ok(evetns);
     }
     // delete event
-    @DeleteMapping("/event/{id}")
+    @DeleteMapping("/events/{id}")
     public ResponseEntity<?> deleteEventById(@PathVariable Long id){
         Optional<Event> events = eventRepository.findById(id);
         if(events.isPresent()){
@@ -70,7 +70,7 @@ public class EventController {
     }
 
     // update event some field
-    @PatchMapping("/event/{id}")
+    @PatchMapping("/events/{id}")
     public ResponseEntity<?> updateEventSomeField(@PathVariable Long id,@RequestBody EventDTO eventDTO){
         Optional<Event> otpEvent = eventRepository.findById(id);
         if(!otpEvent.isPresent()){

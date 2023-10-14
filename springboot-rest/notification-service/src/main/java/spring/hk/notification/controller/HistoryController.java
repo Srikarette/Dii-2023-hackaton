@@ -66,26 +66,6 @@ public class HistoryController {
         }
     }
 
-    // conncet history and envet
-    @PutMapping("/historys/{history_id}/events/{event_id}")
-    public ResponseEntity<?> connectHistoryEvent(@PathVariable Long history_id,
-            @PathVariable Long event_id) {
-        Optional<History> historyOption = historyRepository.findById(history_id);
-        Optional<Event> eventOption = eventRepository.findById(event_id);
-
-        if (historyOption.isPresent() && eventOption.isPresent()) {
-            History history = historyOption.get();
-            Event event = eventOption.get();
-
-            history.setEvent(event);
-            historyRepository.save(history);
-
-            return ResponseEntity.ok("History connected to event");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("History or event not found.");
-        }
-    }
-
     // get all history
     @GetMapping("/historys")
     public ResponseEntity<?> getAllHistory() {
