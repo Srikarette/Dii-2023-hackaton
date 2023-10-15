@@ -79,7 +79,13 @@ function Map({ className }) {
         <>
          <div className={className}>
             <div className="playground">
-                <button className='emergency-btn' onClick={handleGoToUserLocation}>Emergency Alert!</button>
+            <select className='emergency-btn' onClick={handleGoToUserLocation}>
+                <option>Emergency</option>
+                <option>Fire</option>
+                <option>Flood</option>
+                <option>Crime</option>
+            </select>
+              
                 {/* <div className='radius-control'>
                     <label>Set Danger Zone Radius (kilometers):</label>
                     <input type="number" min="1" step="0.1" value={dangerZoneRadius / 1000} onChange={handleRadiusChange} />

@@ -5,7 +5,7 @@ import { FcBusinessman } from 'react-icons/fc';
 
 const Navbar = () => {
   return (
-    <nav className="bg-red-900 py-4 ">
+    <nav className="bg-red-900 py-4">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="text-white text-2xl font-bold">
           <img src={LogoAlert} alt="Logo" className="w-12 h-12 mr-2 inline" />
