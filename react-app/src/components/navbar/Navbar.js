@@ -13,23 +13,23 @@ const Navbar = () => {
         </Link>
         <ul className="flex space-x-8">
           <li>
-            <NavLink to="/news" exact className="text-white hover:text-blue-200">
+            <NavLink to="/news" exact className="text-white hover:text-blue-400">
               News
             </NavLink>
           </li>
           <li>
-            <NavLink to="/notifications" className="text-white hover:text-blue-200 shadow-">
+            <NavLink to="/notifications" className="text-white hover:text-blue-400 ">
               Notifications
             </NavLink>
           </li>
           <li>
-            <NavLink to="/support" className="text-white hover:text-blue-200">
+            <NavLink to="/support" className="text-white hover:text-blue-400">
               Support
             </NavLink>
           </li>
           <li>
-            <NavLink to="/editprofile" className='flex text-white hover:text-blue-200 pr-8'>
-            edit <FcBusinessman size={25}/>
+            <NavLink to="/editprofile" className='flex text-white hover:text-blue-400'>
+            editprofile <FcBusinessman size={25} className="ml-2" />
             </NavLink>
           </li>
         </ul>
