@@ -3,7 +3,7 @@ import MapView, { Circle, Marker } from 'react-native-maps';
 import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
 
-export default function Map() {
+export default function MapScreen() {
   const [mapRegion, setMapRegion] = useState({
     latitude: 13.7563,
     longitude: 100.5018,

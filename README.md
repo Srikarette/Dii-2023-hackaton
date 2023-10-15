@@ -78,6 +78,8 @@
 
           npm install expo-device --save
 
+          npm install @react-navigation/native @react-navigation/stack
+
         Map library
         
           npx expo install react-native-maps
