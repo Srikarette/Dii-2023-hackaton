@@ -1,0 +1,14 @@
+name: GitHub Springboot Workflow
+on: [push]
+
+jobs:
+  build:
+    name: Running springboot-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.11
+      - name: Autotest Action
+        run: mvn verify --file springboot-rest/pom.xml 
