@@ -1,13 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 
-export const Noti = ({className}) => {
+export default function Notifications(){
   return (
-    <div className={className}>
-        Hi
-    </div>
+    <div>Notifications</div>
   )
 }
-export default styled(Noti)`
-
-`

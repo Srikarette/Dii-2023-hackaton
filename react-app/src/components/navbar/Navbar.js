@@ -8,7 +8,7 @@ const Navbar = () => {
     <nav className='bg-red-900 py-4'>
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="text-white text-2xl font-bold">
-          <img src={LogoAlert} alt="Logo" className='w-8 h-8 mr-2 inline' />
+          <img src={LogoAlert} sizes='' alt="Logo" className='w-8 h-8 mr-2 inline' />
           AlertTown
         </Link>
         <ul className="flex space-x-8">

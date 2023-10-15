@@ -5,7 +5,7 @@ import GlobalStyle from "./components/GlobalStyle";
 import Map from "./components/Map";
 import Navbar from "./components/navbar/Navbar";
 import News from "./components/Page/News";
-import Noti from "./components/Page/Notifications";
+import Notifications from "./components/Page/Notifications";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 
@@ -16,7 +16,8 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Map />} />
-          <Route path="Notifications" element={<Noti />} />
+          <Route path="News" element={<News />} />
+          <Route path="notifications" element={<Notifications />} />
         </Routes>
       </BrowserRouter>
       <GlobalStyle />

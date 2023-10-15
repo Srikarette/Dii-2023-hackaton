@@ -76,7 +76,8 @@ function Map({ className }) {
     };
 
     return (
-        <div className={className}>
+        <>
+         <div className={className}>
             <div className="playground">
                 <button className='emergency-btn' onClick={handleGoToUserLocation}>Emergency Alert!</button>
                 {/* <div className='radius-control'>
@@ -116,6 +117,8 @@ function Map({ className }) {
                 </div>
             </div>
         </div>
+        </>
+       
     );
 }
 
