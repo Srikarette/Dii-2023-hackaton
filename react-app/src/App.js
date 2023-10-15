@@ -1,21 +1,27 @@
 import React from "react";
-import input from './index.css' //If not import can't use Taiwindcss
+import './index.css'; // Import your CSS file
 import ComponentContainer from "./components/ComponentContainer";
 import GlobalStyle from "./components/GlobalStyle";
 import Map from "./components/Map";
-import  Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/navbar/Navbar";
+import News from "./components/Page/News";
+import Noti from "./components/Page/Notifications";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ReactDOM from "react-dom";
 
-
-
-function App() {
+export default function App() {
   return (
     <>
-    <Navbar />
-      <GlobalStyle />
+      <BrowserRouter>
         <Navbar />
-        <Map />
+        <Routes>
+          <Route path="/" element={<Map />} />
+          <Route path="Notifications" element={<Noti />} />
+        </Routes>
+      </BrowserRouter>
+      <GlobalStyle />
     </>
   );
 }
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('root'));

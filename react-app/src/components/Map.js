@@ -127,7 +127,6 @@ Map.propTypes = {
 export default styled(Map)`
 
 .MapContainer {
-    margin-top: 9vh;
     width: 100%;
     height: calc(100vh - 64px); /* Adjust height to make space for the button */
 }
