@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 
 const Support = props => {
   return (
-    <div>Support</div>
+    <>
+      <div className="support"></div>
+    </>
+  
   )
 }
 
