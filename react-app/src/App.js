@@ -12,7 +12,7 @@ function App() {
     <>
       <div className="App">
         <Route path="/" component={Map} exact />
-        <Route path="/chat" component={Chatpage} />
+        <Route path="/chats" component={Chatpage} />
       </div>
     </>
   );
