@@ -41,8 +41,8 @@ function Map({ className }) {
                 setUserLocation([latitude, longitude]);
                 setCenter([latitude, longitude]); // Set the center to the user's location
                 setZoom(16); // Set a custom zoom level to zoom in on the user's location
-                setShowDangerZone(true); // Show the danger zone
-                setShowUserLocation(false)
+                setShowDangerZone(!showDangerZone); // Show the danger zone
+                setShowUserLocation(!showUserLocation)
             });
         } else {
             alert('Geolocation is not supported in your browser.');
@@ -76,13 +76,20 @@ function Map({ className }) {
     };
 
     return (
-        <div className={className}>
+        <>
+         <div className={className}>
             <div className="playground">
-                <button className='emergency-btn' onClick={handleGoToUserLocation}>Emergency Alert!</button>
-                <div className='radius-control'>
+            <select className='emergency-btn' onClick={handleGoToUserLocation}>
+                <option>Emergency</option>
+                <option>Fire</option>
+                <option>Flood</option>
+                <option>Crime</option>
+            </select>
+              
+                {/* <div className='radius-control'>
                     <label>Set Danger Zone Radius (kilometers):</label>
                     <input type="number" min="1" step="0.1" value={dangerZoneRadius / 1000} onChange={handleRadiusChange} />
-                </div>
+                </div> */}
                 <div className='info'>
                     {userLocation && (
                         <MapContainer center={center} zoom={zoom} className="MapContainer" bounds={bounds} minZoom={6}>
@@ -116,6 +123,8 @@ function Map({ className }) {
                 </div>
             </div>
         </div>
+        </>
+       
     );
 }
 
@@ -128,20 +137,28 @@ export default styled(Map)`
 
 .MapContainer {
     width: 100%;
-    height: 1000px;
+    height: calc(100vh - 64px); /* Adjust height to make space for the button */
 }
+
 .info {
-    /* margin-top: 65px; */
+    position: relative;
 }
-.disaster-info{
-    text-align:justify;
-    width: 100px;
-}
+
 .playground {
     width: 100%;
+    position: relative;
 }
-.emergency-btn{
-    margin-left: 50%;
+
+.emergency-btn {
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* Center the button horizontally */
+    transform: translateX(-50%); /* Center the button horizontally */
+    z-index: 999; /* Set a higher z-index to ensure the button is displayed above the map */
+    margin-bottom: 3%;
+    border: 1px solid black;
+    background-color: red;
+    text-align:center;
 }
 
 .custom-marker-icon {
