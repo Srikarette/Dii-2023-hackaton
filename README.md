@@ -78,7 +78,13 @@
 
           npm install expo-device --save
 
+          npm install @react-navigation/native
+
           npm install @react-navigation/native @react-navigation/stack
+
+          npm install @react-navigation/bottom-tabs
+
+          npm install react-native-gesture-handler@~1.3.0
 
         Map library
         
@@ -93,6 +99,12 @@
           npx expo install react-native-picker-select
 
           npm install react-native-modal-dropdown --save
+        
+        Chat library
+
+          npm install firebase
+
+          npm install react-native-gifted-chat
 
   2.Tailwind Css
 
