@@ -33,7 +33,6 @@
   <modules>
     		
     <module>accounting-service</module>
-    <module>message-service</module>
     <module>naming-server</module>
     <module>notification-service</module>
     	  

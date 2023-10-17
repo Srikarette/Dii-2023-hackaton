@@ -32,14 +32,14 @@ public class DeviceController {
     private UserRepository userRepository;
 
     // post device
-    @PostMapping("devices")
+    @PostMapping("/devices")
     public ResponseEntity<String> createDevice(@RequestBody Device device) {
         deviceRepository.save(device);
         return ResponseEntity.ok("device created");
     }
 
     // connect device and user
-    @PutMapping("devices/{device_id}/users/{user_id}")
+    @PutMapping("/devices/{device_id}/users/{user_id}")
     public ResponseEntity<String> connectDeviceUser(@PathVariable Long device_id, @PathVariable Long user_id) {
         Optional<User> userOptional = userRepository.findById(user_id);
         Optional<Device> deviceOptional = deviceRepository.findById(device_id);

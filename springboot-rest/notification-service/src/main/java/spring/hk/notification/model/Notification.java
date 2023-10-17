@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,13 +26,17 @@ public class Notification {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    private Long longitude;
-    private Long latitude;
-    private Date sent_at;
-    
-    public Notification(){}
+    @Column(columnDefinition = "NUMERIC(9, 6)") // รูปแบบข้อมูลที่เพิ่มเข้ามา
+    private Double longitude;
 
-    public Notification(Long id, Long user_id, Event event, Long longitude, Long latitude, Date sent_at) {
+    @Column(columnDefinition = "NUMERIC(9, 6)") // รูปแบบข้อมูลที่เพิ่มเข้ามา
+    private Double latitude;
+    private Date sent_at;
+
+    public Notification() {
+    }
+
+    public Notification(Long id, Long user_id, Event event, Double longitude, Double latitude, Date sent_at) {
         this.id = id;
         this.user_id = user_id;
         this.event = event;
@@ -64,19 +69,19 @@ public class Notification {
         this.event = event;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
@@ -88,5 +93,4 @@ public class Notification {
         this.sent_at = sent_at;
     }
 
-    
 }

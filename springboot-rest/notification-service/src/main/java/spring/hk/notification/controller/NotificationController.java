@@ -66,7 +66,7 @@ public class NotificationController {
         return ResponseEntity.ok(notificationRepository.findAll());
     }
     // get noti by id
-    @GetMapping("/notification/{id}")
+    @GetMapping("/notifications/{id}")
     public ResponseEntity<?> getNotiById(@PathVariable Long id){
         Optional<Notification> notification = notificationRepository.findById(id);
         if(!notification.isPresent()){
