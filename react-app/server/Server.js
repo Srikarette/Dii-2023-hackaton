@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const axios = require("axios");
 const { chats } = require("../data/data");
 
 const app = express();
@@ -18,7 +19,7 @@ app.get("/api/chat/:id", (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 9000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`);
