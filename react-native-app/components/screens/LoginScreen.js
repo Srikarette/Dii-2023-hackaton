@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("Guest");
-  const navigation = useNavigation(); // Get the navigation object
+  const navigation = useNavigation();
 
   const handleUsernameChange = (text) => {
     setUsername(text);
@@ -14,8 +14,7 @@ export default function LoginScreen() {
   const handleLogin = () => {
     // You can perform login or navigate to another screen here
     console.log(`Logged in as ${username}`);
-    navigation.navigate("Chat", { username });
-    setUsername(null)
+    // navigation.navigate("Chat", { username });
   }
 
   return (

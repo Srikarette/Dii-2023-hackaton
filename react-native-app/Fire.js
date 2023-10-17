@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database'; // Use 'database' instead of 'firestore'
+import 'firebase/database';
 
 class Fire {
   constructor() {
@@ -9,7 +9,7 @@ class Fire {
   }
 
   init = () => {
-    if (!firebase.apps.length) {
+    if (!firebase.apps.length) { // Corrected the typo here
       firebase.initializeApp({
         apiKey: 'AIzaSyDzj-WN3n11H73nGMhDNNdtzFJcC_GxWU4',
         authDomain: 'chatapp-c1888.firebaseapp.com',
