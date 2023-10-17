@@ -8,21 +8,14 @@ const Chatpage = () => {
       const data = response.data;
       console.log(data);
     } catch (error) {
-      // Log the error object for inspection
       console.error("An error occurred:", error);
-
-      // You can access specific properties of the error object, such as error.message, error.response, etc.
-      console.log("Error message:", error.message);
-      console.log(
-        "Response status:",
-        error.response ? error.response.status : "N/A"
-      );
     }
   };
 
   useEffect(() => {
     fetchChats();
   }, []);
+
   return <div>Chatpage</div>;
 };
 
