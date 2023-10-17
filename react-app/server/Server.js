@@ -1,6 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const axios = require("axios");
+
 const { chats } = require("../data/data");
 
 const app = express();
