@@ -28,8 +28,9 @@ public class Notification {
     private Long longitude;
     private Long latitude;
     private Date sent_at;
-    
-    public Notification(){}
+
+    public Notification() {
+    }
 
     public Notification(Long id, Long user_id, Event event, Long longitude, Long latitude, Date sent_at) {
         this.id = id;
@@ -88,5 +89,4 @@ public class Notification {
         this.sent_at = sent_at;
     }
 
-    
 }

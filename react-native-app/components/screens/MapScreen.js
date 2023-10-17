@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MapView, { Circle, Marker } from 'react-native-maps';
 import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
+import axios from 'axios';
 
 export default function MapScreen() {
   const [mapRegion, setMapRegion] = useState({
@@ -11,7 +12,15 @@ export default function MapScreen() {
     longitudeDelta: 0.08,
   });
 
+  const [testCoordinate, setTestCoordinate] = useState({
+    latitude: 18.787,
+    longitude: 98.957,
+    latitudeDelta: 0.08,
+    longitudeDelta: 0.08,
+  });
+  
   const [isCircleVisible, setIsCircleVisible] = useState(false);
+  const [markers, setMarkers] = useState([]);
   const statusRadius = 2000; // 1 per 1 meter
 
   const [selectedChoice, setSelectedChoice] = useState(null);
@@ -22,6 +31,8 @@ export default function MapScreen() {
   const [description, setDescription] = useState('Your Location');
 
   const [showChoices, setShowChoices] = useState(false);
+
+
 
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -55,6 +66,28 @@ export default function MapScreen() {
     }
   };
 
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8010/notifications/');
+  //     const data = response.data; 
+  //     console.log(data);
+  //     return data;
+      
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     return [];
+  //   }
+  // };
+  
+  // const fetchNotifications = async () => {
+  //   try {
+  //     const data = await fetchData();
+  //     setMarkers(data);
+  //   } catch (error) {
+  //     console.error('Error fetching notifications:', error);
+  //   }
+  // };
+
   const handleEmergencyPress = () => {
     if (selectedChoice) {
       setIsCircleVisible(true);
@@ -76,6 +109,7 @@ export default function MapScreen() {
   useEffect(() => {
     userLocation();
     setIsCircleVisible(false);
+    // fetchNotifications();
   }, []);
 
   return (
@@ -87,6 +121,14 @@ export default function MapScreen() {
         description={description}
         // image={require('./path/to/custom-marker.png')}
         pinColor="blue" // Change the pin color
+        />
+
+        <Marker 
+        coordinate={testCoordinate} 
+        title='Your Location' 
+        description={description}
+        // image={require('./path/to/custom-marker.png')}
+        pinColor="red" // Change the pin color
         />
 
         {isCircleVisible && (
