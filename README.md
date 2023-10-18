@@ -123,6 +123,8 @@
 
     4. Always communicate with your friend
 
+    5. runing database server ngrok http --domain=generous-snail-nearby.ngrok-free.app 8010
+
   
 
 
