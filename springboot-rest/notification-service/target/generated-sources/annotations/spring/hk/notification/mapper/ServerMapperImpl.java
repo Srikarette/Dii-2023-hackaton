@@ -11,7 +11,7 @@ import spring.hk.notification.model.Notification;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-17T17:49:20+0700",
+    date = "2023-10-18T18:11:27+0700",
     comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 @Component
@@ -53,23 +53,23 @@ public class ServerMapperImpl implements ServerMapper {
             return;
         }
 
-        if ( dto.getEvent() != null ) {
-            entity.setEvent( dto.getEvent() );
-        }
         if ( dto.getId() != null ) {
             entity.setId( dto.getId() );
         }
-        if ( dto.getLatitude() != null ) {
-            entity.setLatitude( dto.getLatitude() );
+        if ( dto.getUser_id() != null ) {
+            entity.setUser_id( dto.getUser_id() );
+        }
+        if ( dto.getEvent() != null ) {
+            entity.setEvent( dto.getEvent() );
         }
         if ( dto.getLongitude() != null ) {
             entity.setLongitude( dto.getLongitude() );
         }
+        if ( dto.getLatitude() != null ) {
+            entity.setLatitude( dto.getLatitude() );
+        }
         if ( dto.getSent_at() != null ) {
             entity.setSent_at( dto.getSent_at() );
-        }
-        if ( dto.getUser_id() != null ) {
-            entity.setUser_id( dto.getUser_id() );
         }
     }
 }

@@ -13,8 +13,8 @@ export default function MapScreen() {
   });
 
   const [testCoordinate, setTestCoordinate] = useState({
-    latitude: 18.787,
-    longitude: 98.957,
+    latitude: 18,
+    longitude: 98,
     latitudeDelta: 0.08,
     longitudeDelta: 0.08,
   });
@@ -66,28 +66,37 @@ export default function MapScreen() {
     }
   };
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:8010/notifications/');
-  //     const data = response.data; 
-  //     console.log(data);
-  //     return data;
-      
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //     return [];
-  //   }
-  // };
+  const fetchData = async () => {
+    try {
+      console.log('Start fetching')
+      const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications');
+      console.log('Fetch data complete')
   
-  // const fetchNotifications = async () => {
-  //   try {
-  //     const data = await fetchData();
-  //     setMarkers(data);
-  //   } catch (error) {
-  //     console.error('Error fetching notifications:', error);
-  //   }
-  // };
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log('Fetched Data:', data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+  };
+  
+  
+  const fetchNotifications = async () => {
+    try {
+      const data = await fetchData();
+      setMarkers(data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+    
+  };
 
+  
   const handleEmergencyPress = () => {
     if (selectedChoice) {
       setIsCircleVisible(true);
@@ -109,7 +118,7 @@ export default function MapScreen() {
   useEffect(() => {
     userLocation();
     setIsCircleVisible(false);
-    // fetchNotifications();
+    fetchNotifications();
   }, []);
 
   return (

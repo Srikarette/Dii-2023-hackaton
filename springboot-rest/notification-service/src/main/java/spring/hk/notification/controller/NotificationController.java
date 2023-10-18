@@ -35,7 +35,7 @@ public class NotificationController {
     private EventRepository eventRepository;
 
     // post noti
-    @PostMapping("/notifications")
+    @PostMapping("https://generous-snail-nearby.ngrok-free.app/notifications")
     public ResponseEntity<?> createNotification(@RequestBody Notification notification) {
         notification.setSent_at(new Date());
         notificationRepository.save(notification);
@@ -60,35 +60,39 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("event or notification not found.");
         }
     }
+
     // get all noti
-    @GetMapping("/notifications")
-    public ResponseEntity<?> getAllNoti(){
+    @GetMapping("https://generous-snail-nearby.ngrok-free.app/notifications")
+    public ResponseEntity<?> getAllNoti() {
         return ResponseEntity.ok(notificationRepository.findAll());
     }
+
     // get noti by id
     @GetMapping("/notification/{id}")
-    public ResponseEntity<?> getNotiById(@PathVariable Long id){
+    public ResponseEntity<?> getNotiById(@PathVariable Long id) {
         Optional<Notification> notification = notificationRepository.findById(id);
-        if(!notification.isPresent()){
+        if (!notification.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notification not found");
         }
         return ResponseEntity.ok(notification);
     }
+
     // delete noti
     @DeleteMapping("/notifications/{id}")
-    public ResponseEntity<?> deleteNoti(@PathVariable Long id){
-         Optional<Notification> notification = notificationRepository.findById(id);
-        if(!notification.isPresent()){
+    public ResponseEntity<?> deleteNoti(@PathVariable Long id) {
+        Optional<Notification> notification = notificationRepository.findById(id);
+        if (!notification.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notification not found");
         }
         notificationRepository.deleteById(id);
         return ResponseEntity.ok(notification);
     }
+
     // update noti some field
     @PatchMapping("/notifications/{id}")
-    public ResponseEntity<?> updateNotiSomeField(@PathVariable Long id, @RequestBody NotificationDTO notificationDTO){
+    public ResponseEntity<?> updateNotiSomeField(@PathVariable Long id, @RequestBody NotificationDTO notificationDTO) {
         Optional<Notification> otpNotification = notificationRepository.findById(id);
-        if(!otpNotification.isPresent()){
+        if (!otpNotification.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
         }
         Notification notification = otpNotification.get();
