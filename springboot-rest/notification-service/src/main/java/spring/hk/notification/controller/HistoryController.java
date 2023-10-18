@@ -73,7 +73,7 @@ public class HistoryController {
     }
 
     // get history by id
-    @GetMapping("historys/{id}")
+    @GetMapping("/historys/{id}")
     public ResponseEntity<?> getHistoryById(@PathVariable Long id) {
         Optional<History> history = historyRepository.findById(id);
         return ResponseEntity.ok(history);

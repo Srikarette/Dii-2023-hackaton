@@ -58,11 +58,12 @@ public class EventController {
         List<Event> evetns = eventRepository.findByStatus(status);
         return ResponseEntity.ok(evetns);
     }
+
     // delete event
     @DeleteMapping("/events/{id}")
-    public ResponseEntity<?> deleteEventById(@PathVariable Long id){
+    public ResponseEntity<?> deleteEventById(@PathVariable Long id) {
         Optional<Event> events = eventRepository.findById(id);
-        if(events.isPresent()){
+        if (events.isPresent()) {
             eventRepository.deleteById(id);
             return ResponseEntity.ok("deleted");
         }
@@ -71,15 +72,15 @@ public class EventController {
 
     // update event some field
     @PatchMapping("/events/{id}")
-    public ResponseEntity<?> updateEventSomeField(@PathVariable Long id,@RequestBody EventDTO eventDTO){
+    public ResponseEntity<?> updateEventSomeField(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
         Optional<Event> otpEvent = eventRepository.findById(id);
-        if(!otpEvent.isPresent()){
+        if (!otpEvent.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
         }
         Event events = otpEvent.get();
         serverMapper.updateEventFromDto(eventDTO, events);
         eventRepository.save(events);
-        
+
         return ResponseEntity.ok("updated");
     }
 }
