@@ -62,21 +62,13 @@ public class NotificationController {
     }
 
     // get all noti
-<<<<<<< HEAD
-    @GetMapping("https://generous-snail-nearby.ngrok-free.app/notifications")
-=======
     @GetMapping("/notifications")
->>>>>>> backend
     public ResponseEntity<?> getAllNoti() {
         return ResponseEntity.ok(notificationRepository.findAll());
     }
 
     // get noti by id
-<<<<<<< HEAD
-    @GetMapping("/notification/{id}")
-=======
     @GetMapping("/notifications/{id}")
->>>>>>> backend
     public ResponseEntity<?> getNotiById(@PathVariable Long id) {
         Optional<Notification> notification = notificationRepository.findById(id);
         if (!notification.isPresent()) {
