@@ -2,7 +2,7 @@
 FROM openjdk:11-jre-slim
 
 # Expose the application port (adjust this to the port your service runs on)
-EXPOSE 8000
+EXPOSE 8080
 
 # Copy the account-service JAR file into the container
 COPY target/accounting-service.jar accounting-service.jar

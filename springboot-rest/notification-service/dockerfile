@@ -2,7 +2,7 @@
 FROM openjdk:11-jre-slim
 
 # Expose the application port
-EXPOSE 8010
+EXPOSE 8090
 
 # Copy the naming-server JAR file into the container
 COPY target/notification-service.jar notification-service.jar

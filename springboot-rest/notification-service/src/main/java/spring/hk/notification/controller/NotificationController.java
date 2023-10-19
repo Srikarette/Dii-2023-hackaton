@@ -35,7 +35,7 @@ public class NotificationController {
     private EventRepository eventRepository;
 
     // post noti
-    @PostMapping("https://generous-snail-nearby.ngrok-free.app/notifications")
+    @PostMapping("/notifications")
     public ResponseEntity<?> createNotification(@RequestBody Notification notification) {
         notification.setSent_at(new Date());
         notificationRepository.save(notification);

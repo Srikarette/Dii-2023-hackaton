@@ -26,17 +26,8 @@ public class Notification {
     @JoinColumn(name = "event_id")
     private Event event;
 
-<<<<<<< HEAD
-    private Long longitude;
-    private Long latitude;
-    private Date sent_at;
-
-    public Notification() {
-    }
-=======
     @Column(columnDefinition = "NUMERIC(9, 6)") // รูปแบบข้อมูลที่เพิ่มเข้ามา
     private Double longitude;
->>>>>>> backend
 
     @Column(columnDefinition = "NUMERIC(9, 6)") // รูปแบบข้อมูลที่เพิ่มเข้ามา
     private Double latitude;
