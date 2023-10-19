@@ -1,0 +1,11 @@
+# Use an official OpenJDK 17 runtime as a parent image
+FROM openjdk:11-jre-slim
+
+# Expose the application port
+EXPOSE 8761
+
+# Copy the naming-server JAR file into the container
+COPY target/eureka-server.jar eureka-server.jar
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "/eureka-server.jar"]

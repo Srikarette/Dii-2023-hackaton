@@ -21,6 +21,7 @@
         <surefire.version>2.22.0</surefire.version>
         <failsafe.version>2.22.0</failsafe.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
@@ -114,6 +115,7 @@
 	</dependencyManagement>
 
     <build>
+        <finalName>notification-service</finalName>
         <plugins>
             <!--  This runs integration tests named with an "IT" suffix. -->
             <plugin>

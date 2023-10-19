@@ -20,7 +20,11 @@ public class NotificationApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedOrigins("*")
+<<<<<<< HEAD
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
+=======
+						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE");
+>>>>>>> backend
 			}
 		};
 	}
