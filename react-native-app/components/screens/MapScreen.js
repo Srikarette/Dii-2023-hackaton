@@ -1,14 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import MapView, { Circle, Marker } from 'react-native-maps';
 import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 import axios from 'axios';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function MapScreen() {
   const pinTimer = 5000; // millisecound
   const emergencyCooldown = 10000 //millisecound
   const navigation = useNavigation();
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
 
   const [mapRegion, setMapRegion] = useState({
     latitude: 13.7563,
@@ -89,10 +104,16 @@ export default function MapScreen() {
     }
   };
   
-  
   const fetchNotifications = async () => {
     try {
       const data = await fetchData();
+      const hasPinsLeft = data.length > 0; // Check if there are pins in the data
+      // console.log(data.length)
+      if (hasPinsLeft) {
+        // Send a notification if there are pins left
+        schedulePushNotification();
+      }
+  
       // Add a circle property to each marker
       data.forEach((marker) => {
         marker.circle = {
@@ -101,19 +122,20 @@ export default function MapScreen() {
         };
         marker.displayUntil = Date.now() + pinTimer;
       });
-
+  
       // Log a message when the display time runs out for each marker
       data.forEach((marker) => {
         setTimeout(() => {
           console.log(`Pin at latitude ${marker.latitude}, longitude ${marker.longitude} has disappeared`);
         }, marker.displayUntil - Date.now());
       });
-
+  
       setMarkers(data);
     } catch (error) {
       console.error('Error fetching notifications:', error);
     }
   };
+  
 
   const postUserLocation = async (latitude, longitude) => {
     try {
@@ -176,6 +198,23 @@ export default function MapScreen() {
     }, 1000); // Check every second
     return () => clearInterval(timer); // Cleanup the timer
   }, []);
+
+  // useEffect(() => {
+  //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+  //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+  //     setNotification(notification);
+  //   });
+
+  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+  //     console.log(response);
+  //   });
+
+  //   return () => {
+  //     Notifications.removeNotificationSubscription(notificationListener.current);
+  //     Notifications.removeNotificationSubscription(responseListener.current);
+  //   };
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -288,3 +327,46 @@ const styles = StyleSheet.create({
     borderBottomColor: 'lightgray',
   },
 });
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "This is just Notification test!! 📬",
+      body: 'Here is the notification body',
+      data: { data: 'goes here' },
+    },
+    trigger: { seconds: 1 },
+  });
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
+}
