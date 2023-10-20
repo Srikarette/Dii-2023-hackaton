@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { chats } from "../data/data"; // Import the chats data
+import { AiFillFire } from "react-icons/ai";
 
 const Chatpage = () => {
   const [loading, setLoading] = useState(false);
@@ -12,18 +13,23 @@ const Chatpage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Chatpage</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {chats.map((chat) => (
-            <li key={chat._id}>{chat.chatName}</li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <>
+      <div>
+        <h1>Chatpage</h1>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul>
+            {chats.map((chat) => (
+              <li key={chat._id}>{chat.chatName}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div>
+        <AiFillFire size={40} />
+      </div>
+    </>
   );
 };
 
