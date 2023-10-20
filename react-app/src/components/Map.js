@@ -30,11 +30,6 @@ function Map({ className }) {
     className: "custom-marker-icon",
     html: '<div style="background-color: blue; width: 12px; height: 12px; border-radius: 50%;"></div>',
   });
-
-  let fireIcon = L.icon({
-    iconUrl: process.env.PUBLIC_URL + "/images/fireIcon.png",
-    iconSize: [40],
-  });
   // Emergency options here
 
   const [userLocation, setUserLocation] = useState(null);
@@ -127,7 +122,7 @@ function Map({ className }) {
                       </Tooltip>
                       <Popup>Dangerzone</Popup>
                     </Circle>
-                    <Marker position={[13, 100]} icon={fireIcon}></Marker>
+
                     <Marker position={userLocation} icon={dangerZoneMarker}>
                       <Popup>You are here</Popup>
                     </Marker>
