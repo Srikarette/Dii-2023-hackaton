@@ -85,7 +85,6 @@ function Map({ className }) {
 
   return (
     <>
-      <Navbar />
       <div className={className}>
         <div className="playground">
           <select className="emergency-btn">
@@ -149,7 +148,7 @@ Map.propTypes = {
 export default styled(Map)`
   .MapContainer {
     width: 100%;
-    height: calc(100vh);
+    height: calc(90vh);
   }
 
   .info {

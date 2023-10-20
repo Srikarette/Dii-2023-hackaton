@@ -31,7 +31,6 @@ const MapNew = ({ className }) => {
 
   return (
     <>
-      <Navbar />
       <div className={className}>
         <MapContainer
           center={[13.7563, 100.5018]}
@@ -39,7 +38,7 @@ const MapNew = ({ className }) => {
           minZoom={6}
           bounds={bounds}
           scrollWheelZoom={true}
-          style={{ height: "100vh" }}
+          style={{ height: "90vh" }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

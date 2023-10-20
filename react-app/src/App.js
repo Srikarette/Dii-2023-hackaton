@@ -8,15 +8,18 @@ import MapNew from "./components/MapNew";
 import Erro404 from "./pages/Erro404";
 import Navbar from "./components/Navbar";
 import OfficialsLogin from "./pages/OfficialsLogin";
+import Notification from "./pages/Notifcation";
 
 function App() {
   return (
     <BrowserRouter>
       <>
         <div className="App">
+          <Navbar />
           <Switch>
             <Route path="/" component={Map} exact />
             <Route path="/mapsnew" component={MapNew} />
+            <Route path="/notifications" component={Notification} />
             <Route path="/officials" component={OfficialsLogin} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
