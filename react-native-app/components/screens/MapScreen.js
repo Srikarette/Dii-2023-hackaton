@@ -17,16 +17,10 @@ export default function MapScreen() {
     longitudeDelta: 0.08,
   });
 
-  const [testCoordinate, setTestCoordinate] = useState({
-    latitude: 18,
-    longitude: 98,
-    latitudeDelta: 0.08,
-    longitudeDelta: 0.08,
-  });
-  
   const [isCircleVisible, setIsCircleVisible] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const statusRadius = 2000; // 1 per 1 meter
+  const statusRadius = 2000; // 1 meter
+  const circleRadius = 4000; // 4 kilometers
 
   const [selectedChoice, setSelectedChoice] = useState(null);
   const choices = ['FIRE', 'FLOOD', 'LAND SLIDE', 'ACTIVE SHOOTING'];
@@ -99,17 +93,22 @@ export default function MapScreen() {
   const fetchNotifications = async () => {
     try {
       const data = await fetchData();
-      // Add a displayUntil property to each marker
+      // Add a circle property to each marker
       data.forEach((marker) => {
-        marker.displayUntil = Date.now() + pinTimer; // Display for 1 minute = 60000 millisecound
+        marker.circle = {
+          radius: circleRadius,
+          fillColor: getColorForChoice(marker.event), // Adjust this as needed
+        };
+        marker.displayUntil = Date.now() + pinTimer;
       });
 
       // Log a message when the display time runs out for each marker
       data.forEach((marker) => {
         setTimeout(() => {
-          console.log(`Pin at latitude ${marker.latitude} , longitude ${marker.longitude} has disappeared`);
+          console.log(`Pin at latitude ${marker.latitude}, longitude ${marker.longitude} has disappeared`);
         }, marker.displayUntil - Date.now());
       });
+
       setMarkers(data);
     } catch (error) {
       console.error('Error fetching notifications:', error);

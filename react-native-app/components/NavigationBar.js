@@ -14,7 +14,7 @@ const NavigationBar = () => {
       <Tab.Navigator>
         <Tab.Screen name="Map" component={MapScreen} />
         <Tab.Screen name="Notification" component={NotificationScreen} />
-        <Tab.Screen name="Login" component={LoginScreen} />
+        {/* <Tab.Screen name="Login" component={LoginScreen} /> */}
         {/* <Tab.Screen name="Chat" component={ChatScreen} /> */}
       </Tab.Navigator>
     </NavigationContainer>
