@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { AiFillFire } from "react-icons/ai";
 import {
   MapContainer,
   TileLayer,
@@ -12,6 +11,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Navbar from "./Navbar";
 
 function Map({ className }) {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
@@ -29,6 +29,11 @@ function Map({ className }) {
   const userLocationMarker = L.divIcon({
     className: "custom-marker-icon",
     html: '<div style="background-color: blue; width: 12px; height: 12px; border-radius: 50%;"></div>',
+  });
+
+  let fireIcon = L.icon({
+    iconUrl: process.env.PUBLIC_URL + "/images/fireIcon.png",
+    iconSize: [40],
   });
   // Emergency options here
 
@@ -85,6 +90,7 @@ function Map({ className }) {
 
   return (
     <>
+      <Navbar />
       <div className={className}>
         <div className="playground">
           <select className="emergency-btn">
@@ -121,6 +127,7 @@ function Map({ className }) {
                       </Tooltip>
                       <Popup>Dangerzone</Popup>
                     </Circle>
+                    <Marker position={[13, 100]} icon={fireIcon}></Marker>
                     <Marker position={userLocation} icon={dangerZoneMarker}>
                       <Popup>You are here</Popup>
                     </Marker>

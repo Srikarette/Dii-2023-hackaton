@@ -4,7 +4,9 @@ import ComponentContainer from "./components/ComponentContainer";
 import GlobalStyle from "./components/GlobalStyle";
 import Map from "./components/Map";
 import Chatpage from "./pages/Chatpage";
+import MapNew from "./components/MapNew";
 import Erro404 from "./pages/Erro404";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
           <Switch>
             <Route path="/" component={Map} exact />
             <Route path="/chats" component={Chatpage} />
+            <Route path="/mapsnew" component={MapNew} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>
