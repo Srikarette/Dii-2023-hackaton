@@ -20,7 +20,7 @@ export default function MapScreen() {
   const [isCircleVisible, setIsCircleVisible] = useState(false);
   const [markers, setMarkers] = useState([]);
   const statusRadius = 2000; // 1 meter
-  const circleRadius = 4000; // 4 kilometers
+  const circleRadius = 1000; // 4 kilometers
 
   const [selectedChoice, setSelectedChoice] = useState(null);
   const choices = ['FIRE', 'FLOOD', 'LAND SLIDE', 'ACTIVE SHOOTING'];
@@ -179,7 +179,7 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-        <MapView style={styles.map} region={mapRegion}>
+      <MapView style={styles.map} region={mapRegion}>
         {/* Marker for user's current location */}
         <Marker
           coordinate={mapRegion}
@@ -188,15 +188,23 @@ export default function MapScreen() {
           pinColor="blue"
         />
 
-        {/* Map over the fetched markers and create Marker components */}
         {markers.map((markerData) => (
-          <Marker
-            key={markerData.id}
-            coordinate={{ latitude: markerData.latitude, longitude: markerData.longitude }}
-            title={`Notification #${markerData.id}`}
-            description={`Sent at: ${markerData.sent_at}`}
-            pinColor="green"
-          />
+          <React.Fragment key={markerData.id}>
+            <Marker
+              coordinate={{ latitude: markerData.latitude, longitude: markerData.longitude }}
+              title={`Notification #${markerData.id}`}
+              description={`Sent at: ${markerData.sent_at}`}
+              pinColor="green"
+            />
+            <Circle
+              radius={circleRadius}
+              center={{ latitude: markerData.latitude, longitude: markerData.longitude }}
+              title='Circle'
+              strokeColor='red'
+              strokeWidth={0}
+              fillColor='rgba(255, 0, 0, 0.3)' // Adjust the color as needed
+            />
+          </React.Fragment>
         ))}
 
         {isCircleVisible && (
