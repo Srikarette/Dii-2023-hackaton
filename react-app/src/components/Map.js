@@ -31,7 +31,6 @@ function Map({ className }) {
     html: '<div style="background-color: blue; width: 12px; height: 12px; border-radius: 50%;"></div>',
   });
   // Emergency options here
-  const [fireMarkerLocation, setFireMarkerLocation] = useState(null);
 
   const [userLocation, setUserLocation] = useState(null);
   const [zoom, setZoom] = useState(initialZoomLevel);
@@ -54,17 +53,11 @@ function Map({ className }) {
         setShowUserLocation(!showUserLocation);
 
         // Check the selected option
-        const selectedOption = event.target.value;
-        if (selectedOption === "Fire") {
-          // If "Fire" is selected, display a marker on the user's location
-          setFireMarkerLocation([latitude, longitude]);
-        }
       });
     } else {
       alert("Geolocation is not supported in your browser.");
     }
   };
-
   useEffect(() => {
     const fetchUserLocation = () => {
       if ("geolocation" in navigator) {
@@ -80,7 +73,6 @@ function Map({ className }) {
         alert("Geolocation is not supported in your browser.");
       }
     };
-
     fetchUserLocation();
   }, []);
 
@@ -95,15 +87,8 @@ function Map({ className }) {
     <>
       <div className={className}>
         <div className="playground">
-          <select className="emergency-btn" onClick={toggleOptions}>
+          <select className="emergency-btn">
             <option>Choose Emergency</option>
-            {showOptions && (
-              <>
-                <option>Fire</option>
-                <option>Flood</option>
-                <option>Crime</option>
-              </>
-            )}
           </select>
 
           <div className="info">
@@ -144,11 +129,6 @@ function Map({ className }) {
                 {showUserLocation && (
                   <Marker position={userLocation} icon={userLocationMarker}>
                     <Popup>Your Location</Popup>
-                  </Marker>
-                )}
-                {fireMarkerLocation && (
-                  <Marker position={fireMarkerLocation} icon={fireMarkerIcon}>
-                    <Popup>Fire Location</Popup>
                   </Marker>
                 )}
               </MapContainer>
