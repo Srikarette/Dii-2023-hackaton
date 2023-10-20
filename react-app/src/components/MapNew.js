@@ -1,12 +1,9 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import FormData from "./FormData";
 import React from "react";
 import styled from "styled-components";
 import L from "leaflet";
-import "leaflet.markercluster";
-import "leaflet/dist/leaflet.css"; // Import Leaflet CSS
-import "react-leaflet-cluster"; // Import React-Leaflet-Cluster
 import MarkerClusterGroup from "react-leaflet-cluster";
-import Navbar from "./Navbar";
 
 const MapNew = ({ className }) => {
   const southwestBound = L.latLng(5, 90);
@@ -55,6 +52,7 @@ const MapNew = ({ className }) => {
               </Marker>
             ))}
           </MarkerClusterGroup>
+          <FormData />
         </MapContainer>
       </div>
     </>
