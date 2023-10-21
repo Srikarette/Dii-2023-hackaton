@@ -23,6 +23,8 @@ const MapNew = ({ className }) => {
   const northeastBound = L.latLng(25, 120);
   const bounds = L.latLngBounds(southwestBound, northeastBound);
 
+  const [newMarkerLocation, setNewMarkerLocation] = useState(null);
+
   const samplemarkers = [
     {
       geocode: [13.7563, 100.5018],
@@ -36,6 +38,11 @@ const MapNew = ({ className }) => {
 
   const firehere = new L.Icon({
     iconUrl: require("../assets/fire.png"), // Make sure this URL is correct
+    iconSize: [38, 38],
+  });
+
+  const wildfirehere = new L.Icon({
+    iconUrl: require("../assets/wildfire.png"), // Make sure this URL is correct
     iconSize: [38, 38],
   });
 
@@ -79,9 +86,19 @@ const MapNew = ({ className }) => {
     fetchUserLocation();
   }, []);
 
+  const addNewMarkerNearUser = () => {
+    if (userLocation) {
+      // Calculate the new marker's position (e.g., 0.001 degrees to the east and north)
+      const newLatitude = userLocation[0] + 0.001;
+      const newLongitude = userLocation[1] + 0.001;
+      setNewMarkerLocation([newLatitude, newLongitude]);
+    }
+  };
+
   return (
     <>
       <div className={className}>
+        <button onClick={addNewMarkerNearUser}>Add New Marker Near User</button>
         {userLocation && (
           <MapContainer
             center={center}
@@ -109,6 +126,11 @@ const MapNew = ({ className }) => {
             {showUserLocation && (
               <Marker position={userLocation} icon={iamhere}>
                 <Popup>Your Location</Popup>
+              </Marker>
+            )}
+            {newMarkerLocation && (
+              <Marker position={newMarkerLocation} icon={wildfirehere}>
+                <Popup>New Marker Near User</Popup>
               </Marker>
             )}
             <FormData />
