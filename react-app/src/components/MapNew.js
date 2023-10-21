@@ -128,6 +128,7 @@ const MapNew = ({ className }) => {
                 <Popup>Your Location</Popup>
               </Marker>
             )}
+            
             {newMarkerLocation && (
               <Marker position={newMarkerLocation} icon={wildfirehere}>
                 <Popup>New Marker Near User</Popup>
