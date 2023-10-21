@@ -26,17 +26,6 @@ const MapNew = ({ className }) => {
     iconSize: [38, 38],
   });
 
-  const [position, setPosition] = useState([0, 0]);
-
-  useEffect(() => {
-    // Use the browser's Geolocation API to get the user's location
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((location) => {
-        const { latitude, longitude } = location.coords;
-        setPosition([latitude, longitude]);
-      });
-    }
-  }, []);
 
   return (
     <>
@@ -53,7 +42,6 @@ const MapNew = ({ className }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position} />
           <MarkerClusterGroup chunkedLoading>
             {samplemarkers.map((sampleMarker, index) => (
               <Marker
