@@ -18,7 +18,6 @@ public class AccountingApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				// TODO: make sure the port of web front is correct.
 				registry.addMapping("/**")
 						.allowedOrigins("*")
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE");
