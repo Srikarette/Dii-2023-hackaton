@@ -5,6 +5,7 @@ import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LocationMarker from "./Hooks/LocationMarker";
 import BaseMap from "./StyleofMap/BaseMap";
+import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 
 const MapNew = ({ className }) => {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
@@ -41,6 +42,7 @@ const MapNew = ({ className }) => {
     iconUrl: require("../assets/fire.png"), // Make sure this URL is correct
     iconSize: [38, 38],
   });
+  L.Marker.prototype.options.icon = firehere;
 
   const wildfirehere = new L.Icon({
     iconUrl: require("../assets/wildfire.png"), // Make sure this URL is correct
@@ -99,7 +101,7 @@ const MapNew = ({ className }) => {
   return (
     <>
       <div className={className}>
-        <button onClick={addNewMarkerNearUser}>Add New Marker Near User</button>
+        {/* <button onClick={addNewMarkerNearUser}>Add New Marker Near User</button> */}
         {userLocation && (
           <MapContainer
             center={center}
@@ -110,6 +112,7 @@ const MapNew = ({ className }) => {
             minZoom={6}
           >
             <BaseMap />
+            <CSVFileLocal />
             <MarkerClusterGroup chunkedLoading>
               {samplemarkers.map((sampleMarker, index) => (
                 <Marker
@@ -127,11 +130,11 @@ const MapNew = ({ className }) => {
               </Marker>
             )}
 
-            {newMarkerLocation && (
+            {/* {newMarkerLocation && (
               <Marker position={newMarkerLocation} icon={wildfirehere}>
                 <Popup>New Marker Near User</Popup>
               </Marker>
-            )}
+            )} */}
           </MapContainer>
         )}
       </div>
