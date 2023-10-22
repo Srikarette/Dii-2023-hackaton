@@ -12,6 +12,7 @@ import L from "leaflet";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Navbar from "./Navbar";
+import LocationMarker from "./Hooks/LocationMarker";
 
 function Map({ className }) {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
@@ -132,6 +133,7 @@ function Map({ className }) {
                     <Popup>Your Location</Popup>
                   </Marker>
                 )}
+
               </MapContainer>
             )}
           </div>

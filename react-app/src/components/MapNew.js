@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import LocationMarker from "./Hooks/LocationMarker";
 
 const MapNew = ({ className }) => {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
@@ -128,7 +129,7 @@ const MapNew = ({ className }) => {
                 <Popup>Your Location</Popup>
               </Marker>
             )}
-            
+
             {newMarkerLocation && (
               <Marker position={newMarkerLocation} icon={wildfirehere}>
                 <Popup>New Marker Near User</Popup>
