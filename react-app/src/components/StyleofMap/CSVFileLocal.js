@@ -22,10 +22,10 @@ const CSVFileLocal = () => {
   const fetchAirport = async () => {
     const file = require("../../assets/Airport.csv");
     const res = await fetch(file);
-    console.log("Show Response", res);
+    // console.log("Show Response", res);
 
     const text = await res.text();
-    console.log("Show Text", text);
+    // console.log("Show Text", text);
 
     const json = Papa.parse(text, { header: true }).data;
     console.log("Show Json", json);
