@@ -19,7 +19,6 @@ function App() {
           <Navbar />
           <Switch>
             <Route path="/" component={MapNew} exact />
-            <Route path="/map" component={Map} />
             <Route path="/notifications" component={Notification} />
             <Route path="/officials" component={OfficialsLogin} />
             <Route component={Erro404} />{" "}

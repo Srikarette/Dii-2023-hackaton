@@ -1,10 +1,10 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import FormData from "./FormData";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LocationMarker from "./Hooks/LocationMarker";
+import BaseMap from "./StyleofMap/BaseMap";
 
 const MapNew = ({ className }) => {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
@@ -86,7 +86,7 @@ const MapNew = ({ className }) => {
     };
     fetchUserLocation();
   }, []);
-
+  //Add mark near user
   const addNewMarkerNearUser = () => {
     if (userLocation) {
       // Calculate the new marker's position (e.g., 0.001 degrees to the east and north)
@@ -109,10 +109,7 @@ const MapNew = ({ className }) => {
             style={{ height: "90vh" }}
             minZoom={6}
           >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+            <BaseMap />
             <MarkerClusterGroup chunkedLoading>
               {samplemarkers.map((sampleMarker, index) => (
                 <Marker
@@ -135,7 +132,6 @@ const MapNew = ({ className }) => {
                 <Popup>New Marker Near User</Popup>
               </Marker>
             )}
-            <FormData />
           </MapContainer>
         )}
       </div>
