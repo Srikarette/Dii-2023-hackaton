@@ -16,7 +16,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function MapScreen() {
-  const pinTimer = 5000; // millisecound
+  const pinTimer = 3600000; // millisecound
   const emergencyCooldown = 10000 //millisecound
   const navigation = useNavigation();
 
@@ -224,7 +224,7 @@ export default function MapScreen() {
           coordinate={mapRegion}
           title='Your Location'
           description={description}
-          pinColor="blue"
+          image={require ('../map-icon/icons8-location-96.png')}
         />
 
         {markers.map((markerData) => (
@@ -235,14 +235,14 @@ export default function MapScreen() {
               description={`Sent at: ${markerData.sent_at}`}
               pinColor="green"
             />
-            <Circle
+            {/* <Circle
               radius={circleRadius}
               center={{ latitude: markerData.latitude, longitude: markerData.longitude }}
               title='Circle'
               strokeColor='red'
               strokeWidth={0}
               fillColor='rgba(255, 0, 0, 0.3)' // Adjust the color as needed
-            />
+            /> */}
           </React.Fragment>
         ))}
 
