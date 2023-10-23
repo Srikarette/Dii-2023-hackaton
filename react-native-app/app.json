@@ -38,11 +38,6 @@
         }
       ]
     ],
-    "extra": {
-      "eas": {
-        "projectId": "5f59d2da-6e0f-493d-9b04-c1074d16fef5"
-      }
-    },
     "android": {
       "package": "com.phuriphon.alerttown",
       "permissions": [
@@ -51,6 +46,11 @@
         "android.permission.FOREGROUND_SERVICE"
       ]
     },
-    "owner": "phuriphon"
+    "owner": "phuriphon",
+    "extra": {
+      "eas": {
+        "projectId": "ac8b6743-3c44-41cc-aa00-6be594b578e9"
+      }
+    }
   }
 }
