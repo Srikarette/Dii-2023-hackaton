@@ -1,26 +1,15 @@
 const express = require("express");
-const dotenv = require("dotenv");
+const { readdirSync } = require("fs"); // function to read directory
 
-const { chats } = require("../data/data");
-
+const productRouters = require("./Routes/product"); //import name
+const authRouters = require("./Routes/auth");
 const app = express();
-dotenv.config();
 
-app.get("/api/chat", (req, res) => {
-  res.json(chats);
-});
+//วิธีืีที่ 1 การเรียกใช้
+// app.use("/api", productRouters);
+// app.use("/api", authRouters);
 
-app.get("/api/chat/:id", (req, res) => {
-  const singleChat = chats.find((c) => c._id === req.params.id);
-  if (singleChat) {
-    res.json(singleChat);
-  } else {
-    res.status(404).json({ message: "Chat not found" });
-  }
-});
+//วิธีืืที่ 2
+readdirSync("./Routes").map((r) => console.log(r));
 
-const PORT = process.env.PORT || 9000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on PORT ${PORT}`);
-});
+app.listen(5000, () => console.log("Server is Running 5000"));
