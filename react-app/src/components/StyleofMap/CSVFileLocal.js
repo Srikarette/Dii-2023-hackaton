@@ -28,7 +28,7 @@ const CSVFileLocal = () => {
     // console.log("Show Text", text);
 
     const json = Papa.parse(text, { header: true }).data;
-    console.log("Show Json", json);
+    // console.log("Show Json", json);
 
     const filterAirport = json.filter(
       (item) => item.long !== "" && item.lat !== ""

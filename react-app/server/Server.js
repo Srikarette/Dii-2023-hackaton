@@ -4,9 +4,15 @@ const morgan = require("morgan"); //Middleware หรือ ตำรวจใ�
 const cors = require("cors"); // ป้องกัน Api
 const bodyParse = require("body-parser");
 
+const connectDB = require("./config/db");
+
 const productRouters = require("./Routes/product"); //import name
 const authRouters = require("./Routes/auth");
+
+
 const app = express();
+
+connectDB()
 
 app.use(morgan("dev"));
 app.use(cors());
