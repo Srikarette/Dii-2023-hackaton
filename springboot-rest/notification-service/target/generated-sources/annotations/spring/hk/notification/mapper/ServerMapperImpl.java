@@ -11,7 +11,7 @@ import spring.hk.notification.model.Notification;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-23T14:04:20+0700",
+    date = "2023-10-23T16:47:01+0700",
     comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 @Component
