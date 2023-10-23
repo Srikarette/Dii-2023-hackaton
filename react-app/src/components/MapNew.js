@@ -1,11 +1,20 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LocationMarker from "./Hooks/LocationMarker";
 import BaseMap from "./StyleofMap/BaseMap";
+import MyForm from "./StyleofMap/MyForm";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
+
+import fetchNotifications from "./StyleofMap/fetchNotifications"; // Import the fetchNotifications function
 
 const MapNew = ({ className }) => {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
@@ -26,6 +35,17 @@ const MapNew = ({ className }) => {
   const bounds = L.latLngBounds(southwestBound, northeastBound);
 
   const [newMarkerLocation, setNewMarkerLocation] = useState(null);
+  //fetched data from db spring
+  const [fetchedData, setFetchedData] = useState([]);
+
+  const [position, setPosition] = useState(null);
+
+  const [form, setform] = useState({});
+
+  const fetchDataFromAPI = async () => {
+    const data = await fetchNotifications();
+    setFetchedData(data);
+  };
 
   const samplemarkers = [
     {
@@ -42,7 +62,6 @@ const MapNew = ({ className }) => {
     iconUrl: require("../assets/fire.png"), // Make sure this URL is correct
     iconSize: [38, 38],
   });
-  L.Marker.prototype.options.icon = firehere;
 
   const wildfirehere = new L.Icon({
     iconUrl: require("../assets/wildfire.png"), // Make sure this URL is correct
@@ -71,46 +90,78 @@ const MapNew = ({ className }) => {
       alert("Geolocation is not supported in your browser.");
     }
   };
-  useEffect(() => {
-    const fetchUserLocation = () => {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation([latitude, longitude]);
-          setCenter([latitude, longitude]);
-          setZoom(16);
-          setShowUserLocation(true);
-          setMapReady(true); // Set map readiness to true
-        });
-      } else {
-        alert("Geolocation is not supported in your browser.");
-      }
-    };
-    fetchUserLocation();
-  }, []);
-  //Add mark near user
-  const addNewMarkerNearUser = () => {
-    if (userLocation) {
-      // Calculate the new marker's position (e.g., 0.001 degrees to the east and north)
-      const newLatitude = userLocation[0] + 0.001;
-      const newLongitude = userLocation[1] + 0.001;
-      setNewMarkerLocation([newLatitude, newLongitude]);
+  const fetchUserLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation([latitude, longitude]);
+        setCenter([latitude, longitude]);
+        setZoom(16);
+        setShowUserLocation(true);
+        setMapReady(true); // Set map readiness to true
+      });
+    } else {
+      alert("Geolocation is not supported in your browser.");
     }
   };
+  useEffect(() => {
+    fetchUserLocation();
+    fetchDataFromAPI();
+  }, []);
+  // displayMakers from db
+  const renderMarkers = () => {
+    return fetchedData.map((dataItem, index) => (
+      <Marker key={index} position={[dataItem.latitude, dataItem.longitude]}>
+        <Popup>
+          <div>
+            <p>ID: {dataItem.id}</p>
+            <p>Latitude: {dataItem.latitude}</p>
+            <p>Longitude: {dataItem.longitude}</p>
+            <p>Sent At: {dataItem.sent_at}</p>
+          </div>
+        </Popup>
+      </Marker>
+    ));
+  };
+  // function click set latlng to form
+  function LocationMarker() {
+    const map = useMapEvents({
+      click(e) {
+        // console.log(e.latlng);
+        map.flyTo(e.latlng, 15);
+        setPosition(e.latlng);
+        setform({
+          ...form,
+          lat: e.latlng.lat,
+          lng: e.latlng.lng,
+        });
+      },
+    });
+    return position === null ? null : (
+      <Marker position={position}>
+        <Popup></Popup>
+      </Marker>
+    );
+  }
+  const handleOnChange = (e) => {
+    console.log(e.target.value);
+  };
+
+  console.log(form);
 
   return (
     <>
       <div className={className}>
-        {/* <button onClick={addNewMarkerNearUser}>Add New Marker Near User</button> */}
         {userLocation && (
           <MapContainer
             center={center}
             zoom={16}
             className="MapContainer"
             bounds={bounds}
-            style={{ height: "90vh" }}
+            style={{ height: "89vh", width: "87%" }}
             minZoom={6}
           >
+            <LocationMarker />
             <BaseMap />
             <CSVFileLocal />
             <MarkerClusterGroup chunkedLoading>
@@ -129,27 +180,64 @@ const MapNew = ({ className }) => {
                 <Popup>Your Location</Popup>
               </Marker>
             )}
-
-            {/* {newMarkerLocation && (
-              <Marker position={newMarkerLocation} icon={wildfirehere}>
-                <Popup>New Marker Near User</Popup>
-              </Marker>
-            )} */}
+            {renderMarkers()}
           </MapContainer>
         )}
+        <form className="bg-white shadow-md rounded px-4 py-2">
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-gray-700 font-semibold">
+              Title:
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              onChange={(e) => handleOnChange(e)}
+              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="latitude"
+              className="block text-gray-700 font-semibold"
+            >
+              Latitude:
+            </label>
+            <input
+              type="number"
+              name="lat"
+              id="latitude"
+              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="longitude"
+              className="block text-gray-700 font-semibold"
+            >
+              Longitude:
+            </label>
+            <input
+              type="number"
+              name="lng"
+              id="longitude"
+              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div className="text-center">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </>
   );
 };
 
 export default styled(MapNew)`
-  .custom-cluster-icon {
-    background: red;
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-  }
+  display: flex;
 `;
