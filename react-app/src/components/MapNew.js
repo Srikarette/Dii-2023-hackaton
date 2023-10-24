@@ -33,19 +33,20 @@ const MapNew = ({ className }) => {
   const southwestBound = L.latLng(5, 90);
   const northeastBound = L.latLng(25, 120);
   const bounds = L.latLngBounds(southwestBound, northeastBound);
+  //Use for select options
+  const [selectedOption, setSelectedOption] = useState("fire");
+  const titleOptions = ["fire", "wildfire", "flood"];
 
   const [newMarkerLocation, setNewMarkerLocation] = useState(null);
   //fetched data from db spring
   const [fetchedData, setFetchedData] = useState([]);
 
   const [position, setPosition] = useState(null);
-
+  //Set default mark
   const [form, setForm] = useState({
     lat: 0,
     lng: 0,
   });
-
-  const titleOptions = ["fire", "wildfire", "flood"];
 
   const fetchDataFromAPI = async () => {
     const data = await fetchNotifications();
@@ -62,7 +63,7 @@ const MapNew = ({ className }) => {
       popUp: "Hello, I'm mark2",
     },
   ];
-
+  //Icons here
   const firehere = new L.Icon({
     iconUrl: require("../assets/fire.png"), // Make sure this URL is correct
     iconSize: [38, 38],
@@ -77,6 +78,8 @@ const MapNew = ({ className }) => {
     iconUrl: require("../assets/raise-hand.png"),
     iconSize: [40, 40],
   });
+
+  
 
   // Function to handle clicking the "Go to My Location" button
   const handleGoToUserLocation = () => {
@@ -116,13 +119,19 @@ const MapNew = ({ className }) => {
   // displayMakers from db
   const renderMarkers = () => {
     return fetchedData.map((dataItem, index) => (
-      <Marker key={index} position={[dataItem.latitude, dataItem.longitude]}>
+      <Marker
+        key={index}
+        position={[dataItem.latitude, dataItem.longitude]}
+      >
         <Popup>
           <div>
             <p>ID: {dataItem.id}</p>
             <p>Latitude: {dataItem.latitude}</p>
             <p>Longitude: {dataItem.longitude}</p>
             <p>Sent At: {dataItem.sent_at}</p>
+            <button onClick={() => handleDeleteMarker(dataItem.id)}>
+              Delete
+            </button>
           </div>
         </Popup>
       </Marker>
@@ -161,7 +170,8 @@ const MapNew = ({ className }) => {
     e.preventDefault();
     postUserLocation(form.title, form.lat, form.lng);
   };
-
+  //Start Crud operation
+  //Post METHOD
   const postUserLocation = async (title, latitude, longitude) => {
     try {
       const response = await axios.post("http://localhost:8090/notifications", {
@@ -181,6 +191,19 @@ const MapNew = ({ className }) => {
       console.error("Error:", error);
       // You can handle network or other errors here
     }
+  };
+  const handleDeleteMarker = (notificationId) => {
+    // Send a DELETE request to your server to delete the notification
+    axios
+      .delete(`http://localhost:8090/notifications/${notificationId}`)
+      .then((response) => {
+        // Handle success, such as removing the marker from the map
+        response.status(200);
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
   };
 
   return (
