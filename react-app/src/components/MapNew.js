@@ -44,6 +44,8 @@ const MapNew = ({ className }) => {
     lng: 0,
   });
 
+  const titleOptions = ["fire", "wildfire", "flood"];
+
   const fetchDataFromAPI = async () => {
     const data = await fetchNotifications();
     setFetchedData(data);
@@ -141,7 +143,7 @@ const MapNew = ({ className }) => {
     });
     return position === null ? null : (
       <Marker position={position} icon={firehere}>
-        <Popup></Popup>
+        <Popup>Ready for Marked</Popup>
       </Marker>
     );
   }
@@ -201,14 +203,18 @@ const MapNew = ({ className }) => {
             <label htmlFor="name" className="block text-gray-700 font-semibold">
               Title:
             </label>
-            <p className="text-gray-300">Hint: fire , wildfire, flood</p>
-            <input
-              type="text"
-              name="name"
-              id="name"
+            <select
+              name="title"
+              id="title"
               onChange={(e) => handleOnChange(e)}
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
-            />
+            >
+              {titleOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-4">
             <label
@@ -222,6 +228,7 @@ const MapNew = ({ className }) => {
               name="lat"
               value={form.lat}
               id="latitude"
+              onChange={(e) => setForm({ ...form, lat: e.target.value })}
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -236,6 +243,7 @@ const MapNew = ({ className }) => {
               type="number"
               value={form.lng}
               name="lng"
+              onChange={(e) => setForm({ ...form, lng: e.target.value })}
               id="longitude"
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             />
