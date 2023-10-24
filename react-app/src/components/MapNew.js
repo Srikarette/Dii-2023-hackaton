@@ -11,7 +11,6 @@ import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LocationMarker from "./Hooks/LocationMarker";
 import BaseMap from "./StyleofMap/BaseMap";
-import MyForm from "./StyleofMap/MyForm";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 
 import fetchNotifications from "./StyleofMap/fetchNotifications"; // Import the fetchNotifications function
@@ -40,7 +39,10 @@ const MapNew = ({ className }) => {
 
   const [position, setPosition] = useState(null);
 
-  const [form, setform] = useState({});
+  const [form, setForm] = useState({
+    lat: 0,
+    lng: 0,
+  });
 
   const fetchDataFromAPI = async () => {
     const data = await fetchNotifications();
@@ -130,7 +132,7 @@ const MapNew = ({ className }) => {
         // console.log(e.latlng);
         map.flyTo(e.latlng, 15);
         setPosition(e.latlng);
-        setform({
+        setForm({
           ...form,
           lat: e.latlng.lat,
           lng: e.latlng.lng,
@@ -138,16 +140,24 @@ const MapNew = ({ className }) => {
       },
     });
     return position === null ? null : (
-      <Marker position={position}>
+      <Marker position={position} icon={firehere}>
         <Popup></Popup>
       </Marker>
     );
   }
+  // Log value in from
   const handleOnChange = (e) => {
     console.log(e.target.value);
+    setForm({
+      ...form, //คัดลอกข้้อมูลมาวางไว้ก่อน
+      [e.target.name]: e.target.value,
+    });
   };
-
-  console.log(form);
+  //submit data you want to db
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(form);
+  };
 
   return (
     <>
@@ -183,11 +193,15 @@ const MapNew = ({ className }) => {
             {renderMarkers()}
           </MapContainer>
         )}
-        <form className="bg-white shadow-md rounded px-4 py-2">
+        <form
+          className="bg-white shadow-md rounded px-4 py-2"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-semibold">
               Title:
             </label>
+            <p className="text-gray-300">Hint: fire , wildfire, flood</p>
             <input
               type="text"
               name="name"
@@ -206,6 +220,7 @@ const MapNew = ({ className }) => {
             <input
               type="number"
               name="lat"
+              value={form.lat}
               id="latitude"
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             />
@@ -219,6 +234,7 @@ const MapNew = ({ className }) => {
             </label>
             <input
               type="number"
+              value={form.lng}
               name="lng"
               id="longitude"
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"

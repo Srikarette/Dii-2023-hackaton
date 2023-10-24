@@ -6,13 +6,11 @@ const bodyParse = require("body-parser");
 
 const connectDB = require("./config/db");
 
-const productRouters = require("./Routes/product"); //import name
-const authRouters = require("./Routes/auth");
-
+const travelRouter = require("./Routes/travel"); //import name
 
 const app = express();
 
-connectDB()
+connectDB();
 
 app.use(morgan("dev"));
 app.use(cors());
