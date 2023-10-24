@@ -1,6 +1,5 @@
 package spring.hk.notification.dto;
 
-import spring.hk.notification.model.Event;
 import spring.hk.notification.model.Notification;
 
 public class HistoryDTO {

@@ -9,12 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,27 +20,31 @@ public class Notification {
 
     private Long user_id;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
-
     @Column(columnDefinition = "NUMERIC(9, 6)") // รูปแบบข้อมูลที่เพิ่มเข้ามา
     private Double longitude;
 
     @Column(columnDefinition = "NUMERIC(9, 6)") // รูปแบบข้อมูลที่เพิ่มเข้ามา
     private Double latitude;
+
     private Date sent_at;
+    private String category;
+    private String message;
+    private int status;
 
     public Notification() {
+
     }
 
-    public Notification(Long id, Long user_id, Event event, Double longitude, Double latitude, Date sent_at) {
+    public Notification(Long id, Long user_id, Double longitude, Double latitude, Date sent_at, String category,
+            String message, int status) {
         this.id = id;
         this.user_id = user_id;
-        this.event = event;
         this.longitude = longitude;
         this.latitude = latitude;
         this.sent_at = sent_at;
+        this.category = category;
+        this.message = message;
+        this.status = status;
     }
 
     public Long getId() {
@@ -59,14 +61,6 @@ public class Notification {
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
     }
 
     public Double getLongitude() {
@@ -93,4 +87,29 @@ public class Notification {
         this.sent_at = sent_at;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    
 }

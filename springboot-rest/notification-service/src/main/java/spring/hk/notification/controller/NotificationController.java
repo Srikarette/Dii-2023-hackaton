@@ -11,16 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import spring.hk.notification.dto.NotificationDTO;
 import spring.hk.notification.mapper.ServerMapper;
-import spring.hk.notification.model.Event;
-import spring.hk.notification.model.History;
 import spring.hk.notification.model.Notification;
-import spring.hk.notification.repository.EventRepository;
 import spring.hk.notification.repository.NotificationRepository;
 
 @RestController
@@ -31,9 +27,6 @@ public class NotificationController {
     @Autowired
     private ServerMapper serverMapper;
 
-    @Autowired
-    private EventRepository eventRepository;
-
     // post noti
     @PostMapping("/notifications")
     public ResponseEntity<?> createNotification(@RequestBody Notification notification) {
@@ -42,24 +35,6 @@ public class NotificationController {
         return ResponseEntity.ok("created");
     }
 
-    // connect noti to event
-    @PutMapping("/notifications/{noti}/events/{event}")
-    public ResponseEntity<?> connectNotificationEvent(@PathVariable Long noti, @PathVariable Long event) {
-        Optional<Notification> notificationOption = notificationRepository.findById(noti);
-        Optional<Event> eventOption = eventRepository.findById(event);
-
-        if (notificationOption.isPresent() && eventOption.isPresent()) {
-            Event events = eventOption.get();
-            Notification notification = notificationOption.get();
-
-            notification.setEvent(events);
-            notificationRepository.save(notification);
-
-            return ResponseEntity.ok("event connected to notification");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("event or notification not found.");
-        }
-    }
 
     // get all noti
     @GetMapping("/notifications")
