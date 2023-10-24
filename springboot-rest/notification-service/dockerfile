@@ -1,0 +1,12 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:11-jre-slim
+
+# Expose the application port
+EXPOSE 8090
+
+# Copy the naming-server JAR file into the container
+COPY target/notification-service.jar notification-service.jar
+
+ENTRYPOINT [ "java","-jar", "/notification-service.jar" ]
+
+

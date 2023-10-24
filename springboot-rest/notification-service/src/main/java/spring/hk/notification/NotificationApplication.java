@@ -21,6 +21,7 @@ public class NotificationApplication {
 				registry.addMapping("/**")
 						.allowedOrigins("*")
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE");
+
 			}
 		};
 	}

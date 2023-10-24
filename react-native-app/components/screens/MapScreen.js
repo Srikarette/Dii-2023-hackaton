@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import MapView, { Circle, Marker } from 'react-native-maps';
 import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
+import axios from 'axios';
 
-export default function Map() {
+export default function MapScreen() {
+  const pinTimer = 5000; // millisecound
+  const emergencyCooldown = 10000 //millisecound
+  const navigation = useNavigation();
+
   const [mapRegion, setMapRegion] = useState({
     latitude: 13.7563,
     longitude: 100.5018,
@@ -11,7 +17,15 @@ export default function Map() {
     longitudeDelta: 0.08,
   });
 
+  const [testCoordinate, setTestCoordinate] = useState({
+    latitude: 18,
+    longitude: 98,
+    latitudeDelta: 0.08,
+    longitudeDelta: 0.08,
+  });
+  
   const [isCircleVisible, setIsCircleVisible] = useState(false);
+  const [markers, setMarkers] = useState([]);
   const statusRadius = 2000; // 1 per 1 meter
 
   const [selectedChoice, setSelectedChoice] = useState(null);
@@ -22,6 +36,8 @@ export default function Map() {
   const [description, setDescription] = useState('Your Location');
 
   const [showChoices, setShowChoices] = useState(false);
+
+
 
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -37,7 +53,7 @@ export default function Map() {
       latitudeDelta: 0.08,
       longitudeDelta: 0.08,
     });
-    console.log(location.coords.latitude, location.coords.longitude);
+    console.log('Current user location', location.coords.latitude, location.coords.longitude);
   }
 
   const getColorForChoice = (choice) => {
@@ -55,7 +71,79 @@ export default function Map() {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      console.log('Start fetching')
+      const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Fetch data complete')
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      // console.log('Fetched Data:', data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+  };
+  
+  
+  const fetchNotifications = async () => {
+    try {
+      const data = await fetchData();
+      // Add a displayUntil property to each marker
+      data.forEach((marker) => {
+        marker.displayUntil = Date.now() + pinTimer; // Display for 1 minute = 60000 millisecound
+      });
+
+      // Log a message when the display time runs out for each marker
+      data.forEach((marker) => {
+        setTimeout(() => {
+          console.log(`Pin at latitude ${marker.latitude} , longitude ${marker.longitude} has disappeared`);
+        }, marker.displayUntil - Date.now());
+      });
+      setMarkers(data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const postUserLocation = async (latitude, longitude) => {
+    try {
+      const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          latitude,
+          longitude,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log('Response from server:', data); 
+  
+    } catch (error) {
+      console.error('Error posting user location:', error);
+    }
+  };
+  
+
   const handleEmergencyPress = () => {
+   
     if (selectedChoice) {
       setIsCircleVisible(true);
       setEmergencySent(true);
@@ -66,9 +154,14 @@ export default function Map() {
         setEmergencySent(false);
         setDisableButton(false);
         setSelectedChoice(null);
-        setDescription('Your Location')
-      }, 3600);
-       // 1 hours = 3600000 millisecound
+        setDescription('Your Location');
+        
+        // navigation.replace('MapScreen'); 
+      }, emergencyCooldown);
+      
+      postUserLocation(mapRegion.latitude, mapRegion.longitude);
+      console.log('Post current user location complete');
+      console.log(`Post :`, mapRegion.latitude, mapRegion.longitude, `from current user into the database`);
       setDisableButton(true);
     }
   };
@@ -76,18 +169,36 @@ export default function Map() {
   useEffect(() => {
     userLocation();
     setIsCircleVisible(false);
+    fetchNotifications();
+    // Use a timer to periodically check and remove expired markers
+    const timer = setInterval(() => {
+      const currentTime = Date.now();
+      setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.displayUntil >= currentTime));
+    }, 1000); // Check every second
+    return () => clearInterval(timer); // Cleanup the timer
   }, []);
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} region={mapRegion}>
-        <Marker 
-        coordinate={mapRegion} 
-        title='Your Location' 
-        description={description}
-        // image={require('./path/to/custom-marker.png')}
-        pinColor="blue" // Change the pin color
+        <MapView style={styles.map} region={mapRegion}>
+        {/* Marker for user's current location */}
+        <Marker
+          coordinate={mapRegion}
+          title='Your Location'
+          description={description}
+          pinColor="blue"
         />
+
+        {/* Map over the fetched markers and create Marker components */}
+        {markers.map((markerData) => (
+          <Marker
+            key={markerData.id}
+            coordinate={{ latitude: markerData.latitude, longitude: markerData.longitude }}
+            title={`Notification #${markerData.id}`}
+            description={`Sent at: ${markerData.sent_at}`}
+            pinColor="green"
+          />
+        ))}
 
         {isCircleVisible && (
           <Circle
