@@ -164,12 +164,10 @@ const MapNew = ({ className }) => {
 
   const postUserLocation = async (title, latitude, longitude) => {
     try {
-      const response = await fetch("http://localhost:8090/notifications", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, latitude, longitude }),
+      const response = await axios.post("http://localhost:8090/notifications", {
+        title: title,
+        latitude: latitude,
+        longitude: longitude,
       });
 
       if (response.status === 200) {
