@@ -6,6 +6,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
