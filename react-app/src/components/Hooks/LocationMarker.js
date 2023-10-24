@@ -10,7 +10,7 @@ export default function LocationMarker() {
     },
     locationfound(e) {
       setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
+      map.flyTo(e.latlng, map.getZoom(14));
     },
   });
 

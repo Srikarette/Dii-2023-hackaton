@@ -34,7 +34,7 @@ const MapNew = ({ className }) => {
   const northeastBound = L.latLng(25, 120);
   const bounds = L.latLngBounds(southwestBound, northeastBound);
   //Use for select options
-  const [selectedOption, setSelectedOption] = useState("fire");
+
   const titleOptions = ["fire", "wildfire", "flood"];
 
   const [newMarkerLocation, setNewMarkerLocation] = useState(null);
@@ -46,6 +46,7 @@ const MapNew = ({ className }) => {
   const [form, setForm] = useState({
     lat: 0,
     lng: 0,
+    category: "", // Set the default category to an empty string
   });
 
   const fetchDataFromAPI = async () => {
@@ -73,13 +74,19 @@ const MapNew = ({ className }) => {
     iconUrl: require("../assets/wildfire.png"), // Make sure this URL is correct
     iconSize: [38, 38],
   });
+  const floodhere = new L.Icon({
+    iconUrl: require("../assets/flood.png"), // Make sure this URL is correct
+    iconSize: [38, 38],
+  });
+  const thinking = new L.Icon({
+    iconUrl: require("../assets/problem.png"), // Make sure this URL is correct
+    iconSize: [38, 38],
+  });
 
   const iamhere = new L.Icon({
     iconUrl: require("../assets/raise-hand.png"),
     iconSize: [40, 40],
   });
-
-  
 
   // Function to handle clicking the "Go to My Location" button
   const handleGoToUserLocation = () => {
@@ -118,25 +125,36 @@ const MapNew = ({ className }) => {
   }, []);
   // displayMakers from db
   const renderMarkers = () => {
-    return fetchedData.map((dataItem, index) => (
-      <Marker
-        key={index}
-        position={[dataItem.latitude, dataItem.longitude]}
-      >
-        <Popup>
-          <div>
-            <p>ID: {dataItem.id}</p>
-            <p>Latitude: {dataItem.latitude}</p>
-            <p>Longitude: {dataItem.longitude}</p>
-            <p>Sent At: {dataItem.sent_at}</p>
-            <button onClick={() => handleDeleteMarker(dataItem.id)}>
-              Delete
-            </button>
-          </div>
-        </Popup>
-      </Marker>
-    ));
+    return fetchedData.map((dataItem, index) => {
+      let markerIcon = firehere; // Default icon
+
+      if (dataItem.category === "wildfire") {
+        markerIcon = wildfirehere; // Change icon for wildfire category
+      } else if (dataItem.category === "flood") {
+        markerIcon = floodhere;
+      }
+      return (
+        <Marker
+          key={index}
+          position={[dataItem.latitude, dataItem.longitude]}
+          icon={markerIcon}
+        >
+          <Popup>
+            <div>
+              <p>ID: {dataItem.id}</p>
+              <p>Latitude: {dataItem.latitude}</p>
+              <p>Longitude: {dataItem.longitude}</p>
+              <p>Sent At: {dataItem.sent_at}</p>
+              <button onClick={() => handleDeleteMarker(dataItem.id)}>
+                Delete
+              </button>
+            </div>
+          </Popup>
+        </Marker>
+      );
+    });
   };
+
   // function click set latlng to form
   function LocationMarker() {
     const map = useMapEvents({
@@ -152,7 +170,7 @@ const MapNew = ({ className }) => {
       },
     });
     return position === null ? null : (
-      <Marker position={position} icon={firehere}>
+      <Marker position={position} icon={thinking}>
         <Popup>Ready for Marked</Popup>
       </Marker>
     );
@@ -168,14 +186,14 @@ const MapNew = ({ className }) => {
   //submit data you want to db
   const handleSubmit = (e) => {
     e.preventDefault();
-    postUserLocation(form.title, form.lat, form.lng);
+    postUserLocation(form.category, form.lat, form.lng);
   };
   //Start Crud operation
   //Post METHOD
-  const postUserLocation = async (title, latitude, longitude) => {
+  const postUserLocation = async (category, latitude, longitude) => {
     try {
       const response = await axios.post("http://localhost:8090/notifications", {
-        title: title,
+        category: category,
         latitude: latitude,
         longitude: longitude,
       });
@@ -246,11 +264,11 @@ const MapNew = ({ className }) => {
         >
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-semibold">
-              Title:
+              Category:
             </label>
             <select
-              name="title"
-              id="title"
+              name="category"
+              id="category"
               onChange={(e) => handleOnChange(e)}
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             >
