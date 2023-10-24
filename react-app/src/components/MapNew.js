@@ -158,7 +158,30 @@ const MapNew = ({ className }) => {
   //submit data you want to db
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
+    postUserLocation(form.title, form.lat, form.lng);
+  };
+
+  const postUserLocation = async (title, latitude, longitude) => {
+    try {
+      const response = await fetch("http://localhost:8090/notifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, latitude, longitude }),
+      });
+
+      if (response.status === 200) {
+        console.log("Data posted successfully");
+        // You can add additional logic here to handle a successful post
+      } else {
+        console.error("Failed to post data:", response.statusText);
+        // You can add error handling logic here
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // You can handle network or other errors here
+    }
   };
 
   return (
