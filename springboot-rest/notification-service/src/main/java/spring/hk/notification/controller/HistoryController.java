@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import spring.hk.notification.dto.HistoryDTO;
 import spring.hk.notification.mapper.ServerMapper;
-import spring.hk.notification.model.Event;
 import spring.hk.notification.model.History;
 import spring.hk.notification.model.Notification;
-import spring.hk.notification.repository.EventRepository;
 import spring.hk.notification.repository.HistoryRepository;
 import spring.hk.notification.repository.NotificationRepository;
 
@@ -35,9 +33,6 @@ public class HistoryController {
 
     @Autowired
     private NotificationRepository notificationRepository;
-
-    @Autowired
-    private EventRepository eventRepository;
 
     // post history
     @PostMapping("/historys")
