@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { MapContainer, Marker, Popup, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  useMapEvents,
+  Circle,
+} from "react-leaflet";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import BaseMap from "./StyleofMap/BaseMap";
@@ -150,44 +156,13 @@ const MapNew = () => {
         console.log(error);
       });
   };
-
-  const renderMarkers = () => {
-    return fetchedData.map((dataItem, index) => {
-      let markerIcon = createCustomIcon("fire.png", [38, 38]);
-
-      if (dataItem.category === "wildfire") {
-        markerIcon = createCustomIcon("wildfire.png", [38, 38]);
-      } else if (dataItem.category === "flood") {
-        markerIcon = createCustomIcon("flood.png", [38, 38]);
-      }
-
-      return (
-        <Marker
-          key={index}
-          position={[dataItem.latitude, dataItem.longitude]}
-          icon={markerIcon}
-        >
-          <Popup>
-            <div>
-              <p>ID: {dataItem.id}</p>
-              <p>Latitude: {dataItem.latitude}</p>
-              <p>Longitude: {dataItem.longitude}</p>
-              <p>Sent At: {dataItem.sent_at}</p>
-              <button className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4">
-                Update
-              </button>
-              <button
-                onClick={() => handleDeleteMarker(dataItem.id)}
-                className="border-2 border-rose-500 rounded-lg p-1 bg-red-500 text-yellow-100"
-              >
-                Delete
-              </button>
-            </div>
-          </Popup>
-        </Marker>
-      );
-    });
-  };
+  const groupedMarkers = fetchedData.reduce((grouped, dataItem) => {
+    if (!grouped[dataItem.category]) {
+      grouped[dataItem.category] = [];
+    }
+    grouped[dataItem.category].push(dataItem);
+    return grouped;
+  }, {});
 
   return (
     <>
@@ -204,17 +179,50 @@ const MapNew = () => {
             <LocationMarker />
             <BaseMap />
             <CSVFileLocal />
-            <MarkerClusterGroup chunkedLoading>
-              {samplemarkers.map((sampleMarker, index) => (
-                <Marker
-                  position={sampleMarker.geocode}
-                  icon={createCustomIcon("fire.png", [38, 38])}
-                  key={index}
-                >
-                  <Popup>{sampleMarker.popUp}</Popup>
-                </Marker>
-              ))}
-            </MarkerClusterGroup>
+            {Object.keys(groupedMarkers).map((category, index) => (
+              <MarkerClusterGroup
+                key={index}
+                maxClusterRadius={0.5}
+                chunkedLoading
+              >
+                {groupedMarkers[category].map((dataItem, markerIndex) => {
+                  let markerIcon = createCustomIcon("fire.png", [38, 38]);
+
+                  if (category === "wildfire") {
+                    markerIcon = createCustomIcon("wildfire.png", [38, 38]);
+                  } else if (category === "flood") {
+                    markerIcon = createCustomIcon("flood.png", [38, 38]);
+                  }
+
+                  return (
+                    <Marker
+                      key={markerIndex}
+                      position={[dataItem.latitude, dataItem.longitude]}
+                      icon={markerIcon}
+                    >
+                      <Popup>
+                        <div>
+                          <p>ID: {dataItem.id}</p>
+                          <p>Category: {dataItem.category}</p>
+                          <p>Latitude: {dataItem.latitude}</p>
+                          <p>Longitude: {dataItem.longitude}</p>
+                          <p>Sent At: {dataItem.sent_at}</p>
+                          <button className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4">
+                            Update
+                          </button>
+                          <button
+                            onClick={() => handleDeleteMarker(dataItem.id)}
+                            className="border-2 border-rose-500 rounded-lg p-1 bg-red-500 text-yellow-100"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  );
+                })}
+              </MarkerClusterGroup>
+            ))}
             {showUserLocation && (
               <Marker
                 position={userLocation}
@@ -223,7 +231,6 @@ const MapNew = () => {
                 <Popup>Your Location</Popup>
               </Marker>
             )}
-            {renderMarkers()}
           </MapContainer>
         )}
         <form
