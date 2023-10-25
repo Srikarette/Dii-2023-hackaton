@@ -1,22 +1,15 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, useMapEvents } from "react-leaflet";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import LocationMarker from "./Hooks/LocationMarker";
 import BaseMap from "./StyleofMap/BaseMap";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
+import "leaflet/dist/leaflet.css";
 
 import fetchNotifications from "./StyleofMap/fetchNotifications"; // Import the fetchNotifications function
 
-const MapNew = ({ className }) => {
+const MapNew = () => {
   const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
   const initialZoomLevel = 6; // Initial zoom level
   //For userLocation ------Here------
@@ -27,7 +20,6 @@ const MapNew = ({ className }) => {
 
   const [showDangerZone, setShowDangerZone] = useState(false);
   const [showUserLocation, setShowUserLocation] = useState(false);
-  const [dangerZoneRadius, setDangerZoneRadius] = useState(1000); // Default radius in meters (1 kilometer)
 
   //Set bounds map
   const southwestBound = L.latLng(5, 90);
@@ -35,9 +27,8 @@ const MapNew = ({ className }) => {
   const bounds = L.latLngBounds(southwestBound, northeastBound);
   //Use for select options
 
-  const titleOptions = ["fire", "wildfire", "flood"];
+  const titleOptions = ["", "fire", "wildfire", "flood"];
 
-  const [newMarkerLocation, setNewMarkerLocation] = useState(null);
   //fetched data from db spring
   const [fetchedData, setFetchedData] = useState([]);
 
@@ -94,12 +85,10 @@ const MapNew = ({ className }) => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         setUserLocation([latitude, longitude]);
-        setCenter([latitude, longitude]); // Set the center to the user's location
-        setZoom(16); // Set a custom zoom level to zoom in on the user's location
-        setShowDangerZone(!showDangerZone); // Show the danger zone
+        setCenter([latitude, longitude]);
+        setZoom(16);
+        setShowDangerZone(!showDangerZone);
         setShowUserLocation(!showUserLocation);
-
-        // Check the selected option
       });
     } else {
       alert("Geolocation is not supported in your browser.");
@@ -123,37 +112,6 @@ const MapNew = ({ className }) => {
     fetchUserLocation();
     fetchDataFromAPI();
   }, []);
-  // displayMakers from db
-  const renderMarkers = () => {
-    return fetchedData.map((dataItem, index) => {
-      let markerIcon = firehere; // Default icon
-
-      if (dataItem.category === "wildfire") {
-        markerIcon = wildfirehere; // Change icon for wildfire category
-      } else if (dataItem.category === "flood") {
-        markerIcon = floodhere;
-      }
-      return (
-        <Marker
-          key={index}
-          position={[dataItem.latitude, dataItem.longitude]}
-          icon={markerIcon}
-        >
-          <Popup>
-            <div>
-              <p>ID: {dataItem.id}</p>
-              <p>Latitude: {dataItem.latitude}</p>
-              <p>Longitude: {dataItem.longitude}</p>
-              <p>Sent At: {dataItem.sent_at}</p>
-              <button onClick={() => handleDeleteMarker(dataItem.id)}>
-                Delete
-              </button>
-            </div>
-          </Popup>
-        </Marker>
-      );
-    });
-  };
 
   // function click set latlng to form
   function LocationMarker() {
@@ -177,20 +135,19 @@ const MapNew = ({ className }) => {
   }
   // Log value in from
   const handleOnChange = (e) => {
-    console.log(e.target.value);
     setForm({
-      ...form, //คัดลอกข้้อมูลมาวางไว้ก่อน
+      ...form,
       [e.target.name]: e.target.value,
     });
   };
   //submit data you want to db
   const handleSubmit = (e) => {
     e.preventDefault();
-    postUserLocation(form.category, form.lat, form.lng);
+    handlePostMarker(form.category, form.lat, form.lng);
   };
   //Start Crud operation
   //Post METHOD
-  const postUserLocation = async (category, latitude, longitude) => {
+  const handlePostMarker = async (category, latitude, longitude) => {
     try {
       const response = await axios.post("http://localhost:8090/notifications", {
         category: category,
@@ -210,6 +167,10 @@ const MapNew = ({ className }) => {
       // You can handle network or other errors here
     }
   };
+  const handleUpdateMarker = async () => {
+    axios.put();
+  };
+
   const handleDeleteMarker = (notificationId) => {
     // Send a DELETE request to your server to delete the notification
     axios
@@ -224,9 +185,51 @@ const MapNew = ({ className }) => {
       });
   };
 
+  // displayMakers from db
+  const renderMarkers = () => {
+    return fetchedData.map((dataItem, index) => {
+      let markerIcon = firehere; // Default icon
+
+      if (dataItem.category === "wildfire") {
+        markerIcon = wildfirehere; // Change icon for wildfire category
+      } else if (dataItem.category === "flood") {
+        markerIcon = floodhere;
+      } else if (dataItem.category === "") {
+      }
+      return (
+        <Marker
+          key={index}
+          position={[dataItem.latitude, dataItem.longitude]}
+          icon={markerIcon}
+        >
+          <Popup>
+            <div>
+              <p>ID: {dataItem.id}</p>
+              <p>Latitude: {dataItem.latitude}</p>
+              <p>Longitude: {dataItem.longitude}</p>
+              <p>Sent At: {dataItem.sent_at}</p>
+              <button
+                onClick={(e) => handleUpdateMarker()}
+                className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => handleDeleteMarker(dataItem.id)}
+                className="border-2 border-rose-500 rounded-lg p-1 bg-red-500 text-yellow-100 "
+              >
+                Delete
+              </button>
+            </div>
+          </Popup>
+        </Marker>
+      );
+    });
+  };
+
   return (
     <>
-      <div className={className}>
+      <div className="flex">
         {userLocation && (
           <MapContainer
             center={center}
@@ -263,7 +266,10 @@ const MapNew = ({ className }) => {
           onSubmit={handleSubmit}
         >
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 font-semibold">
+            <label
+              htmlFor="category"
+              className="block text-gray-700 font-semibold"
+            >
               Category:
             </label>
             <select
@@ -325,6 +331,4 @@ const MapNew = ({ className }) => {
   );
 };
 
-export default styled(MapNew)`
-  display: flex;
-`;
+export default MapNew;

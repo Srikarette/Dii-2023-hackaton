@@ -1,10 +1,6 @@
 import React from "react";
-import styles from "./index.css";
+import styles from "./index.css"; //Must import for tailwindCss bug
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ComponentContainer from "./components/ComponentContainer";
-import GlobalStyle from "./components/GlobalStyle";
-import Map from "./components/Map";
-import Chatpage from "./pages/Chatpage";
 import MapNew from "./components/MapNew";
 import Erro404 from "./pages/Erro404";
 import Navbar from "./components/Navbar";
