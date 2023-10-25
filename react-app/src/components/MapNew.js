@@ -1,50 +1,33 @@
-import { MapContainer, Marker, Popup, useMapEvents } from "react-leaflet";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { MapContainer, Marker, Popup, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import BaseMap from "./StyleofMap/BaseMap";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 import "leaflet/dist/leaflet.css";
 
-import fetchNotifications from "./StyleofMap/fetchNotifications"; // Import the fetchNotifications function
+import fetchNotifications from "./StyleofMap/fetchNotifications";
 
 const MapNew = () => {
-  const initialCenter = [13.7563, 100.5018]; // Thailand's coordinates
-  const initialZoomLevel = 6; // Initial zoom level
-  //For userLocation ------Here------
+  const initialCenter = [13.7563, 100.5018];
+  const initialZoomLevel = 6;
+
   const [userLocation, setUserLocation] = useState(null);
+  const [showUserLocation, setShowUserLocation] = useState(false);
   const [zoom, setZoom] = useState(initialZoomLevel);
   const [center, setCenter] = useState(initialCenter);
-  const [mapReady, setMapReady] = useState(false);
-
-  const [showDangerZone, setShowDangerZone] = useState(false);
-  const [showUserLocation, setShowUserLocation] = useState(false);
-
-  //Set bounds map
-  const southwestBound = L.latLng(5, 90);
-  const northeastBound = L.latLng(25, 120);
-  const bounds = L.latLngBounds(southwestBound, northeastBound);
-  //Use for select options
 
   const titleOptions = ["", "fire", "wildfire", "flood"];
+  const bounds = L.latLngBounds(L.latLng(5, 90), L.latLng(25, 120));
 
-  //fetched data from db spring
   const [fetchedData, setFetchedData] = useState([]);
-
   const [position, setPosition] = useState(null);
-  //Set default mark
   const [form, setForm] = useState({
     lat: 0,
     lng: 0,
-    category: "", // Set the default category to an empty string
+    category: "",
   });
-
-  const fetchDataFromAPI = async () => {
-    const data = await fetchNotifications();
-    setFetchedData(data);
-  };
-
   const samplemarkers = [
     {
       geocode: [13.7563, 100.5018],
@@ -55,45 +38,12 @@ const MapNew = () => {
       popUp: "Hello, I'm mark2",
     },
   ];
-  //Icons here
-  const firehere = new L.Icon({
-    iconUrl: require("../assets/fire.png"), // Make sure this URL is correct
-    iconSize: [38, 38],
-  });
 
-  const wildfirehere = new L.Icon({
-    iconUrl: require("../assets/wildfire.png"), // Make sure this URL is correct
-    iconSize: [38, 38],
-  });
-  const floodhere = new L.Icon({
-    iconUrl: require("../assets/flood.png"), // Make sure this URL is correct
-    iconSize: [38, 38],
-  });
-  const thinking = new L.Icon({
-    iconUrl: require("../assets/problem.png"), // Make sure this URL is correct
-    iconSize: [38, 38],
-  });
+  useEffect(() => {
+    fetchUserLocation();
+    fetchDataFromAPI();
+  }, []);
 
-  const iamhere = new L.Icon({
-    iconUrl: require("../assets/raise-hand.png"),
-    iconSize: [40, 40],
-  });
-
-  // Function to handle clicking the "Go to My Location" button
-  const handleGoToUserLocation = () => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation([latitude, longitude]);
-        setCenter([latitude, longitude]);
-        setZoom(16);
-        setShowDangerZone(!showDangerZone);
-        setShowUserLocation(!showUserLocation);
-      });
-    } else {
-      alert("Geolocation is not supported in your browser.");
-    }
-  };
   const fetchUserLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -102,22 +52,38 @@ const MapNew = () => {
         setCenter([latitude, longitude]);
         setZoom(16);
         setShowUserLocation(true);
-        setMapReady(true); // Set map readiness to true
       });
     } else {
       alert("Geolocation is not supported in your browser.");
     }
   };
-  useEffect(() => {
-    fetchUserLocation();
-    fetchDataFromAPI();
-  }, []);
 
-  // function click set latlng to form
+  const fetchDataFromAPI = async () => {
+    try {
+      const data = await fetchNotifications();
+      setFetchedData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleGoToUserLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation([latitude, longitude]);
+        setCenter([latitude, longitude]);
+        setZoom(16);
+        setShowUserLocation(!showUserLocation);
+      });
+    } else {
+      alert("Geolocation is not supported in your browser.");
+    }
+  };
+
   function LocationMarker() {
     const map = useMapEvents({
       click(e) {
-        // console.log(e.latlng);
         map.flyTo(e.latlng, 15);
         setPosition(e.latlng);
         setForm({
@@ -128,25 +94,34 @@ const MapNew = () => {
       },
     });
     return position === null ? null : (
-      <Marker position={position} icon={thinking}>
+      <Marker
+        position={position}
+        icon={createCustomIcon("problem.png", [38, 38])}
+      >
         <Popup>Ready for Marked</Popup>
       </Marker>
     );
   }
-  // Log value in from
+
+  const createCustomIcon = (iconUrl, iconSize) => {
+    return new L.Icon({
+      iconUrl: require(`../assets/${iconUrl}`),
+      iconSize,
+    });
+  };
+
   const handleOnChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
-  //submit data you want to db
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handlePostMarker(form.category, form.lat, form.lng);
   };
-  //Start Crud operation
-  //Post METHOD
+
   const handlePostMarker = async (category, latitude, longitude) => {
     try {
       const response = await axios.post("http://localhost:8090/notifications", {
@@ -157,45 +132,35 @@ const MapNew = () => {
 
       if (response.status === 200) {
         console.log("Data posted successfully");
-        // You can add additional logic here to handle a successful post
       } else {
         console.error("Failed to post data:", response.statusText);
-        // You can add error handling logic here
       }
     } catch (error) {
       console.error("Error:", error);
-      // You can handle network or other errors here
     }
-  };
-  const handleUpdateMarker = async () => {
-    axios.put();
   };
 
   const handleDeleteMarker = (notificationId) => {
-    // Send a DELETE request to your server to delete the notification
     axios
       .delete(`http://localhost:8090/notifications/${notificationId}`)
       .then((response) => {
         // Handle success, such as removing the marker from the map
-        response.status(200);
       })
       .catch((error) => {
-        // Handle error
         console.log(error);
       });
   };
 
-  // displayMakers from db
   const renderMarkers = () => {
     return fetchedData.map((dataItem, index) => {
-      let markerIcon = firehere; // Default icon
+      let markerIcon = createCustomIcon("fire.png", [38, 38]);
 
       if (dataItem.category === "wildfire") {
-        markerIcon = wildfirehere; // Change icon for wildfire category
+        markerIcon = createCustomIcon("wildfire.png", [38, 38]);
       } else if (dataItem.category === "flood") {
-        markerIcon = floodhere;
-      } else if (dataItem.category === "") {
+        markerIcon = createCustomIcon("flood.png", [38, 38]);
       }
+
       return (
         <Marker
           key={index}
@@ -208,15 +173,12 @@ const MapNew = () => {
               <p>Latitude: {dataItem.latitude}</p>
               <p>Longitude: {dataItem.longitude}</p>
               <p>Sent At: {dataItem.sent_at}</p>
-              <button
-                onClick={(e) => handleUpdateMarker()}
-                className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4"
-              >
+              <button className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4">
                 Update
               </button>
               <button
                 onClick={() => handleDeleteMarker(dataItem.id)}
-                className="border-2 border-rose-500 rounded-lg p-1 bg-red-500 text-yellow-100 "
+                className="border-2 border-rose-500 rounded-lg p-1 bg-red-500 text-yellow-100"
               >
                 Delete
               </button>
@@ -246,7 +208,7 @@ const MapNew = () => {
               {samplemarkers.map((sampleMarker, index) => (
                 <Marker
                   position={sampleMarker.geocode}
-                  icon={firehere}
+                  icon={createCustomIcon("fire.png", [38, 38])}
                   key={index}
                 >
                   <Popup>{sampleMarker.popUp}</Popup>
@@ -254,7 +216,10 @@ const MapNew = () => {
               ))}
             </MarkerClusterGroup>
             {showUserLocation && (
-              <Marker position={userLocation} icon={iamhere}>
+              <Marker
+                position={userLocation}
+                icon={createCustomIcon("raise-hand.png", [40, 40])}
+              >
                 <Popup>Your Location</Popup>
               </Marker>
             )}
@@ -275,7 +240,7 @@ const MapNew = () => {
             <select
               name="category"
               id="category"
-              onChange={(e) => handleOnChange(e)}
+              onChange={handleOnChange}
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             >
               {titleOptions.map((option, index) => (
@@ -297,7 +262,7 @@ const MapNew = () => {
               name="lat"
               value={form.lat}
               id="latitude"
-              onChange={(e) => setForm({ ...form, lat: e.target.value })}
+              onChange={handleOnChange}
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -312,7 +277,7 @@ const MapNew = () => {
               type="number"
               value={form.lng}
               name="lng"
-              onChange={(e) => setForm({ ...form, lng: e.target.value })}
+              onChange={handleOnChange}
               id="longitude"
               className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
             />
