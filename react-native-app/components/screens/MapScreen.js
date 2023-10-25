@@ -5,7 +5,6 @@ import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollVie
 import * as Location from 'expo-location';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import axios from 'axios';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -137,7 +136,7 @@ export default function MapScreen() {
   };
   
 
-  const postUserLocation = async (latitude, longitude) => {
+  const postUserLocation = async (latitude, longitude, category) => {
     try {
       const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications', {
         method: 'POST',
@@ -147,6 +146,7 @@ export default function MapScreen() {
         body: JSON.stringify({
           latitude,
           longitude,
+          category,
         }),
       });
   
@@ -162,31 +162,27 @@ export default function MapScreen() {
     }
   };
   
-
   const handleEmergencyPress = () => {
-   
     if (selectedChoice) {
       setIsCircleVisible(true);
       setEmergencySent(true);
-      setDescription(`Emergency Alert:  ${selectedChoice} !`);
-      
+      setDescription(`Emergency Alert: ${selectedChoice}!`);
+  
       setTimeout(() => {
         setIsCircleVisible(false);
         setEmergencySent(false);
         setDisableButton(false);
         setSelectedChoice(null);
         setDescription('Your Location');
-        
-        // navigation.replace('MapScreen'); 
       }, emergencyCooldown);
-      
-      postUserLocation(mapRegion.latitude, mapRegion.longitude);
+  
+      postUserLocation(mapRegion.latitude, mapRegion.longitude, selectedChoice); // Include the "selectedChoice" as the "category"
       console.log('Post current user location complete');
-      console.log(`Post :`, mapRegion.latitude, mapRegion.longitude, `from current user into the database`);
+      console.log(`Post:`, mapRegion.latitude, mapRegion.longitude, `from the current user into the database with category: ${selectedChoice}`);
       setDisableButton(true);
     }
   };
-
+  
   useEffect(() => {
     userLocation();
     setIsCircleVisible(false);
@@ -231,9 +227,22 @@ export default function MapScreen() {
           <React.Fragment key={markerData.id}>
             <Marker
               coordinate={{ latitude: markerData.latitude, longitude: markerData.longitude }}
-              title={`Notification #${markerData.id}`}
-              description={`Sent at: ${markerData.sent_at}`}
-              pinColor="green"
+              title={`EMRGENCY : ${markerData.category}`}
+              description={`Sent at: ${markerData.sent_at}, Marker #${markerData.id}`}
+              pinColor="red"
+              image={(() => {
+                switch (markerData.category) {
+                  case 'FIRE':
+                    return require('../map-icon/fire.png'); 
+                  case 'FLOOD':
+                    return require('../map-icon/flood.png'); 
+                  // case 'LAND SLIDE':
+                  //   return require('../map-icon/landslide.png'); 
+                  default:
+                    return require('../map-icon/default.png');
+                }
+              })()}
+              style={{ width: 40, height: 40 }}
             />
             {/* <Circle
               radius={circleRadius}
@@ -241,7 +250,7 @@ export default function MapScreen() {
               title='Circle'
               strokeColor='red'
               strokeWidth={0}
-              fillColor='rgba(255, 0, 0, 0.3)' // Adjust the color as needed
+              fillColor='rgba(255, 0, 0, 0.3)' 
             /> */}
           </React.Fragment>
         ))}
