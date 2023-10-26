@@ -9,7 +9,7 @@ import * as Notifications from 'expo-notifications';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: true,
+    shouldPlaySound: false,
     shouldSetBadge: false,
   }),
 });
@@ -66,9 +66,9 @@ export default function MapScreen() {
 
   const getColorForChoice = (choice) => {
     switch (choice) {
-      case 'FIRE':
+      case 'Fire':
         return 'rgba(255, 0, 0, 0.3)'; // Red
-      case 'FLOOD':
+      case 'Flood':
         return 'rgba(0, 255, 0, 0.3)'; // Green
       case 'LAND SLIDE':
         return 'rgba(0, 0, 255, 0.3)'; // Blue
@@ -228,13 +228,13 @@ export default function MapScreen() {
             <Marker
               coordinate={{ latitude: markerData.latitude, longitude: markerData.longitude }}
               title={`EMRGENCY : ${markerData.category}`}
-              description={`Sent at: ${markerData.sent_at}, Marker #${markerData.id}`}
+              description={`Sent at: ${markerData.sent_at}, Marker #${markerData.id} `}
               pinColor="red"
               image={(() => {
                 switch (markerData.category) {
-                  case 'FIRE':
+                  case 'Fire':
                     return require('../map-icon/fire.png'); 
-                  case 'FLOOD':
+                  case 'Flood':
                     return require('../map-icon/flood.png'); 
                   // case 'LAND SLIDE':
                   //   return require('../map-icon/landslide.png'); 
