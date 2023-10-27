@@ -182,7 +182,7 @@ const MapNew = () => {
             {Object.keys(groupedMarkers).map((category, index) => (
               <MarkerClusterGroup
                 key={index}
-                maxClusterRadius={0.5}
+                maxClusterRadius={60}
                 chunkedLoading
               >
                 {groupedMarkers[category].map((dataItem, markerIndex) => {
