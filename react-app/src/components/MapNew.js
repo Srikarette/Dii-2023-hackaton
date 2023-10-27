@@ -8,12 +8,14 @@ import {
   Circle,
 } from "react-leaflet";
 import L from "leaflet";
+import icon from "leaflet/dist/images/marker-icon.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import BaseMap from "./StyleofMap/BaseMap";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 import "leaflet/dist/leaflet.css";
-
-import fetchNotifications from "./StyleofMap/fetchNotifications";
+//For backend test
+import fetchNotifications from "./StyleofMap/fetchNotifications"; //spring boot
+import { create, list } from "./functions/travel"; //Node JS
 
 const MapNew = () => {
   const initialCenter = [13.7563, 100.5018];
@@ -24,32 +26,29 @@ const MapNew = () => {
   const [zoom, setZoom] = useState(initialZoomLevel);
   const [center, setCenter] = useState(initialCenter);
 
-  const titleOptions = ["", "fire", "wildfire", "flood"];
+  const titleOptions = ["Fire", "Flood", "Land Slide", "Active Shooting"];
   const bounds = L.latLngBounds(L.latLng(5, 90), L.latLng(25, 120));
 
   const [fetchedData, setFetchedData] = useState([]);
+  const [nodeData, setNodeData] = useState([]);
   const [position, setPosition] = useState(null);
   const [form, setForm] = useState({
     lat: 0,
     lng: 0,
     category: "",
   });
-  const samplemarkers = [
-    {
-      geocode: [13.7563, 100.5018],
-      popUp: "Hello, I'm mark1",
-    },
-    {
-      geocode: [13.7563, 100.5018],
-      popUp: "Hello, I'm mark2",
-    },
-  ];
+  let DefaultIcon = L.icon({
+    iconUrl: icon,
+  });
+
+  L.Marker.prototype.options.icon = DefaultIcon;
 
   useEffect(() => {
     fetchUserLocation();
     fetchDataFromAPI();
+    loadData();
   }, []);
-
+  //FETCH USER LOCATION
   const fetchUserLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -63,16 +62,7 @@ const MapNew = () => {
       alert("Geolocation is not supported in your browser.");
     }
   };
-
-  const fetchDataFromAPI = async () => {
-    try {
-      const data = await fetchNotifications();
-      setFetchedData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+  //Set user location as current location
   const handleGoToUserLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -86,7 +76,16 @@ const MapNew = () => {
       alert("Geolocation is not supported in your browser.");
     }
   };
-
+  //Fetch data from Spring boot 8090
+  const fetchDataFromAPI = async () => {
+    try {
+      const data = await fetchNotifications();
+      setFetchedData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  // Click for ready Marked
   function LocationMarker() {
     const map = useMapEvents({
       click(e) {
@@ -108,24 +107,39 @@ const MapNew = () => {
       </Marker>
     );
   }
-
+  //Pull Icon from assets
   const createCustomIcon = (iconUrl, iconSize) => {
     return new L.Icon({
       iconUrl: require(`../assets/${iconUrl}`),
       iconSize,
     });
   };
-
+  //Write in form
   const handleOnChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
+  //Group Markers
+  const groupedMarkers = fetchedData.reduce((grouped, dataItem) => {
+    if (!grouped[dataItem.category]) {
+      grouped[dataItem.category] = [];
+    }
+    grouped[dataItem.category].push(dataItem);
+    return grouped;
+  }, {});
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handlePostMarker(form.category, form.lat, form.lng);
+    // TODO: Test in node.js
+    create(form)
+      .then((res) => {
+        console.log(res);
+        loadData();
+      })
+      .catch((err) => console.log(err));
   };
 
   const handlePostMarker = async (category, latitude, longitude) => {
@@ -156,13 +170,13 @@ const MapNew = () => {
         console.log(error);
       });
   };
-  const groupedMarkers = fetchedData.reduce((grouped, dataItem) => {
-    if (!grouped[dataItem.category]) {
-      grouped[dataItem.category] = [];
-    }
-    grouped[dataItem.category].push(dataItem);
-    return grouped;
-  }, {});
+  const loadData = () => {
+    list()
+      .then((response) => {
+        setNodeData(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -185,6 +199,15 @@ const MapNew = () => {
                 maxClusterRadius={60}
                 chunkedLoading
               >
+                {/* Render markers for nodeData */}
+                {nodeData.map((item, itemIndex) => (
+                  <Marker key={itemIndex} position={[item.lat, item.lng]}>
+                    <Popup>
+                      Node JS data <br />
+                      {item.category}
+                    </Popup>
+                  </Marker>
+                ))}
                 {groupedMarkers[category].map((dataItem, markerIndex) => {
                   let markerIcon = createCustomIcon("fire.png", [38, 38]);
 
@@ -192,6 +215,10 @@ const MapNew = () => {
                     markerIcon = createCustomIcon("wildfire.png", [38, 38]);
                   } else if (category === "flood") {
                     markerIcon = createCustomIcon("flood.png", [38, 38]);
+                  } else if (category === "Land Slide") {
+                    markerIcon = createCustomIcon("landslide.png", [38, 38]);
+                  } else if (category === "Active Shooting") {
+                    markerIcon = createCustomIcon("criminal.png", [38, 38]);
                   }
 
                   return (
