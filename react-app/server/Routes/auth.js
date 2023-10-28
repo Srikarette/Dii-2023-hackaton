@@ -1,9 +1,9 @@
 const express = require("express");
+const { register, login } = require("../controllers/auth");
 const router = express.Router();
 
 //http://localhost:5000/api/register
-router.get("/register", (req, res) => {
-  res.send("Start learn authentication");
-});
+router.post("/register", register);
+router.post("/login", login);
 
 module.exports = router;
