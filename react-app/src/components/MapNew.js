@@ -15,7 +15,6 @@ import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 import "leaflet/dist/leaflet.css";
 //For backend test
 import fetchNotifications from "./StyleofMap/fetchNotifications"; //spring boot
-import { create, list } from "./functions/travel"; //Node JS
 
 const MapNew = () => {
   const initialCenter = [13.7563, 100.5018];
@@ -42,11 +41,15 @@ const MapNew = () => {
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
+  // Create a state variable to hold the marker data
+  const [markers, setMarkers] = useState([]);
+
   useEffect(() => {
     fetchUserLocation();
     fetchDataFromAPI();
   }, []);
-  //FETCH USER LOCATION
+
+  // FETCH USER LOCATION
   const fetchUserLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -60,7 +63,8 @@ const MapNew = () => {
       alert("Geolocation is not supported in your browser.");
     }
   };
-  //Set user location as current location
+
+  // Set user location as the current location
   const handleGoToUserLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -74,7 +78,8 @@ const MapNew = () => {
       alert("Geolocation is not supported in your browser.");
     }
   };
-  //Fetch data from Spring boot 8090
+
+  // Fetch data from Spring boot 8090
   const fetchDataFromAPI = async () => {
     try {
       const data = await fetchNotifications();
@@ -83,6 +88,7 @@ const MapNew = () => {
       console.error("Error fetching data:", error);
     }
   };
+
   // Click for ready Marked
   function LocationMarker() {
     const map = useMapEvents({
@@ -105,21 +111,24 @@ const MapNew = () => {
       </Marker>
     );
   }
-  //Pull Icon from assets
+
+  // Pull Icon from assets
   const createCustomIcon = (iconUrl, iconSize) => {
     return new L.Icon({
       iconUrl: require(`../assets/${iconUrl}`),
       iconSize,
     });
   };
-  //Write in form
+
+  // Write in form
   const handleOnChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
-  //Group Markers
+
+  // Group Markers
   const groupedMarkers = fetchedData.reduce((grouped, dataItem) => {
     if (!grouped[dataItem.category]) {
       grouped[dataItem.category] = [];
@@ -128,17 +137,32 @@ const MapNew = () => {
     return grouped;
   }, {});
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     handlePostMarker(form.category, form.lat, form.lng);
-    // TODO: Test in node.js
-    create(form)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+
+    // Create a new marker data
+    const newMarker = {
+      id: Date.now(), // You can use a unique identifier for the marker
+      category: form.category,
+      latitude: form.lat,
+      longitude: form.lng,
+      sent_at: new Date().toISOString(), // Add timestamp or use your actual timestamp
+    };
+
+    // Update the markers state with the new marker data
+    setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
+
+    // Clear the form
+    setForm({
+      lat: 0,
+      lng: 0,
+      category: "",
+    });
   };
 
+  // Handle posting a new marker to the server
   const handlePostMarker = async (category, latitude, longitude) => {
     try {
       const response = await axios.post("http://localhost:8090/notifications", {
@@ -157,6 +181,7 @@ const MapNew = () => {
     }
   };
 
+  // Handle deleting a marker
   const handleDeleteMarker = (notificationId) => {
     axios
       .delete(`http://localhost:8090/notifications/${notificationId}`)
@@ -186,15 +211,14 @@ const MapNew = () => {
             {Object.keys(groupedMarkers).map((category, index) => (
               <MarkerClusterGroup
                 key={index}
-                maxClusterRadius={0.5}
+                maxClusterRadius={50}
                 chunkedLoading
+              
               >
                 {groupedMarkers[category].map((dataItem, markerIndex) => {
                   let markerIcon = createCustomIcon("fire.png", [38, 38]);
 
-                  if (category === "wildfire") {
-                    markerIcon = createCustomIcon("wildfire.png", [38, 38]);
-                  } else if (category === "flood") {
+                  if (category === "Flood") {
                     markerIcon = createCustomIcon("flood.png", [38, 38]);
                   } else if (category === "Land Slide") {
                     markerIcon = createCustomIcon("landslide.png", [38, 38]);
@@ -231,6 +255,7 @@ const MapNew = () => {
                 })}
               </MarkerClusterGroup>
             ))}
+
             {showUserLocation && (
               <Marker
                 position={userLocation}
@@ -239,6 +264,48 @@ const MapNew = () => {
                 <Popup>Your Location</Popup>
               </Marker>
             )}
+
+            {/* Render newly added markers */}
+            {markers.map((newMarker, markerIndex) => {
+              let markerIcon = createCustomIcon("fire.png", [38, 38]);
+
+              if (newMarker.category === "wildfire") {
+                markerIcon = createCustomIcon("wildfire.png", [38, 38]);
+              } else if (newMarker.category === "flood") {
+                markerIcon = createCustomIcon("flood.png", [38, 38]);
+              } else if (newMarker.category === "Land Slide") {
+                markerIcon = createCustomIcon("landslide.png", [38, 38]);
+              } else if (newMarker.category === "Active Shooting") {
+                markerIcon = createCustomIcon("criminal.png", [38, 38]);
+              }
+
+              return (
+                <Marker
+                  key={markerIndex}
+                  position={[newMarker.latitude, newMarker.longitude]}
+                  icon={markerIcon}
+                >
+                  <Popup>
+                    <div>
+                      <p>ID: {newMarker.id}</p>
+                      <p>Category: {newMarker.category}</p>
+                      <p>Latitude: {newMarker.latitude}</p>
+                      <p>Longitude: {newMarker.longitude}</p>
+                      <p>Sent At: {newMarker.sent_at}</p>
+                      <button className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4">
+                        Update
+                      </button>
+                      <button
+                        onClick={() => handleDeleteMarker(newMarker.id)}
+                        className="border-2 border-rose-500 rounded-lg p-1 bg-red-500 text-yellow-100"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
           </MapContainer>
         )}
         <form
@@ -300,7 +367,7 @@ const MapNew = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover-bg-blue-600 focus:outline-none focus:bg-blue-600"
             >
               Submit
             </button>
