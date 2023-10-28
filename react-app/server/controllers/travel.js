@@ -25,3 +25,18 @@ exports.create = async (req, res) => {
     res.status(500).send("Server Errror");
   }
 };
+exports.remove = async (req, res) => {
+  try {
+    const id = req.params.id; // Get the ID from the request parameters
+    const removedTravel = await Travel.findByIdAndRemove(id).exec();
+
+    if (!removedTravel) {
+      return res.status(404).send("Travel not found");
+    }
+
+    res.send(removedTravel);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
