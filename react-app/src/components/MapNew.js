@@ -204,7 +204,6 @@ const MapNew = () => {
                   <Marker key={itemIndex} position={[item.lat, item.lng]}>
                     <Popup>
                       Node JS data <br />
-                      {item.category}
                     </Popup>
                   </Marker>
                 ))}
