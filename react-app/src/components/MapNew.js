@@ -30,7 +30,6 @@ const MapNew = () => {
   const bounds = L.latLngBounds(L.latLng(5, 90), L.latLng(25, 120));
 
   const [fetchedData, setFetchedData] = useState([]);
-  const [nodeData, setNodeData] = useState([]);
   const [position, setPosition] = useState(null);
   const [form, setForm] = useState({
     lat: 0,
@@ -46,7 +45,6 @@ const MapNew = () => {
   useEffect(() => {
     fetchUserLocation();
     fetchDataFromAPI();
-    loadData();
   }, []);
   //FETCH USER LOCATION
   const fetchUserLocation = () => {
@@ -137,7 +135,6 @@ const MapNew = () => {
     create(form)
       .then((res) => {
         console.log(res);
-        loadData();
       })
       .catch((err) => console.log(err));
   };
@@ -170,13 +167,6 @@ const MapNew = () => {
         console.log(error);
       });
   };
-  const loadData = () => {
-    list()
-      .then((response) => {
-        setNodeData(response.data);
-      })
-      .catch((err) => console.log(err));
-  };
 
   return (
     <>
@@ -199,14 +189,6 @@ const MapNew = () => {
                 maxClusterRadius={0.5}
                 chunkedLoading
               >
-                {/* Render markers for nodeData */}
-                {nodeData.map((item, itemIndex) => (
-                  <Marker key={itemIndex} position={[item.lat, item.lng]}>
-                    <Popup>
-                      Node JS data <br />
-                    </Popup>
-                  </Marker>
-                ))}
                 {groupedMarkers[category].map((dataItem, markerIndex) => {
                   let markerIcon = createCustomIcon("fire.png", [38, 38]);
 
