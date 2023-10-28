@@ -137,6 +137,8 @@ const MapNew = () => {
     return grouped;
   }, {});
 
+  const selectedCategory = form.category; // Store the selected category
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -213,7 +215,6 @@ const MapNew = () => {
                 key={index}
                 maxClusterRadius={50}
                 chunkedLoading
-              
               >
                 {groupedMarkers[category].map((dataItem, markerIndex) => {
                   let markerIcon = createCustomIcon("fire.png", [38, 38]);
