@@ -36,13 +36,38 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     // Implement the login logic here
-    //1. Check User
+    //1. Check if the user exists
     const { username, password } = req.body;
-    var user = await User.findOneAndUpdate() //2. Payload
+    var user = await User.findOne({ username });
+    console.log(user);
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).send("Password Invalid!");
+      } else {
+        //2. Payload to send in response
+        var payload = {
+          user: {
+            username: user.username,
+          },
+        };
 
-      //3. Generate Token
-
-      .res.send("Hello Login Controller");
+        //3. Generate Token
+        jwt.sign(payload, "jwtsecret", (err, token) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send("Server error: " + err.message);
+          } else {
+            res.json({
+              token,
+              payload,
+            });
+          }
+        });
+      }
+    } else {
+      return res.status(400).send("User not found!!!");
+    }
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error: " + err.message);
