@@ -3,15 +3,15 @@ const router = express.Router();
 
 const { list, create, remove } = require("../controllers/travel");
 //Middleware
-const { auth } = require("../Middleware/auth");
+//const { auth } = require("../Middleware/auth");
 
 // GET all travel records
-router.get("/travel", auth, list);
+router.get("/travel", list);
 
 // POST a new travel record
-router.post("/travel", auth, create);
+router.post("/travel", create);
 
 // DELETE a specific travel record by ID
-router.delete("/travel/:id", auth, remove);
+router.delete("/travel/:id", remove);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import Erro404 from "./pages/Erro404";
 import Navbar from "./components/Navbar";
 import OfficialsLogin from "./pages/OfficialsLogin";
 import Notification from "./pages/Notifcation";
+import Mapcontent from "./components/Mapcontent";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" component={MapNew} exact />
             <Route path="/notifications" component={Notification} />
             <Route path="/officials" component={OfficialsLogin} />
+            <Route path="/mapnode" component={Mapcontent} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>
