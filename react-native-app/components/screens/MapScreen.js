@@ -9,7 +9,7 @@ import * as Notifications from 'expo-notifications';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
@@ -21,6 +21,7 @@ export default function MapScreen() {
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const notificationListener = useRef();
   const responseListener = useRef();
 
@@ -42,6 +43,7 @@ export default function MapScreen() {
   const [emergencySent, setEmergencySent] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
   const [description, setDescription] = useState('Your Location');
+  
 
   const [showChoices, setShowChoices] = useState(false);
 
@@ -130,6 +132,7 @@ export default function MapScreen() {
       });
   
       setMarkers(data);
+      setRefreshKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error('Error fetching notifications:', error);
     }
@@ -180,6 +183,7 @@ export default function MapScreen() {
       console.log('Post current user location complete');
       console.log(`Post:`, mapRegion.latitude, mapRegion.longitude, `from the current user into the database with category: ${selectedChoice}`);
       setDisableButton(true);
+      setRefreshKey((prevKey) => prevKey + 1);
     }
   };
   
@@ -213,7 +217,7 @@ export default function MapScreen() {
   // }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} key={refreshKey}>
       <MapView style={styles.map} region={mapRegion}>
         {/* Marker for user's current location */}
         <Marker

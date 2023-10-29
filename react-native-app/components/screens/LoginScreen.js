@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import LineLogin from 'react-native-line';
+import LineLogin from 'react-native-line-sdk';
 
 export default function LoginScreen () {
+  const channel_id = '2001383418'
+  
   const handleLineLogin = async () => {
     try {
       const loginResult = await LineLogin.login({
-        channelID: '2001381609',
+        channelID: channel_id,
       });
 
       if (loginResult && loginResult.id_token) {
