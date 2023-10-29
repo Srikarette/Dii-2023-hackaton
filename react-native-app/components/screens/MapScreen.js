@@ -37,7 +37,7 @@ export default function MapScreen() {
   const circleRadius = 1000; // 4 kilometers
 
   const [selectedChoice, setSelectedChoice] = useState(null);
-  const choices = ['FIRE', 'FLOOD', 'LAND SLIDE', 'ACTIVE SHOOTING'];
+  const choices = ['Fire', 'Flood', 'Land Slide', 'Active Shooting'];
 
   const [emergencySent, setEmergencySent] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
@@ -70,9 +70,9 @@ export default function MapScreen() {
         return 'rgba(255, 0, 0, 0.3)'; // Red
       case 'Flood':
         return 'rgba(0, 255, 0, 0.3)'; // Green
-      case 'LAND SLIDE':
+      case 'Land Slide':
         return 'rgba(0, 0, 255, 0.3)'; // Blue
-      case 'ACTIVE SHOOTING':
+      case 'Active Shooting':
         return 'rgba(255, 255, 0, 0.3)'; // Yellow
       default:
         return 'transparent';
