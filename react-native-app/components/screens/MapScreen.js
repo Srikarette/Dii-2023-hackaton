@@ -70,10 +70,10 @@ export default function MapScreen() {
         return 'rgba(255, 0, 0, 0.3)'; // Red
       case 'Flood':
         return 'rgba(0, 255, 0, 0.3)'; // Green
-      // case 'LAND SLIDE':
-      //   return 'rgba(0, 0, 255, 0.3)'; // Blue
-      // case 'ACTIVE SHOOTING':
-      //   return 'rgba(255, 255, 0, 0.3)'; // Yellow
+      case 'LAND SLIDE':
+        return 'rgba(0, 0, 255, 0.3)'; // Blue
+      case 'ACTIVE SHOOTING':
+        return 'rgba(255, 255, 0, 0.3)'; // Yellow
       default:
         return 'transparent';
     }
@@ -232,9 +232,9 @@ export default function MapScreen() {
               pinColor="red"
               image={(() => {
                 switch (markerData.category) {
-                  case 'FIRE':
+                  case 'Fire':
                     return require('../map-icon/fire.png'); 
-                  case 'FLOOD':
+                  case 'Flood':
                     return require('../map-icon/flood.png'); 
                   // case 'LAND SLIDE':
                   //   return require('../map-icon/landslide.png'); 
