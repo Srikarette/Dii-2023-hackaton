@@ -9,8 +9,8 @@ import spring.hk.notification.model.Notification;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-25T14:33:00+0700",
-    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 20.0.2 (Oracle Corporation)"
+    date = "2023-10-29T14:45:04+0700",
+    comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 @Component
 public class ServerMapperImpl implements ServerMapper {
