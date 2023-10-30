@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {
   MapContainer,
@@ -14,6 +14,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { create, list } from "./functions/travel";
 import { FloatButton } from "antd";
+import { ZoomInOutlined } from "@ant-design/icons";
 
 const Mapcontent = () => {
   const [position, setPosition] = useState(null);
@@ -21,6 +22,8 @@ const Mapcontent = () => {
   const [form, setForm] = useState({ Category: "", lat: 0, lng: 0 }); // Initialize form state+
   const [showTable, setShowTable] = useState(false);
   const [slideAnimation, setSlideAnimation] = useState(false);
+
+  const mapRef = useRef(null);
   let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
@@ -82,9 +85,15 @@ const Mapcontent = () => {
     setSlideAnimation(true);
   }
 
+  const flytolocation = (lat, lng) => {
+    console.log(lat, lng);
+    mapRef.current.flyTo([lat, lng], 14); // Use flyTo instead of flyto
+  };
+
   return (
     <div className="flex">
       <MapContainer
+        ref={mapRef}
         center={[13, 100]}
         zoom={16}
         style={{ height: "89vh", width: "87%", zIndex: "10" }}
@@ -93,9 +102,15 @@ const Mapcontent = () => {
         <BaseMap />
         <LocationMarker />
         {data
-          ? data.map((item) =>
+          ? data.map((item, index) =>
               item.lat && item.lng ? (
-                <Marker position={[item.lat, item.lng]} key={item._id}>
+                <Marker
+                  position={[item.lat, item.lng]}
+                  key={index}
+                  eventHandlers={{
+                    click: () => flytolocation(item.lat, item.lng),
+                  }}
+                >
                   <Popup className="border-4 border-indigo-500/100 rounded-lg">
                     <div>
                       <p>Category: {item.Category}</p>
@@ -191,29 +206,37 @@ const Mapcontent = () => {
                 scope="col"
                 className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                First
+                Category
               </th>
               <th
                 scope="col"
                 className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Last
+                Latitude
               </th>
               <th
                 scope="col"
                 className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Handle
+                Longitude
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            <tr>
-              <td className="px-6 py-4 whitespace-nowrap">1</td>
-              <td className="px-6 py-4 whitespace-nowrap">Mark</td>
-              <td className="px-6 py-4 whitespace-nowrap">Otto</td>
-              <td className="px-6 py-4 whitespace-nowrap">@mdo</td>
-            </tr>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.Category}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.lat}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.lng}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <ZoomInOutlined
+                    className="cursor-pointer"
+                    onClick={() => flytolocation(item.lat, item.lng)}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
