@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./index.css"; //Must import for tailwindCss bug
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import MapNew from "./components/MapNew";
 import Erro404 from "./pages/Erro404";
