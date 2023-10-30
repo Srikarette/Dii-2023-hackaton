@@ -9,11 +9,7 @@ import spring.hk.notification.model.Notification;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-<<<<<<< HEAD
-    date = "2023-10-29T14:45:04+0700",
-=======
-    date = "2023-10-28T10:51:32+0700",
->>>>>>> chatweb
+    date = "2023-10-30T13:36:18+0700",
     comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 @Component
