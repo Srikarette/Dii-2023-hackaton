@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const travelSchema = mongoose.Schema(
   {
-    name: { type: String },
+    Category: { type: String },
     lat: { type: String },
     lng: { type: String },
   },
