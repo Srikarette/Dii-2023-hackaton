@@ -1,0 +1,12 @@
+{
+  "name": "dii-2023-hackaton",
+  "version": "1.0.0",
+  "description": "**Repository for hackation.**",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
