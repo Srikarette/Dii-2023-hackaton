@@ -37,6 +37,14 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ac8b6743-3c44-41cc-aa00-6be594b578e9"
+      }
+    },
+    "android": {
+      "package": "com.phuriphon.alerttown"
+    }
   }
 }
