@@ -81,12 +81,20 @@ const Mapcontent = () => {
       .catch((err) => console.log(err));
     loadData();
   };
+  const handleRemove = (id) => {
+    remove(id)
+      .then((res) => {
+        console.log(res);
+        loadData();
+      })
+      .catch((err) => console.log(err));
+  };
   function toggleTable() {
     setShowTable(!showTable);
     setSlideAnimation(true);
   }
 
-  const flytolocation = (lat, lng) => {
+  const zoomtoLocation = (lat, lng) => {
     console.log(lat, lng);
     mapRef.current.flyTo([lat, lng], 14); // Use flyTo instead of flyto
   };
@@ -109,7 +117,7 @@ const Mapcontent = () => {
                   position={[item.lat, item.lng]}
                   key={index}
                   eventHandlers={{
-                    click: () => flytolocation(item.lat, item.lng),
+                    click: () => zoomtoLocation(item.lat, item.lng),
                   }}
                 >
                   <Popup className="border-4 border-indigo-500/100 rounded-lg">
@@ -251,14 +259,17 @@ const Mapcontent = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <ZoomInOutlined
                     className="cursor-pointer"
-                    onClick={() => flytolocation(item.lat, item.lng)}
+                    onClick={() => zoomtoLocation(item.lat, item.lng)}
                   />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
                   <GrDocumentUpdate />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
-                  <DeleteOutlined />
+                  <DeleteOutlined
+                    className="text-red-700"
+                    onClick={() => handleRemove(item._id)}
+                  />
                 </td>
               </tr>
             ))}
