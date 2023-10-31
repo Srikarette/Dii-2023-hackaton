@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import {
   MapContainer,
   Marker,
   Popup,
   useMapEvents,
-  Circle,
+  TileLayer,
 } from "react-leaflet";
-import BaseMap from "./StyleofMap/BaseMap";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -16,6 +14,7 @@ import { create, list, remove } from "./functions/travel";
 import { FloatButton } from "antd";
 import { ZoomInOutlined, DeleteOutlined } from "@ant-design/icons";
 import { GrDocumentUpdate } from "react-icons/gr";
+import CombineLayers from "./layers/CombineLayers";
 
 const Mapcontent = () => {
   const [position, setPosition] = useState(null);
@@ -108,7 +107,7 @@ const Mapcontent = () => {
         style={{ height: "89vh", width: "87%", zIndex: "10" }}
         minZoom={6}
       >
-        <BaseMap />
+        <CombineLayers />
         <LocationMarker />
         {data
           ? data.map((item, index) =>

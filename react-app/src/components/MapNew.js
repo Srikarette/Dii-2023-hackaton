@@ -10,7 +10,6 @@ import {
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import BaseMap from "./StyleofMap/BaseMap";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 import "leaflet/dist/leaflet.css";
 //For backend test
@@ -208,7 +207,7 @@ const MapNew = () => {
             minZoom={6}
           >
             <LocationMarker />
-            <BaseMap />
+    
             <CSVFileLocal />
             {Object.keys(groupedMarkers).map((category, index) => (
               <MarkerClusterGroup
