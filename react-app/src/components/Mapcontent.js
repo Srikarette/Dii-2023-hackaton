@@ -13,12 +13,14 @@ import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { create, list } from "./functions/travel";
-import { Mark } from "@chakra-ui/react";
+import { FloatButton } from "antd";
 
 const Mapcontent = () => {
   const [position, setPosition] = useState(null);
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({ Category: "", lat: 0, lng: 0 }); // Initialize form state
+  const [form, setForm] = useState({ Category: "", lat: 0, lng: 0 }); // Initialize form state+
+  const [showTable, setShowTable] = useState(false);
+  const [slideAnimation, setSlideAnimation] = useState(false);
   let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
@@ -75,13 +77,17 @@ const Mapcontent = () => {
       .catch((err) => console.log(err));
     loadData();
   };
+  function toggleTable() {
+    setShowTable(!showTable);
+    setSlideAnimation(true);
+  }
 
   return (
     <div className="flex">
       <MapContainer
         center={[13, 100]}
         zoom={16}
-        style={{ height: "89vh", width: "87%" }}
+        style={{ height: "89vh", width: "87%", zIndex: "10" }}
         minZoom={6}
       >
         <BaseMap />
@@ -164,8 +170,53 @@ const Mapcontent = () => {
           >
             Submit
           </button>
+          <FloatButton onClick={toggleTable} className="float-button" />
         </div>
       </form>
+      <div
+        className={`content-table ${showTable ? "visible" : ""} ${
+          slideAnimation ? "slide-up" : ""
+        }`}
+      >
+        <table className="min-w-full divide-y divide-gray-200 ">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                #
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                First
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Last
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Handle
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr>
+              <td className="px-6 py-4 whitespace-nowrap">1</td>
+              <td className="px-6 py-4 whitespace-nowrap">Mark</td>
+              <td className="px-6 py-4 whitespace-nowrap">Otto</td>
+              <td className="px-6 py-4 whitespace-nowrap">@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
