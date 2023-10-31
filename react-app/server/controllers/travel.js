@@ -5,7 +5,6 @@ exports.list = async (req, res) => {
   try {
     //code
     const traveled = await Travel.find({}).exec();
-
     res.send(traveled);
   } catch (err) {
     console.log("Error: ", err);
@@ -27,16 +26,12 @@ exports.create = async (req, res) => {
 };
 exports.remove = async (req, res) => {
   try {
-    const id = req.params.id; // Get the ID from the request parameters
-    const removedTravel = await Travel.findByIdAndRemove(id).exec();
-
-    if (!removedTravel) {
-      return res.status(404).send("Travel not found");
-    }
-
-    res.send(removedTravel);
+    //code
+    const id = req.params.id;
+    const removed = await Travel.findOneAndDelete({ _id: id });
+    res.send(removed);
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
+    console.log(err);
+    res.status(500).send("Failed to Remove");
   }
 };

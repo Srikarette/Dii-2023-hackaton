@@ -12,9 +12,10 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import { create, list } from "./functions/travel";
+import { create, list, remove } from "./functions/travel";
 import { FloatButton } from "antd";
-import { ZoomInOutlined } from "@ant-design/icons";
+import { ZoomInOutlined, DeleteOutlined } from "@ant-design/icons";
+import { GrDocumentUpdate } from "react-icons/gr";
 
 const Mapcontent = () => {
   const [position, setPosition] = useState(null);
@@ -220,6 +221,24 @@ const Mapcontent = () => {
               >
                 Longitude
               </th>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Zoom to
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Update
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Delete
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -234,6 +253,12 @@ const Mapcontent = () => {
                     className="cursor-pointer"
                     onClick={() => flytolocation(item.lat, item.lng)}
                   />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
+                  <GrDocumentUpdate />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
+                  <DeleteOutlined />
                 </td>
               </tr>
             ))}
