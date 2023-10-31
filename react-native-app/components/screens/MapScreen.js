@@ -197,24 +197,8 @@ export default function MapScreen() {
       setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.displayUntil >= currentTime));
     }, 1000); // Check every second
     return () => clearInterval(timer); // Cleanup the timer
+
   }, []);
-
-  // useEffect(() => {
-  //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-  //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-  //     setNotification(notification);
-  //   });
-
-  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-  //     console.log(response);
-  //   });
-
-  //   return () => {
-  //     Notifications.removeNotificationSubscription(notificationListener.current);
-  //     Notifications.removeNotificationSubscription(responseListener.current);
-  //   };
-  // }, []);
 
   return (
     <View style={styles.container} key={refreshKey}>
@@ -240,8 +224,10 @@ export default function MapScreen() {
                     return require('../map-icon/fire.png'); 
                   case 'Flood':
                     return require('../map-icon/flood.png'); 
-                  // case 'LAND SLIDE':
-                  //   return require('../map-icon/landslide.png'); 
+                  case 'Land Slide':
+                    return require('../map-icon/landslide.png'); 
+                  case 'Active Shooting':
+                    return require('../map-icon/criminal.png'); 
                   default:
                     return require('../map-icon/default.png');
                 }
