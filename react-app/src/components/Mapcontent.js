@@ -104,7 +104,7 @@ const Mapcontent = () => {
         ref={mapRef}
         center={[13, 100]}
         zoom={16}
-        style={{ height: "89vh", width: "87%", zIndex: "10" }}
+        style={{ height: "89vh", width: "90%", zIndex: "10" }}
         minZoom={6}
       >
         <CombineLayers />

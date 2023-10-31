@@ -1,6 +1,7 @@
 import React from "react";
 import { LayersControl, LayerGroup, TileLayer } from "react-leaflet";
 import ProvinceTH from "./ProvinceTH";
+import PointofInterest from "./PointofInterest";
 
 const CombineLayers = () => {
   return (
@@ -10,8 +11,13 @@ const CombineLayers = () => {
         <LayersControl.Overlay name="basemap" checked>
           <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
         </LayersControl.Overlay>
+        {/* Layer 2 */}
         <LayersControl.Overlay name="Thailand">
           <ProvinceTH />
+        </LayersControl.Overlay>
+        {/* Layer 3 */}
+        <LayersControl.Overlay name="Chiang Mai">
+          <PointofInterest />
         </LayersControl.Overlay>
       </LayersControl>
     </>
