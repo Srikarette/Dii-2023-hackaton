@@ -7,13 +7,11 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
     "plugins": [
       [
         "expo-location",
@@ -22,7 +20,6 @@
         }
       ]
     ],
-
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -35,7 +32,19 @@
       }
     },
     "android": {
-      "package": "com.phuriphon.alerttown"
-    }
+      "package": "com.phuriphon.alerttown",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ]
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ac8b6743-3c44-41cc-aa00-6be594b578e9"
+    },
+    "ios": {}
   }
 }
