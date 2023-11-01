@@ -6,6 +6,7 @@ import {
   Popup,
   useMapEvents,
   Circle,
+  TileLayer,
 } from "react-leaflet";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -24,13 +25,7 @@ const MapNew = () => {
   const [zoom, setZoom] = useState(initialZoomLevel);
   const [center, setCenter] = useState(initialCenter);
 
-  const titleOptions = [
-   
-    "Fire",
-    "Flood",
-    "Land Slide",
-    "Active Shooting",
-  ];
+  const titleOptions = ["Fire", "Flood", "Land Slide", "Active Shooting"];
   const bounds = L.latLngBounds(L.latLng(5, 90), L.latLng(25, 120));
 
   const [fetchedData, setFetchedData] = useState([]);
@@ -212,8 +207,10 @@ const MapNew = () => {
             style={{ height: "89vh", width: "87%" }}
             minZoom={6}
           >
+            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
             <LocationMarker />
-    
+
             <CSVFileLocal />
             {Object.keys(groupedMarkers).map((category, index) => (
               <MarkerClusterGroup
