@@ -1,8 +1,9 @@
-package user.service.accounting.repository;
+package spring.hk.notification.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import user.service.accounting.model.Device;
+import spring.hk.notification.model.Device;
+
 import java.util.*;
 
 public interface DeviceRepository extends CrudRepository<Device,Long>{

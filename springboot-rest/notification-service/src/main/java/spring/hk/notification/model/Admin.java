@@ -1,4 +1,4 @@
-package user.service.accounting.model;
+package spring.hk.notification.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

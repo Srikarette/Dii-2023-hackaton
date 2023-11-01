@@ -1,15 +1,27 @@
-package user.service.accounting.dto;
+package spring.hk.notification.model;
 
 import java.util.Date;
+import java.util.List;
 
-public class UserDTO {
-     private Long id;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String email;
     private Date create_at;
+
+    //relationship
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
+    private List<Device> device;
     
-    public UserDTO(){}
-    public UserDTO(Long id, String email, Date create_at) {
+    public User(){}
+    public User(Long id, String email, Date create_at) {
         this.id = id;
         this.email = email;
         this.create_at = create_at;
@@ -38,5 +50,7 @@ public class UserDTO {
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
     }
+
+    
 
 }

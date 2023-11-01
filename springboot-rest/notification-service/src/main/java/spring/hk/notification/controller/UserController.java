@@ -1,4 +1,4 @@
-package user.service.accounting.controller;
+package spring.hk.notification.controller;
 
 import java.util.Date;
 import java.util.List;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import user.service.accounting.dto.UserDTO;
-import user.service.accounting.mapper.ServerMapper;
-import user.service.accounting.model.User;
-import user.service.accounting.repository.UserRepository;
+import spring.hk.notification.dto.UserDTO;
+import spring.hk.notification.mapper.ServerMapper;
+import spring.hk.notification.model.User;
+import spring.hk.notification.repository.UserRepository;
 
 @RestController
 public class UserController {
