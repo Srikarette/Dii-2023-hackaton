@@ -1,15 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-<<<<<<< HEAD
 import { MapContainer, Marker, Popup, useMapEvents } from "react-leaflet";
-=======
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  useMapEvents,
-  TileLayer,
-} from "react-leaflet";
->>>>>>> parent of 4464791a (New Clone)
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -24,7 +14,6 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 const Mapcontent = () => {
   const [position, setPosition] = useState(null);
   const [data, setData] = useState([]);
-<<<<<<< HEAD
   const [form, setForm] = useState({ Category: "", lat: 0, lng: 0 });
   const [showTable, setShowTable] = useState(false);
   const [slideAnimation, setSlideAnimation] = useState(false);
@@ -36,20 +25,11 @@ const Mapcontent = () => {
   const [showUserLocation, setShowUserLocation] = useState(false);
   const [markers, setMarkers] = useState([]);
   const mapRef = useRef(null);
-  const categoryClusters = {}; // Create an object to store clusters by category
 
-=======
-  const [form, setForm] = useState({ Category: "", lat: 0, lng: 0 }); // Initialize form state+
-  const [showTable, setShowTable] = useState(false);
-  const [slideAnimation, setSlideAnimation] = useState(false);
-
-  const mapRef = useRef(null);
->>>>>>> parent of 4464791a (New Clone)
   let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
   });
-<<<<<<< HEAD
 
   const createCustomIcon = (iconUrl, iconSize) => {
     return new L.Icon({
@@ -58,16 +38,10 @@ const Mapcontent = () => {
     });
   };
 
-=======
->>>>>>> parent of 4464791a (New Clone)
   L.Marker.prototype.options.icon = DefaultIcon;
 
   useEffect(() => {
-<<<<<<< HEAD
     fetchUserLocation();
-=======
-    //code
->>>>>>> parent of 4464791a (New Clone)
     loadData();
   }, []);
 
@@ -92,7 +66,10 @@ const Mapcontent = () => {
       },
     });
     return position === null ? null : (
-      <Marker position={position}>
+      <Marker
+        position={position}
+        icon={createCustomIcon("problem.png", [38, 38])}
+      >
         <Popup>Ready for Marked</Popup>
       </Marker>
     );
@@ -133,7 +110,6 @@ const Mapcontent = () => {
   const zoomtoLocation = (lat, lng) => {
     mapRef.current.flyTo([lat, lng], 14);
   };
-<<<<<<< HEAD
 
   const fetchUserLocation = () => {
     if ("geolocation" in navigator) {
@@ -214,42 +190,6 @@ const Mapcontent = () => {
           </MarkerClusterGroup>
         </MapContainer>
       )}
-=======
-
-  return (
-    <div className="flex">
-      <MapContainer
-        ref={mapRef}
-        center={[13, 100]}
-        zoom={16}
-        style={{ height: "89vh", width: "90%", zIndex: "10" }}
-        minZoom={6}
-      >
-        <CombineLayers />
-        <LocationMarker />
-        {data
-          ? data.map((item, index) =>
-              item.lat && item.lng ? (
-                <Marker
-                  position={[item.lat, item.lng]}
-                  key={index}
-                  eventHandlers={{
-                    click: () => zoomtoLocation(item.lat, item.lng),
-                  }}
-                >
-                  <Popup className="border-4 border-indigo-500/100 rounded-lg">
-                    <div>
-                      <p>Category: {item.Category}</p>
-                      <p>Latitude: {item.lat}</p>
-                      <p>Longitude: {item.lng}</p>
-                    </div>
-                  </Popup>
-                </Marker>
-              ) : null
-            )
-          : null}
-      </MapContainer>
->>>>>>> parent of 4464791a (New Clone)
 
       <form
         className="bg-white shadow-md rounded px-4 py-2"
@@ -271,11 +211,8 @@ const Mapcontent = () => {
             <option value="">Select a category</option>
             <option value="Fire">Fire</option>
             <option value="Flood">Flood</option>
-<<<<<<< HEAD
             <option value="Land Slide">Land Slide</option>
             <option value="Active Shooting">Active Shooting</option>
-=======
->>>>>>> parent of 4464791a (New Clone)
           </select>
         </div>
         <div className="mb-4">
