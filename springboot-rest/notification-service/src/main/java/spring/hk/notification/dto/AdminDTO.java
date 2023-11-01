@@ -1,4 +1,4 @@
-package user.service.accounting.dto;
+package spring.hk.notification.dto;
 
 public class AdminDTO {
     private Long id;

@@ -1,11 +1,11 @@
-package user.service.accounting.repository;
+package spring.hk.notification.repository;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import user.service.accounting.model.Admin;
+import spring.hk.notification.model.Admin;
 
 public interface AdminRepository extends CrudRepository<Admin,Long>{
     public List<Admin> findAll();

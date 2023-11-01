@@ -24,7 +24,6 @@ public class History {
     @JoinColumn(name = "notification_id")
     private Notification notification;
 
-
     private int user_count;
 
     public History() {
@@ -60,5 +59,4 @@ public class History {
         this.user_count = user_count;
     }
 
-    
 }
