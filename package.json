@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "**Repository for hackation.**",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "react-native-safe-area-context": "^4.7.4",
+    "react-native-screens": "^3.27.0"
+  }
 }
