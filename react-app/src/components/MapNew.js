@@ -35,6 +35,7 @@ const MapNew = () => {
     lng: 0,
     category: "",
   });
+  const [data, setData] = useState([]);
   let DefaultIcon = L.icon({
     iconUrl: icon,
   });
@@ -48,6 +49,13 @@ const MapNew = () => {
     fetchUserLocation();
     fetchDataFromAPI();
   }, []);
+  const loaddata = () => {
+    fetchDataFromAPI()
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   // FETCH USER LOCATION
   const fetchUserLocation = () => {
@@ -58,21 +66,6 @@ const MapNew = () => {
         setCenter([latitude, longitude]);
         setZoom(16);
         setShowUserLocation(true);
-      });
-    } else {
-      alert("Geolocation is not supported in your browser.");
-    }
-  };
-
-  // Set user location as the current location
-  const handleGoToUserLocation = () => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation([latitude, longitude]);
-        setCenter([latitude, longitude]);
-        setZoom(16);
-        setShowUserLocation(!showUserLocation);
       });
     } else {
       alert("Geolocation is not supported in your browser.");
@@ -162,6 +155,7 @@ const MapNew = () => {
       lng: 0,
       category: "",
     });
+    loaddata();
   };
 
   // Handle posting a new marker to the server
@@ -185,6 +179,7 @@ const MapNew = () => {
 
   // Handle deleting a marker
   const handleDeleteMarker = (notificationId) => {
+    loaddata();
     axios
       .delete(`http://localhost:8090/notifications/${notificationId}`)
       .then((response) => {
