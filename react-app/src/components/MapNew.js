@@ -24,7 +24,13 @@ const MapNew = () => {
   const [zoom, setZoom] = useState(initialZoomLevel);
   const [center, setCenter] = useState(initialCenter);
 
-  const titleOptions = ["Fire", "Flood", "Land Slide", "Active Shooting"];
+  const titleOptions = [
+   
+    "Fire",
+    "Flood",
+    "Land Slide",
+    "Active Shooting",
+  ];
   const bounds = L.latLngBounds(L.latLng(5, 90), L.latLng(25, 120));
 
   const [fetchedData, setFetchedData] = useState([]);
