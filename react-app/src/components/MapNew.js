@@ -59,9 +59,10 @@ const MapNew = () => {
   }, []);
   const loaddata = () => {
     fetchDataFromAPI()
-      .then((res) => {
-        setData(res.data);
-      })
+     .then((res) => {
+  setData(res.data);
+})
+
       .catch((err) => console.log(err));
   };
 
@@ -229,6 +230,11 @@ const MapNew = () => {
 
       .then((response) => {
         // Handle success
+        console.log(response);
+        loaddata();
+        setEdit(false);
+        setId(null);
+        setDrag(!drag);
         if (response.status === 200) {
           console.log("Data updated successfully");
         }
@@ -261,6 +267,7 @@ const MapNew = () => {
   const handleCancel = () => {
     setEdit(false);
     setId(null);
+    setDrag(!drag);
   };
 
   return (
