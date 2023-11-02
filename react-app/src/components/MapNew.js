@@ -299,7 +299,7 @@ const MapNew = () => {
                   return (
                     <Marker
                       eventHandlers={{
-                        dragend: handleDragend,
+                        dragend: (e) => console.log(e),
                       }}
                       draggable={id === dataItem.id ? drag : false}
                       key={markerIndex}
