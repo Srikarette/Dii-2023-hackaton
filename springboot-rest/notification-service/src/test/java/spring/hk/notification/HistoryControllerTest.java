@@ -144,6 +144,7 @@ public class HistoryControllerTest {
     public void testUpdateHistorySomeField() {
         when(historyRepository.findById(1L)).thenReturn(Optional.of(testHistory));
         HistoryDTO historyDTO = new HistoryDTO();
+        historyDTO.setUser_count(50);
 
         ResponseEntity<?> response = historyController.updateHistorySomeField(1L, historyDTO);
 

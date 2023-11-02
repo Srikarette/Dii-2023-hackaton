@@ -117,7 +117,9 @@ public class NotificationControllerTest {
     public void testUpdateNotiSomeField() {
         when(notificationRepository.findById(1L)).thenReturn(Optional.of(testNotification));
         NotificationDTO notificationDTO = new NotificationDTO();
-
+        notificationDTO.setCategory("newCategory");
+        notificationDTO.setLatitude(22.22);
+        notificationDTO.setLongitude(11.22);
         ResponseEntity<?> response = notificationController.updateNotiSomeField(1L, notificationDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());

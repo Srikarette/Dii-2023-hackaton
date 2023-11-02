@@ -143,7 +143,7 @@ public class DeviceControllerTest {
     public void testUpdateDeviceSomeField() {
         when(deviceRepository.findById(1L)).thenReturn(Optional.of(testDevice));
         DeviceDTO deviceDTO = new DeviceDTO();
-
+        deviceDTO.setDevice_name("newName");
         ResponseEntity<?> response = deviceController.updateDeviceSomeField(1L, deviceDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
