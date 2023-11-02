@@ -35,8 +35,8 @@ const MapNew = () => {
   const [fetchedData, setFetchedData] = useState([]);
   const [position, setPosition] = useState(null);
   const [form, setForm] = useState({
-    lat: 0,
-    lng: 0,
+    latitude: 0,
+    longitude: 0,
     category: "",
   });
   const [data, setData] = useState([]);
@@ -59,9 +59,9 @@ const MapNew = () => {
   }, []);
   const loaddata = () => {
     fetchDataFromAPI()
-     .then((res) => {
-  setData(res.data);
-})
+      .then((res) => {
+        setData(res.data);
+      })
 
       .catch((err) => console.log(err));
   };
@@ -99,8 +99,8 @@ const MapNew = () => {
         setPosition(e.latlng);
         setForm({
           ...form,
-          lat: e.latlng.lat,
-          lng: e.latlng.lng,
+          latitude: e.latlng.lat,
+          longitude: e.latlng.lng,
         });
       },
     });
@@ -139,7 +139,7 @@ const MapNew = () => {
     return grouped;
   }, {});
 
-  const selectedCategory = form.category; // Store the selected category
+  const selectedCategory = form?.category || ""; // Provide a default value if 'form' or 'category' is undefined
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -150,8 +150,8 @@ const MapNew = () => {
     const newMarker = {
       id: Date.now(), // You can use a unique identifier for the marker
       category: form.category,
-      latitude: form.lat,
-      longitude: form.lng,
+      latitude: form.latitude,
+      longitude: form.longitude,
       sent_at: new Date().toISOString(), // Add timestamp or use your actual timestamp
     };
 
@@ -160,16 +160,16 @@ const MapNew = () => {
 
     // Clear the form
     setForm({
-      lat: 0,
-      lng: 0,
+      latitude: 0,
+      longitude: 0,
       category: "",
     });
     loaddata();
   };
 
-  const flyto = (lat, lng) => {
-    console.log(lat, lng);
-    mapRef.current.flyTo([lat, lng], 15);
+  const flyto = (latitude, longitude) => {
+    console.log(latitude, longitude);
+    mapRef.current.flyTo([latitude, longitude], 15);
   };
 
   // Handle posting a new marker to the server
@@ -205,13 +205,15 @@ const MapNew = () => {
   };
 
   //Handle edit
-  const handleEdit = (id, category, lat, lng) => {
-    flyto(lat, lng);
+  const handleEdit = (id, category, latitude, longitude) => {
+    flyto(latitude, longitude);
+
     setId(id);
     setDrag(true); // Enable marker dragging
 
     setEdit(true);
   };
+
   const handleSubmitEdit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -252,15 +254,17 @@ const MapNew = () => {
 
     setForm({
       ...form,
-      lat: newLat,
-      lng: newLng,
+      latitude: newLat,
+      longitude: newLng,
     });
     updateArrayData(id, newLat, newLng);
   };
 
-  const updateArrayData = (id, lat, lng) => {
+  const updateArrayData = (id, latitude, longitude) => {
     setData((prevData) =>
-      prevData.map((item) => (item.id === id ? { ...item, lat, lng } : item))
+      prevData.map((item) =>
+        item.id === id ? { ...item, latitude, longitude } : item
+      )
     );
   };
   // Handle cancel
@@ -316,7 +320,7 @@ const MapNew = () => {
                       <Popup>
                         <div>
                           <p>ID: {dataItem.id}</p>
-                          <p>Category: {dataItem.category}</p>
+                          <p>category: {dataItem.category}</p>
                           <p>Latitude: {dataItem.latitude}</p>
                           <p>Longitude: {dataItem.longitude}</p>
                           <p>Sent At: {dataItem.sent_at}</p>
@@ -379,7 +383,7 @@ const MapNew = () => {
                   <Popup>
                     <div>
                       <p>ID: {newMarker.id}</p>
-                      <p>Category: {newMarker.category}</p>
+                      <p>category: {newMarker.category}</p>
                       <p>Latitude: {newMarker.latitude}</p>
                       <p>Longitude: {newMarker.longitude}</p>
                       <p>Sent At: {newMarker.sent_at}</p>
@@ -419,7 +423,7 @@ const MapNew = () => {
                 htmlFor="category"
                 className="block text-gray-700 font-semibold"
               >
-                Category:
+                category:
               </label>
               <select
                 name="category"
@@ -443,8 +447,8 @@ const MapNew = () => {
               </label>
               <input
                 type="number"
-                name="lat"
-                value={form.lat}
+                name="latitude"
+                value={form.latitude}
                 id="latitude"
                 onChange={(e) => handleOnChange(e)}
                 className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
@@ -459,8 +463,8 @@ const MapNew = () => {
               </label>
               <input
                 type="number"
-                value={form.lng}
-                name="lng"
+                name="longitude"
+                value={form.longitude}
                 onChange={(e) => handleOnChange(e)}
                 id="longitude"
                 className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"

@@ -10,18 +10,22 @@ const Formedit = ({
   handleSubmitEdit,
 }) => {
   useEffect(() => {
-    loadData(id);
+    if (id) {
+      loadData(id);
+    }
   }, [id]);
 
   const loadData = (id) => {
     fetchNotificationById(id)
       .then((res) => {
         if (res) {
-          setForm({
+          // Update 'form' with data only if it exists
+          setForm((prevForm) => ({
+            ...prevForm,
             category: res.category,
-            lat: res.latitude,
-            lng: res.longitude,
-          });
+            latitude: res.latitude,
+            longitude: res.longitude,
+          }));
         } else {
           console.log("Notification data not found");
         }
@@ -36,7 +40,7 @@ const Formedit = ({
     >
       <div className="mb-4">
         <label htmlFor="category" className="block text-gray-700 font-semibold">
-          Category:
+          category:
         </label>
         <select
           name="category"
@@ -58,8 +62,8 @@ const Formedit = ({
         </label>
         <input
           type="number"
-          name="lat"
-          value={form.lat}
+          name="latitude"
+          value={form.latitude}
           id="latitude"
           onChange={(e) => handleOnChange(e)}
           className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
@@ -74,8 +78,8 @@ const Formedit = ({
         </label>
         <input
           type="number"
-          name="lng"
-          value={form.lng}
+          name="longitude"
+          value={form.longitude}
           onChange={(e) => handleOnChange(e)}
           id="longitude"
           className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
