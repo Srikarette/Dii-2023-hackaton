@@ -37,7 +37,6 @@ class AdminControllerTests {
 
 	@BeforeEach
 	void setUp() {
-		// กำหนดค่าเริ่มต้นหรืออ็อบเจ็กต์ที่ใช้ในเทส
 		testAdmin = new Admin();
 		testAdmin.setId(1L);
 		testAdmin.setUsername("testUser");

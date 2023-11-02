@@ -43,7 +43,6 @@ public class DeviceControllerTest {
 
     @BeforeEach
     void setUp() {
-        // กำหนดค่าเริ่มต้นหรืออ็อบเจ็กต์ที่ใช้ในเทส
         testDevice = new Device();
         testDevice.setId(1L);
         testDevice.setDevice_name("TestDevice");
@@ -53,7 +52,6 @@ public class DeviceControllerTest {
         testUser.setId(1L);
         testUser.setEmail("Test Email");
 
-        // เพิ่มการกำหนดค่าเริ่มต้นอื่น ๆ ตามที่ต้องการ
     }
 
     @Test
