@@ -17,6 +17,7 @@ import "leaflet/dist/leaflet.css";
 //For backend test
 import { fetchAllNotifications } from "./functions/fetchNotifications";
 import Formedit from "./Form/Formedit";
+import CombineLayers from "./layers/CombineLayers";
 
 const MapNew = () => {
   const initialCenter = [13.7563, 100.5018];
@@ -46,8 +47,6 @@ const MapNew = () => {
   const [id, setId] = useState(null);
   const [drag, setDrag] = useState(false);
   const [edit, setEdit] = useState(false);
-  // Add isMarkerDragging state variable
-  const [isMarkerDragging, setIsMarkerDragging] = useState(false);
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
@@ -209,8 +208,7 @@ const MapNew = () => {
     flyto(lat, lng);
     setId(id);
     setDrag(true); // Enable marker dragging
-    // Set isMarkerDragging to true to enable marker dragging
-    setIsMarkerDragging(true);
+
     setEdit(true);
   };
   const handleSubmitEdit = (e) => {
@@ -243,17 +241,15 @@ const MapNew = () => {
   };
 
   const handleDragend = (e) => {
-    console.log("Form state in handleDragend:", form); // Log the form state
     const newLat = e.target.getLatLng().lat;
     const newLng = e.target.getLatLng().lng;
-    console.log("Here is new latlng", newLat, newLng);
+
     setForm({
       ...form,
       lat: newLat,
       lng: newLng,
     });
-    // You can choose to update the marker data immediately or upon submitting
-    // updateArrayData(id, newLat, newLng);
+    updateArrayData(id, newLat, newLng);
   };
 
   const updateArrayData = (id, lat, lng) => {
@@ -263,7 +259,6 @@ const MapNew = () => {
   };
   // Handle cancel
   const handleCancel = () => {
-    setIsMarkerDragging(false); // Set isMarkerDragging to false
     setEdit(false);
     setId(null);
   };
@@ -281,7 +276,7 @@ const MapNew = () => {
             style={{ height: "89vh", width: "87%" }}
             minZoom={6}
           >
-            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <CombineLayers />
             <LocationMarker />
             <CSVFileLocal />
             {Object.keys(groupedMarkers).map((category, index) => (
@@ -304,12 +299,12 @@ const MapNew = () => {
                   return (
                     <Marker
                       eventHandlers={{
-                        dragend: (e) => handleDragend(e),
+                        dragend: handleDragend,
                       }}
+                      draggable={id === dataItem.id ? drag : false}
                       key={markerIndex}
                       position={[dataItem.latitude, dataItem.longitude]}
                       icon={markerIcon}
-                      draggable={id === dataItem.id ? drag : false}
                     >
                       <Popup>
                         <div>
@@ -369,6 +364,10 @@ const MapNew = () => {
                   key={markerIndex}
                   position={[newMarker.latitude, newMarker.longitude]}
                   icon={markerIcon}
+                  eventHandlers={{
+                    dragend: handleDragend,
+                  }}
+                  draggable={id === newMarker.id ? drag : false}
                 >
                   <Popup>
                     <div>
@@ -455,7 +454,7 @@ const MapNew = () => {
                 type="number"
                 value={form.lng}
                 name="lng"
-                onChange={handleOnChange}
+                onChange={(e) => handleOnChange(e)}
                 id="longitude"
                 className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
               />
