@@ -10,7 +10,7 @@ const NavigationBar = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Map" component={MapScreen} />
+        <Tab.Screen name="Alert Town" component={MapScreen} />
         {/* <Tab.Screen name="Login" component={LoginScreen} /> */}
       </Tab.Navigator>
     </NavigationContainer>
