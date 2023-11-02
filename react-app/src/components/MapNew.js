@@ -46,6 +46,8 @@ const MapNew = () => {
   const [id, setId] = useState(null);
   const [drag, setDrag] = useState(false);
   const [edit, setEdit] = useState(false);
+  // Add isMarkerDragging state variable
+  const [isMarkerDragging, setIsMarkerDragging] = useState(false);
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
@@ -206,25 +208,64 @@ const MapNew = () => {
   const handleEdit = (id, category, lat, lng) => {
     flyto(lat, lng);
     setId(id);
-    setDrag(!drag);
+    setDrag(true); // Enable marker dragging
+    // Set isMarkerDragging to true to enable marker dragging
+    setIsMarkerDragging(true);
     setEdit(true);
+  };
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    for (const key in form) {
+      formData.append(key, form[key]);
+    }
+
+    // Send the updated marker data to the server here
+    // For example, you can use an Axios POST request
+    axios
+      .patch(`http://localhost:8090/notifications/${id}`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      .then((response) => {
+        // Handle success
+        if (response.status === 200) {
+          console.log("Data updated successfully");
+        }
+      })
+      .catch((error) => {
+        // Handle error
+
+        console.error("Failed to update data:", error);
+      });
   };
 
   const handleDragend = (e) => {
+    console.log("Form state in handleDragend:", form); // Log the form state
     const newLat = e.target.getLatLng().lat;
     const newLng = e.target.getLatLng().lng;
-    console.log("Here is new latlng" + newLat, newLng);
-
+    console.log("Here is new latlng", newLat, newLng);
     setForm({
       ...form,
-      lat: e.latlng.lat,
-      lng: e.latlng.lng,
+      lat: newLat,
+      lng: newLng,
     });
+    // You can choose to update the marker data immediately or upon submitting
+    // updateArrayData(id, newLat, newLng);
   };
+
+  const updateArrayData = (id, lat, lng) => {
+    setData((prevData) =>
+      prevData.map((item) => (item.id === id ? { ...item, lat, lng } : item))
+    );
+  };
+  // Handle cancel
   const handleCancel = () => {
+    setIsMarkerDragging(false); // Set isMarkerDragging to false
     setEdit(false);
     setId(null);
-    setDrag(!drag);
   };
 
   return (
@@ -358,6 +399,9 @@ const MapNew = () => {
             handleOnChange={handleOnChange}
             handleCancel={handleCancel}
             id={id}
+            form={form}
+            setForm={setForm}
+            handleSubmitEdit={handleSubmitEdit}
           />
         ) : (
           <form

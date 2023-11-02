@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { fetchNotificationById } from "../functions/fetchNotifications";
-const Formedit = ({ titleOptions, handleOnChange, handleCancel, id }) => {
-  const [form, setForm] = useState({
-    lat: 0,
-    lng: 0,
-    category: "",
-  });
-
+const Formedit = ({
+  titleOptions,
+  handleOnChange,
+  handleCancel,
+  id,
+  form,
+  setForm,
+  handleSubmitEdit,
+}) => {
   useEffect(() => {
-    //code
     loadData(id);
-  }, []);
+  }, [id]);
 
   const loadData = (id) => {
     fetchNotificationById(id)
       .then((res) => {
-        console.log(res);
-        setForm(res.data);
+        if (res) {
+          setForm({
+            category: res.category,
+            lat: res.latitude,
+            lng: res.longitude,
+          });
+        } else {
+          console.log("Notification data not found");
+        }
       })
       .catch((err) => console.log(err));
   };
 
   return (
-    <form className="bg-white shadow-md rounded px-4 py-2">
+    <form
+      className="bg-white shadow-md rounded px-4 py-2"
+      onSubmit={handleSubmitEdit}
+    >
       <div className="mb-4">
         <label htmlFor="category" className="block text-gray-700 font-semibold">
           Category:
