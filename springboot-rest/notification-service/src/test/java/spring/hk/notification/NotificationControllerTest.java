@@ -1,138 +1,137 @@
-// package spring.hk.notification;
+package spring.hk.notification;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.mockito.Mockito.when;
+import spring.hk.notification.controller.NotificationController;
+import spring.hk.notification.dto.NotificationDTO;
+import spring.hk.notification.mapper.ServerMapper;
+import spring.hk.notification.model.Notification;
+import spring.hk.notification.repository.NotificationRepository;
 
-// import java.util.ArrayList;
-// import java.util.Date;
-// import java.util.List;
-// import java.util.Optional;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.InjectMocks;
-// import org.mockito.Mock;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import spring.hk.notification.controller.NotificationController;
-// import spring.hk.notification.dto.NotificationDTO;
-// import spring.hk.notification.model.Notification;
-// import spring.hk.notification.repository.NotificationRepository;
-// import spring.hk.notification.mapper.ServerMapper;
+import java.util.Optional;
 
-// @SpringBootTest
-// public class NotificationControllerTest {
-    
-//     @InjectMocks
-//     private NotificationController notificationController;
 
-//     @Mock
-//     private NotificationRepository notificationRepository;
+import java.util.ArrayList;
+import java.util.List;
 
-//     @Mock
-//     private ServerMapper serverMapper;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
-//     @Test
-//     public void testCreateNotification() {
-//         Notification notification = new Notification();
-//         notification.setSent_at(new Date());
+@ExtendWith(MockitoExtension.class)
+public class NotificationControllerTest {
+    @InjectMocks
+    private NotificationController notificationController;
 
-//         when(notificationRepository.save(notification)).thenReturn(notification);
+    @Mock
+    private NotificationRepository notificationRepository;
 
-//         ResponseEntity<?> responseEntity = notificationController.createNotification(notification);
+    @Mock
+    private ServerMapper serverMapper;
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-//         assertEquals(responseEntity.getBody(), "created");
-//     }
+    private Notification testNotification;
 
-//     @Test
-//     public void testGetAllNoti() {
-//         // Mock the behavior of the repository
-//         when(notificationRepository.findAll()).thenReturn(List.of(new Notification(), new Notification()));
+    @BeforeEach
+    void setUp() {
+        // กำหนดค่าเริ่มต้นหรืออ็อบเจ็กต์ที่ใช้ในเทส
+        testNotification = new Notification();
+        testNotification.setId(1L);
+        testNotification.setCategory("TestCategory");
+        testNotification.setLatitude(123.225);
+        testNotification.setLongitude(556.666);
+        testNotification.setMessage("TestMessage");
+        testNotification.setStatus(10);
 
-//         ResponseEntity<?> responseEntity = notificationController.getAllNoti();
+        // เพิ่มการกำหนดค่าเริ่มต้นอื่น ๆ ตามที่ต้องการ
+    }
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-//         assertEquals(responseEntity.getBody().getClass(), ArrayList.class);
-//     }
+    @Test
+    public void testCreateNotification() {
+        when(notificationRepository.save(testNotification)).thenReturn(testNotification);
 
-//     @Test
-//     public void testGetNotiById() {
-//         Long notificationId = 1L;
-//         Notification notification = new Notification();
-//         notification.setId(notificationId);
+        ResponseEntity<?> response = notificationController.createNotification(testNotification);
 
-//         when(notificationRepository.findById(notificationId)).thenReturn(Optional.of(notification));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("created", response.getBody());
+    }
 
-//         ResponseEntity<?> responseEntity = notificationController.getNotiById(notificationId);
+    @Test
+    public void testGetAllNoti() {
+        List<Notification> notificationList = new ArrayList<>();
+        notificationList.add(testNotification);
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-//         assertEquals(((Optional<Notification>) responseEntity.getBody()).get().getId(), notificationId);
-//     }
+        when(notificationRepository.findAll()).thenReturn(notificationList);
 
-//     @Test
-//     public void testGetNotiById_NotFound() {
-//         Long notificationId = 1L;
+        ResponseEntity<?> response = notificationController.getAllNoti();
 
-//         when(notificationRepository.findById(notificationId)).thenReturn(Optional.empty());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(notificationList, response.getBody());
+    }
 
-//         ResponseEntity<?> responseEntity = notificationController.getNotiById(notificationId);
+    @Test
+    public void testGetNotiById() {
+        when(notificationRepository.findById(1L)).thenReturn(Optional.of(testNotification));
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
-//         assertEquals(responseEntity.getBody(), "notification not found");
-//     }
+        ResponseEntity<?> response = notificationController.getNotiById(1L);
 
-//     @Test
-//     public void testDeleteNoti() {
-//         Long notificationId = 1L;
-//         Notification notification = new Notification();
-//         notification.setId(notificationId);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testNotification, ((Optional<?>) response.getBody()).get());
+    }
 
-//         when(notificationRepository.findById(notificationId)).thenReturn(Optional.of(notification));
+    @Test
+    public void testGetNotiByIdNotFound() {
+        when(notificationRepository.findById(2L)).thenReturn(Optional.empty());
 
-//         ResponseEntity<?> responseEntity = notificationController.deleteNoti(notificationId);
+        ResponseEntity<?> response = notificationController.getNotiById(2L);
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-//         assertEquals(((Optional<Notification>) responseEntity.getBody()).get().getId(), notificationId);
-//     }
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("notification not found", response.getBody());
+    }
 
-//     @Test
-//     public void testDeleteNoti_NotFound() {
-//         Long notificationId = 1L;
+    @Test
+    public void testDeleteNoti() {
+        when(notificationRepository.findById(1L)).thenReturn(Optional.of(testNotification));
 
-//         when(notificationRepository.findById(notificationId)).thenReturn(Optional.empty());
+        ResponseEntity<?> response = notificationController.deleteNoti(1L);
 
-//         ResponseEntity<?> responseEntity = notificationController.deleteNoti(notificationId);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testNotification, ((Optional<?>) response.getBody()).get());
+    }
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
-//         assertEquals(responseEntity.getBody(), "notification not found");
-//     }
+    @Test
+    public void testDeleteNotiNotFound() {
+        when(notificationRepository.findById(2L)).thenReturn(Optional.empty());
 
-//     @Test
-//     public void testUpdateNotiSomeField() {
-//         Long notificationId = 1L;
-//         NotificationDTO notificationDTO = new NotificationDTO();
-//         Notification notification = new Notification();
-//         notification.setId(notificationId);
+        ResponseEntity<?> response = notificationController.deleteNoti(2L);
 
-//         when(notificationRepository.findById(notificationId)).thenReturn(Optional.of(notification));
-//         when(serverMapper.updateNotificationFromDto(notificationDTO, notification)).thenReturn(notification);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("notification not found", response.getBody());
+    }
 
-//         ResponseEntity<?> responseEntity = notificationController.updateNotiSomeField(notificationId, notificationDTO);
+    @Test
+    public void testUpdateNotiSomeField() {
+        when(notificationRepository.findById(1L)).thenReturn(Optional.of(testNotification));
+        NotificationDTO notificationDTO = new NotificationDTO();
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-//         assertEquals(responseEntity.getBody(), "updated");
-//     }
+        ResponseEntity<?> response = notificationController.updateNotiSomeField(1L, notificationDTO);
 
-//     @Test
-//     public void testUpdateNotiSomeField_NotFound() {
-//         Long notificationId = 1L;
-//         NotificationDTO notificationDTO = new NotificationDTO();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("updated", response.getBody());
+    }
 
-//         when(notificationRepository.findById(notificationId)).thenReturn(Optional.empty());
+    @Test
+    public void testUpdateNotiSomeFieldNotFound() {
+        when(notificationRepository.findById(2L)).thenReturn(Optional.empty());
+        NotificationDTO notificationDTO = new NotificationDTO();
 
-//         ResponseEntity<?> responseEntity = notificationController.updateNotiSomeField(notificationId, notificationDTO);
+        ResponseEntity<?> response = notificationController.updateNotiSomeField(2L, notificationDTO);
 
-//         assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
-//         assertEquals(responseEntity.getBody(), "id not found");
-//     }
-// }
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("id not found", response.getBody());
+    }
+}
