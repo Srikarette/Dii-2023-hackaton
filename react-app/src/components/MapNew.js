@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {
   MapContainer,
@@ -6,6 +6,7 @@ import {
   Popup,
   useMapEvents,
   Circle,
+  useMap,
   TileLayer,
 } from "react-leaflet";
 import L from "leaflet";
@@ -15,10 +16,12 @@ import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 import "leaflet/dist/leaflet.css";
 //For backend test
 import fetchNotifications from "./StyleofMap/fetchNotifications"; //spring boot
+import Formedit from "./Form/Formedit";
 
 const MapNew = () => {
   const initialCenter = [13.7563, 100.5018];
   const initialZoomLevel = 6;
+  const mapRef = useRef(); // Create a ref to store the map instance
 
   const [userLocation, setUserLocation] = useState(null);
   const [showUserLocation, setShowUserLocation] = useState(false);
@@ -39,6 +42,10 @@ const MapNew = () => {
   let DefaultIcon = L.icon({
     iconUrl: icon,
   });
+  //For Edit button
+  const [id, setId] = useState(null);
+  const [drag, setDrag] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
@@ -158,6 +165,11 @@ const MapNew = () => {
     loaddata();
   };
 
+  const flyto = (lat, lng) => {
+    console.log(lat, lng);
+    mapRef.current.flyTo([lat, lng], 15);
+  };
+
   // Handle posting a new marker to the server
   const handlePostMarker = async (category, latitude, longitude) => {
     try {
@@ -190,6 +202,25 @@ const MapNew = () => {
       });
   };
 
+  //Handle edit
+  const handleEdit = (id, category, lat, lng) => {
+    flyto(lat, lng);
+    setId(id);
+    setDrag(!drag);
+    setEdit(true);
+  };
+
+  const handleDragend = (e) => {
+    const newLat = e.target.getLatLng().lat;
+    const newLng = e.target.getLatLng().lng;
+    console.log("Here is new latlng" + newLat, newLng);
+  };
+  const handleCancel = () => {
+    setEdit(false);
+    setId(null);
+    setDrag(!drag);
+  };
+
   return (
     <>
       <div className="flex">
@@ -197,15 +228,14 @@ const MapNew = () => {
           <MapContainer
             center={center}
             zoom={16}
+            ref={mapRef} // Assign the map instance to the ref
             className="MapContainer"
             bounds={bounds}
             style={{ height: "89vh", width: "87%" }}
             minZoom={6}
           >
             <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
             <LocationMarker />
-
             <CSVFileLocal />
             {Object.keys(groupedMarkers).map((category, index) => (
               <MarkerClusterGroup
@@ -226,9 +256,13 @@ const MapNew = () => {
 
                   return (
                     <Marker
+                      eventHandlers={{
+                        dragend: (e) => handleDragend(e),
+                      }}
                       key={markerIndex}
                       position={[dataItem.latitude, dataItem.longitude]}
                       icon={markerIcon}
+                      draggable={id === dataItem.id ? drag : false}
                     >
                       <Popup>
                         <div>
@@ -237,7 +271,17 @@ const MapNew = () => {
                           <p>Latitude: {dataItem.latitude}</p>
                           <p>Longitude: {dataItem.longitude}</p>
                           <p>Sent At: {dataItem.sent_at}</p>
-                          <button className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4">
+                          <button
+                            onClick={() =>
+                              handleEdit(
+                                dataItem.id,
+                                dataItem.category,
+                                dataItem.latitude,
+                                dataItem.longitude
+                              )
+                            }
+                            className="border-2 border-blue-500 rounded-lg p-1 bg-blue-500 text-yellow-200 mr-4"
+                          >
                             Update
                           </button>
                           <button
@@ -253,7 +297,6 @@ const MapNew = () => {
                 })}
               </MarkerClusterGroup>
             ))}
-
             {showUserLocation && (
               <Marker
                 position={userLocation}
@@ -262,14 +305,11 @@ const MapNew = () => {
                 <Popup>Your Location</Popup>
               </Marker>
             )}
-
             {/* Render newly added markers */}
             {markers.map((newMarker, markerIndex) => {
               let markerIcon = createCustomIcon("fire.png", [38, 38]);
 
-              if (newMarker.category === "wildfire") {
-                markerIcon = createCustomIcon("wildfire.png", [38, 38]);
-              } else if (newMarker.category === "flood") {
+              if (newMarker.category === "flood") {
                 markerIcon = createCustomIcon("flood.png", [38, 38]);
               } else if (newMarker.category === "Land Slide") {
                 markerIcon = createCustomIcon("landslide.png", [38, 38]);
@@ -306,71 +346,75 @@ const MapNew = () => {
             })}
           </MapContainer>
         )}
-        <form
-          className="bg-white shadow-md rounded px-4 py-2"
-          onSubmit={handleSubmit}
-        >
-          <div className="mb-4">
-            <label
-              htmlFor="category"
-              className="block text-gray-700 font-semibold"
-            >
-              Category:
-            </label>
-            <select
-              name="category"
-              id="category"
-              onChange={handleOnChange}
-              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
-            >
-              {titleOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="latitude"
-              className="block text-gray-700 font-semibold"
-            >
-              Latitude:
-            </label>
-            <input
-              type="number"
-              name="lat"
-              value={form.lat}
-              id="latitude"
-              onChange={handleOnChange}
-              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="longitude"
-              className="block text-gray-700 font-semibold"
-            >
-              Longitude:
-            </label>
-            <input
-              type="number"
-              value={form.lng}
-              name="lng"
-              onChange={handleOnChange}
-              id="longitude"
-              className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <div className="text-center">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover-bg-blue-600 focus:outline-none focus:bg-blue-600"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        {edit ? (
+          <Formedit handleCancel={handleCancel} id={id} />
+        ) : (
+          <form
+            className="bg-white shadow-md rounded px-4 py-2"
+            onSubmit={handleSubmit}
+          >
+            <div className="mb-4">
+              <label
+                htmlFor="category"
+                className="block text-gray-700 font-semibold"
+              >
+                Category:
+              </label>
+              <select
+                name="category"
+                id="category"
+                onChange={handleOnChange}
+                className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
+              >
+                {titleOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="latitude"
+                className="block text-gray-700 font-semibold"
+              >
+                Latitude:
+              </label>
+              <input
+                type="number"
+                name="lat"
+                value={form.lat}
+                id="latitude"
+                onChange={handleOnChange}
+                className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="longitude"
+                className="block text-gray-700 font-semibold"
+              >
+                Longitude:
+              </label>
+              <input
+                type="number"
+                value={form.lng}
+                name="lng"
+                onChange={handleOnChange}
+                id="longitude"
+                className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover-bg-blue-600 focus:outline-none focus:bg-blue-600"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </>
   );

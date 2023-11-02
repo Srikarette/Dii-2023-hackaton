@@ -35,3 +35,10 @@ exports.remove = async (req, res) => {
     res.status(500).send("Failed to Remove");
   }
 };
+exports.read =async (req, res) =>{
+  try{
+    //code
+    const id = req.params.id
+    const travel = await Travel.findOne({})
+  }
+}
