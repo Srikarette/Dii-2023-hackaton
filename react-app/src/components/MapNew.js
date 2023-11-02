@@ -15,7 +15,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import CSVFileLocal from "./StyleofMap/CSVFileLocal";
 import "leaflet/dist/leaflet.css";
 //For backend test
-import fetchNotifications from "./StyleofMap/fetchNotifications"; //spring boot
+import { fetchAllNotifications } from "./functions/fetchNotifications";
 import Formedit from "./Form/Formedit";
 
 const MapNew = () => {
@@ -82,7 +82,7 @@ const MapNew = () => {
   // Fetch data from Spring boot 8090
   const fetchDataFromAPI = async () => {
     try {
-      const data = await fetchNotifications();
+      const data = await fetchAllNotifications();
       setFetchedData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -214,6 +214,12 @@ const MapNew = () => {
     const newLat = e.target.getLatLng().lat;
     const newLng = e.target.getLatLng().lng;
     console.log("Here is new latlng" + newLat, newLng);
+
+    setForm({
+      ...form,
+      lat: e.latlng.lat,
+      lng: e.latlng.lng,
+    });
   };
   const handleCancel = () => {
     setEdit(false);
@@ -347,7 +353,12 @@ const MapNew = () => {
           </MapContainer>
         )}
         {edit ? (
-          <Formedit handleCancel={handleCancel} id={id} />
+          <Formedit
+            titleOptions={titleOptions}
+            handleOnChange={handleOnChange}
+            handleCancel={handleCancel}
+            id={id}
+          />
         ) : (
           <form
             className="bg-white shadow-md rounded px-4 py-2"
@@ -363,7 +374,7 @@ const MapNew = () => {
               <select
                 name="category"
                 id="category"
-                onChange={handleOnChange}
+                onChange={(e) => handleOnChange(e)}
                 className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
               >
                 {titleOptions.map((option, index) => (
@@ -385,7 +396,7 @@ const MapNew = () => {
                 name="lat"
                 value={form.lat}
                 id="latitude"
-                onChange={handleOnChange}
+                onChange={(e) => handleOnChange(e)}
                 className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
               />
             </div>

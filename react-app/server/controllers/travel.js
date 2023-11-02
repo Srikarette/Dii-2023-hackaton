@@ -35,10 +35,14 @@ exports.remove = async (req, res) => {
     res.status(500).send("Failed to Remove");
   }
 };
-exports.read =async (req, res) =>{
-  try{
+exports.read = async (req, res) => {
+  try {
     //code
-    const id = req.params.id
-    const travel = await Travel.findOne({})
+    const id = req.params.id;
+    const traveled = await Travel.findOne({ _id: id }).exec();
+    res.send(traveled);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
   }
-}
+};

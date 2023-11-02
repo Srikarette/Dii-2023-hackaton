@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from "react";
-const Formedit = ({ handleCancel, id }) => {
-  const titleOptions = ["Fire", "Flood", "Land Slide", "Active Shooting"];
+import { fetchNotificationById } from "../functions/fetchNotifications";
+const Formedit = ({ titleOptions, handleOnChange, handleCancel, id }) => {
+  const [form, setForm] = useState({
+    lat: 0,
+    lng: 0,
+    category: "",
+  });
 
   useEffect(() => {
     //code
+    loadData(id);
   }, []);
+
+  const loadData = (id) => {
+    fetchNotificationById(id)
+      .then((res) => {
+        console.log(res);
+        setForm(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <form className="bg-white shadow-md rounded px-4 py-2">
@@ -15,7 +30,8 @@ const Formedit = ({ handleCancel, id }) => {
         <select
           name="category"
           id="category"
-          //   onChange={handleOnChange}
+          value={form.category}
+          onChange={(e) => handleOnChange(e)}
           className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
         >
           {titleOptions.map((option, index) => (
@@ -32,9 +48,9 @@ const Formedit = ({ handleCancel, id }) => {
         <input
           type="number"
           name="lat"
-          //   value={form.lat}
+          value={form.lat}
           id="latitude"
-          //   onChange={handleOnChange}
+          onChange={(e) => handleOnChange(e)}
           className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
         />
       </div>
@@ -47,9 +63,9 @@ const Formedit = ({ handleCancel, id }) => {
         </label>
         <input
           type="number"
-          //   value={form.lng}
+          value={form.lng}
           name="lng"
-          //   onChange={handleOnChange}
+          onChange={(e) => handleOnChange(e)}
           id="longitude"
           className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
         />
