@@ -1,6 +1,6 @@
-package user.service.accounting.dto;
+package spring.hk.notification.dto;
 
-import user.service.accounting.model.User;
+import spring.hk.notification.model.User;
 
 public class DeviceDTO {
     private Long id;

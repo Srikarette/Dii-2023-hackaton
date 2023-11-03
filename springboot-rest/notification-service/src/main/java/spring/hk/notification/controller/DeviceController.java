@@ -1,4 +1,4 @@
-package user.service.accounting.controller;
+package spring.hk.notification.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import user.service.accounting.dto.DeviceDTO;
-import user.service.accounting.mapper.ServerMapper;
-import user.service.accounting.model.Device;
-import user.service.accounting.model.User;
-import user.service.accounting.repository.DeviceRepository;
-import user.service.accounting.repository.UserRepository;
+import spring.hk.notification.dto.DeviceDTO;
+import spring.hk.notification.mapper.ServerMapper;
+import spring.hk.notification.model.Device;
+import spring.hk.notification.model.User;
+import spring.hk.notification.repository.DeviceRepository;
+import spring.hk.notification.repository.UserRepository;
 import java.util.*;
 
 @RestController
