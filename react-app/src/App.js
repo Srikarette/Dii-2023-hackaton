@@ -6,9 +6,10 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import MapNew from "./components/MapNew";
 import Erro404 from "./pages/Erro404";
 import Navbar from "./components/Navbar";
-import OfficialsLogin from "./pages/OfficialsLogin";
+import AdminLoginForm from "./components/Form/AdminLoginForm";
 import Notification from "./pages/Notifcation";
 import Mapcontent from "./components/Mapcontent";
+import Mapuser from "./components/Mapuser";
 
 function App() {
   return (
@@ -17,10 +18,11 @@ function App() {
         <div className="App">
           <Navbar />
           <Switch>
-            <Route path="/" component={MapNew} exact />
+            <Route path="/" component={Mapuser} exact />
             <Route path="/notifications" component={Notification} />
-            <Route path="/officials" component={OfficialsLogin} />
-            <Route path="/mapnode" component={Mapcontent} />
+            <Route path="/officials" component={AdminLoginForm} />
+            <Route path="/mapadmin" component={MapNew} />
+            <Route path="/mapuser" component={Mapcontent} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>

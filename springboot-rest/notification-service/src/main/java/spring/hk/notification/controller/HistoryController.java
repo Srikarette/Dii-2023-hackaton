@@ -71,6 +71,9 @@ public class HistoryController {
     @GetMapping("/historys/{id}")
     public ResponseEntity<?> getHistoryById(@PathVariable Long id) {
         Optional<History> history = historyRepository.findById(id);
+        if(!history.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id not found");
+        }
         return ResponseEntity.ok(history);
     }
 

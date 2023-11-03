@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const { list, create, remove } = require("../controllers/travel");
+const { list, create, remove, read } = require("../controllers/travel");
 //Middleware
 //const { auth } = require("../Middleware/auth");
 
 // GET all travel records
 router.get("/travel", list);
+
+//Get by Id
+router.get("/travel/:id", read);
 
 // POST a new travel record
 router.post("/travel", create);

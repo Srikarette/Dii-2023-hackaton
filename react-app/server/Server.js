@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const bodyParse = require("body-parser");
 
-const connectDB = require("./Config/db");
+const connectDB = require("./config/db");
 
 const { readdirSync } = require("fs");
 // const productRouters = require('./Routes/product')
