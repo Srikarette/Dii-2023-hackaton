@@ -15,7 +15,7 @@ import spring.hk.notification.model.User;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-03T20:53:29+0700",
+    date = "2023-11-03T21:10:36+0700",
     comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 @Component
@@ -42,28 +42,28 @@ public class ServerMapperImpl implements ServerMapper {
             return;
         }
 
-        if ( dto.getCategory() != null ) {
-            entity.setCategory( dto.getCategory() );
-        }
         if ( dto.getId() != null ) {
             entity.setId( dto.getId() );
         }
-        if ( dto.getLatitude() != null ) {
-            entity.setLatitude( dto.getLatitude() );
+        if ( dto.getUser_id() != null ) {
+            entity.setUser_id( dto.getUser_id() );
         }
         if ( dto.getLongitude() != null ) {
             entity.setLongitude( dto.getLongitude() );
         }
-        if ( dto.getMessage() != null ) {
-            entity.setMessage( dto.getMessage() );
+        if ( dto.getLatitude() != null ) {
+            entity.setLatitude( dto.getLatitude() );
         }
         if ( dto.getSent_at() != null ) {
             entity.setSent_at( dto.getSent_at() );
         }
-        entity.setStatus( dto.getStatus() );
-        if ( dto.getUser_id() != null ) {
-            entity.setUser_id( dto.getUser_id() );
+        if ( dto.getCategory() != null ) {
+            entity.setCategory( dto.getCategory() );
         }
+        if ( dto.getMessage() != null ) {
+            entity.setMessage( dto.getMessage() );
+        }
+        entity.setStatus( dto.getStatus() );
     }
 
     @Override
