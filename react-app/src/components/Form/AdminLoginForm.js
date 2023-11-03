@@ -45,8 +45,8 @@ const AdminLoginForm = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-md w-80">
+    <div className="bg-gray-100 min-h-screen max-h-80 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-md shadow-md w-80 border-1">
         <h2 className="text-2xl font-semibold text-center mb-4">Admin Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

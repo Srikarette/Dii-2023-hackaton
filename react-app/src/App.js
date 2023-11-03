@@ -10,12 +10,14 @@ import AdminLoginForm from "./components/Form/AdminLoginForm";
 import Notification from "./pages/Notifcation";
 import Mapcontent from "./components/Mapcontent";
 import Mapuser from "./components/Mapuser";
+import GlobalStyle from "./components/GlobalStyle";
 
 function App() {
   return (
     <BrowserRouter>
       <>
         <div className="App">
+          <GlobalStyle />
           <Navbar />
           <Switch>
             <Route path="/" component={Mapuser} exact />
