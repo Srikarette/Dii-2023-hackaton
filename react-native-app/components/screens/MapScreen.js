@@ -71,9 +71,9 @@ export default function MapScreen() {
       case 'Fire':
         return 'rgba(255, 0, 0, 0.3)'; // Red
       case 'Flood':
-        return 'rgba(0, 255, 0, 0.3)'; // Green
-      case 'Land Slide':
         return 'rgba(0, 0, 255, 0.3)'; // Blue
+      case 'Land Slide':
+        return 'rgba(0, 255, 0, 0.3)'; // Green
       case 'Active Shooting':
         return 'rgba(255, 255, 0, 0.3)'; // Yellow
       default:
