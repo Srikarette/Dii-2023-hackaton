@@ -6,7 +6,8 @@
     "preview": {
       "android": {
         "buildType": "apk"
-      } 
+      },
+      "channel": "preview1"
     },
     "preview2": {
       "android": {
@@ -21,7 +22,8 @@
     "production": {
       "android": {
         "buildType": "apk"
-      }
+      },
+      "channel": "production"
     }
   },
   "submit": {
