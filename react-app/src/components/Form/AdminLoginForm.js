@@ -26,6 +26,7 @@ const AdminLoginForm = () => {
 
   useEffect(() => {
     fetchAdminData();
+    handleLoginliff();
   }, []);
 
   const handleInputChange = (e) => {
@@ -48,10 +49,9 @@ const AdminLoginForm = () => {
       setError("Wrong username or password. Please try again."); // Set the error message
     }
   };
-  useEffect(() => {
-    liff.init({ liffId: "2001488392-pk27JKYA" });
-  });
+
   const handleLoginliff = () => {
+    liff.init({ liffId: "2001488392-pk27JKYA" });
     try {
       // Perform LINE login
       liff.login();
@@ -108,7 +108,7 @@ const AdminLoginForm = () => {
               Login
             </button>
           </div>
-          <div className="text-center">
+          <div className="text-center mt-0.5">
             <button
               onClick={handleLoginliff}
               type="submit"

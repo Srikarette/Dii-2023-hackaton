@@ -24,13 +24,13 @@ public class User {
     
     public User(){}
 
-    public User(Long id, String displayName, String pictureUrl, String email, Date create_at, List<Device> device) {
+    public User(Long id, String displayName, String pictureUrl, String email, Date create_at) {
         this.id = id;
         this.displayName = displayName;
         this.pictureUrl = pictureUrl;
         this.email = email;
         this.create_at = create_at;
-        this.device = device;
+
     }
 
     public Long getId() {
@@ -72,15 +72,5 @@ public class User {
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
     }
-
-    public List<Device> getDevice() {
-        return device;
-    }
-
-    public void setDevice(List<Device> device) {
-        this.device = device;
-    }
-
-    
 
 }
