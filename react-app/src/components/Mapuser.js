@@ -139,7 +139,7 @@ const MapNew = () => {
             ref={mapRef} // Assign the map instance to the ref
             className="MapContainer"
             bounds={bounds}
-            style={{ height: "89vh", width: "100%" }}
+            style={{ height: "89vh", width: "100%", zIndex: "0" }}
             minZoom={6}
           >
             <CombineLayers />

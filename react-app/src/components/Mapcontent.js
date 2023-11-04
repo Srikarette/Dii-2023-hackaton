@@ -147,7 +147,7 @@ const Mapcontent = () => {
           ref={mapRef}
           center={center}
           zoom={16}
-          style={{ height: "89vh", width: "90%", zIndex: "10" }}
+          style={{ height: "89vh", width: "90%", zIndex: "0" }}
           minZoom={6}
         >
           {showUserLocation && (

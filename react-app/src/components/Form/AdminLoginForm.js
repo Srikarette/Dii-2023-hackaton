@@ -96,15 +96,6 @@ const AdminLoginForm = () => {
               Login
             </button>
           </div>
-          <div className="text-center mt-0.5">
-            <button
-              // onClick={handleLoginliff}
-              type="submit"
-              className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600"
-            >
-              Login with Line
-            </button>
-          </div>
         </form>
       </div>
     </div>

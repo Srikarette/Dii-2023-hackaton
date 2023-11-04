@@ -11,7 +11,6 @@ import Mapcontent from "./components/Mapcontent";
 import Mapuser from "./components/Mapuser";
 import GlobalStyle from "./components/GlobalStyle";
 import Admin from "./pages/ManageAdmin";
-import Line from "./components/auth/Line";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
           <Switch>
             <Route path="/" component={Mapuser} exact />
             <Route path="/notifications" component={Notification} />
-            <Route path="/line" component={Line} />
             <Route path="/officials" component={AdminLoginForm} />
             <Route path="/Mapadmin" component={MapNew} />
             <Route path="/mapuser" component={Mapcontent} />
