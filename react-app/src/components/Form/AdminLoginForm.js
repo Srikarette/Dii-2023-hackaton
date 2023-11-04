@@ -12,15 +12,19 @@ const AdminLoginForm = () => {
   const [admins, setAdmins] = useState([]);
   const history = useHistory();
 
-  useEffect(() => {
+  const fetchAdminData = () => {
     axios
-      .get("http://localhost:8080/admins")
+      .get("http://localhost:8080/notifications")
       .then((response) => {
         setAdmins(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+  };
+
+  useEffect(() => {
+    fetchAdminData();
   }, []);
 
   const handleInputChange = (e) => {
@@ -45,7 +49,7 @@ const AdminLoginForm = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen max-h-80 flex items-center justify-center">
+    <div className="bg-gray-100 flex items-center justify-center pt-14 ">
       <div className="bg-white p-8 rounded-md shadow-md w-80 border-1">
         <h2 className="text-2xl font-semibold text-center mb-4">Admin Login</h2>
         <form onSubmit={handleSubmit}>

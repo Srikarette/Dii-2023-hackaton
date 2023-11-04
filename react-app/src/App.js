@@ -11,6 +11,8 @@ import Notification from "./pages/Notifcation";
 import Mapcontent from "./components/Mapcontent";
 import Mapuser from "./components/Mapuser";
 import GlobalStyle from "./components/GlobalStyle";
+import Line from "./components/auth/Line";
+import LoginLineTest from "./components/Form/LoginLineTest";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/officials" component={AdminLoginForm} />
             <Route path="/mapadmin" component={MapNew} />
             <Route path="/mapuser" component={Mapcontent} />
+            <Route path="/line" component={Line} />
+            <Route path="/loginLinetest" component={LoginLineTest} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>
