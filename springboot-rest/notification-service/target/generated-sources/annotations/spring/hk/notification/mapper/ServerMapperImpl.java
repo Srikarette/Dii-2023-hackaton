@@ -15,7 +15,7 @@ import spring.hk.notification.model.User;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2566-11-04T18:11:04+0700",
+    date = "2566-11-04T21:46:31+0700",
     comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230814-2020, environment: Java 17.0.8.1 (Eclipse Adoptium)"
 )
 @Component
@@ -74,6 +74,12 @@ public class ServerMapperImpl implements ServerMapper {
 
         if ( dto.getId() != null ) {
             entity.setId( dto.getId() );
+        }
+        if ( dto.getDisplayName() != null ) {
+            entity.setDisplayName( dto.getDisplayName() );
+        }
+        if ( dto.getPictureUrl() != null ) {
+            entity.setPictureUrl( dto.getPictureUrl() );
         }
         if ( dto.getEmail() != null ) {
             entity.setEmail( dto.getEmail() );
