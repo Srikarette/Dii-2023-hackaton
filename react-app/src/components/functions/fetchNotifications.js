@@ -2,7 +2,7 @@ import React from "react";
 
 export async function fetchAllNotifications() {
   try {
-    const response = await fetch("http://localhost:8090/notifications");
+    const response = await fetch("http://localhost:8080/notifications");
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -16,7 +16,7 @@ export async function fetchAllNotifications() {
 
 export async function fetchNotificationById(id) {
   try {
-    const response = await fetch(`http://localhost:8090/notifications/${id}`);
+    const response = await fetch(`http://localhost:8080/notifications/${id}`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

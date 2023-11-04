@@ -10,12 +10,14 @@ import AdminLoginForm from "./components/Form/AdminLoginForm";
 import Notification from "./pages/Notifcation";
 import Mapcontent from "./components/Mapcontent";
 import Mapuser from "./components/Mapuser";
-
+import GlobalStyle from "./components/GlobalStyle";
+import Admin from "./pages/ManageAdmin";
 function App() {
   return (
     <BrowserRouter>
       <>
         <div className="App">
+          <GlobalStyle />
           <Navbar />
           <Switch>
             <Route path="/" component={Mapuser} exact />
@@ -23,6 +25,7 @@ function App() {
             <Route path="/officials" component={AdminLoginForm} />
             <Route path="/mapadmin" component={MapNew} />
             <Route path="/mapuser" component={Mapcontent} />
+            <Route path="/Admin" component={Admin} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>

@@ -5,7 +5,6 @@ import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollVie
 import * as Location from 'expo-location';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import axios from 'axios';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -16,12 +15,13 @@ Notifications.setNotificationHandler({
 });
 
 export default function MapScreen() {
-  const pinTimer = 5000; // millisecound
+  const pinTimer = 3600000; // millisecound
   const emergencyCooldown = 10000 //millisecound
   const navigation = useNavigation();
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const notificationListener = useRef();
   const responseListener = useRef();
 
@@ -38,11 +38,12 @@ export default function MapScreen() {
   const circleRadius = 1000; // 4 kilometers
 
   const [selectedChoice, setSelectedChoice] = useState(null);
-  const choices = ['FIRE', 'FLOOD', 'LAND SLIDE', 'ACTIVE SHOOTING'];
+  const choices = ['Fire', 'Flood', 'Land Slide', 'Active Shooting'];
 
   const [emergencySent, setEmergencySent] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
   const [description, setDescription] = useState('Your Location');
+  
 
   const [showChoices, setShowChoices] = useState(false);
 
@@ -67,13 +68,13 @@ export default function MapScreen() {
 
   const getColorForChoice = (choice) => {
     switch (choice) {
-      case 'FIRE':
+      case 'Fire':
         return 'rgba(255, 0, 0, 0.3)'; // Red
-      case 'FLOOD':
-        return 'rgba(0, 255, 0, 0.3)'; // Green
-      case 'LAND SLIDE':
+      case 'Flood':
         return 'rgba(0, 0, 255, 0.3)'; // Blue
-      case 'ACTIVE SHOOTING':
+      case 'Land Slide':
+        return 'rgba(0, 255, 0, 0.3)'; // Green
+      case 'Active Shooting':
         return 'rgba(255, 255, 0, 0.3)'; // Yellow
       default:
         return 'transparent';
@@ -131,13 +132,14 @@ export default function MapScreen() {
       });
   
       setMarkers(data);
+      setRefreshKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error('Error fetching notifications:', error);
     }
   };
   
 
-  const postUserLocation = async (latitude, longitude) => {
+  const postUserLocation = async (latitude, longitude, category) => {
     try {
       const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications', {
         method: 'POST',
@@ -147,6 +149,7 @@ export default function MapScreen() {
         body: JSON.stringify({
           latitude,
           longitude,
+          category,
         }),
       });
   
@@ -162,31 +165,28 @@ export default function MapScreen() {
     }
   };
   
-
   const handleEmergencyPress = () => {
-   
     if (selectedChoice) {
       setIsCircleVisible(true);
       setEmergencySent(true);
-      setDescription(`Emergency Alert:  ${selectedChoice} !`);
-      
+      setDescription(`Emergency Alert: ${selectedChoice}!`);
+  
       setTimeout(() => {
         setIsCircleVisible(false);
         setEmergencySent(false);
         setDisableButton(false);
         setSelectedChoice(null);
         setDescription('Your Location');
-        
-        // navigation.replace('MapScreen'); 
       }, emergencyCooldown);
-      
-      postUserLocation(mapRegion.latitude, mapRegion.longitude);
+  
+      postUserLocation(mapRegion.latitude, mapRegion.longitude, selectedChoice); // Include the "selectedChoice" as the "category"
       console.log('Post current user location complete');
-      console.log(`Post :`, mapRegion.latitude, mapRegion.longitude, `from current user into the database`);
+      console.log(`Post:`, mapRegion.latitude, mapRegion.longitude, `from the current user into the database with category: ${selectedChoice}`);
       setDisableButton(true);
+      setRefreshKey((prevKey) => prevKey + 1);
     }
   };
-
+  
   useEffect(() => {
     userLocation();
     setIsCircleVisible(false);
@@ -197,52 +197,51 @@ export default function MapScreen() {
       setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.displayUntil >= currentTime));
     }, 1000); // Check every second
     return () => clearInterval(timer); // Cleanup the timer
+
   }, []);
 
-  // useEffect(() => {
-  //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-  //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-  //     setNotification(notification);
-  //   });
-
-  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-  //     console.log(response);
-  //   });
-
-  //   return () => {
-  //     Notifications.removeNotificationSubscription(notificationListener.current);
-  //     Notifications.removeNotificationSubscription(responseListener.current);
-  //   };
-  // }, []);
-
   return (
-    <View style={styles.container}>
+    <View style={styles.container} key={refreshKey}>
       <MapView style={styles.map} region={mapRegion}>
         {/* Marker for user's current location */}
         <Marker
           coordinate={mapRegion}
           title='Your Location'
           description={description}
-          pinColor="blue"
+          image={require ('../map-icon/icons8-location-96.png')}
         />
 
         {markers.map((markerData) => (
           <React.Fragment key={markerData.id}>
             <Marker
               coordinate={{ latitude: markerData.latitude, longitude: markerData.longitude }}
-              title={`Notification #${markerData.id}`}
-              description={`Sent at: ${markerData.sent_at}`}
-              pinColor="green"
+              title={`EMRGENCY : ${markerData.category}`}
+              description={`Sent at: ${markerData.sent_at}, Marker #${markerData.id} `}
+              pinColor="red"
+              image={(() => {
+                switch (markerData.category) {
+                  case 'Fire':
+                    return require('../map-icon/fire.png'); 
+                  case 'Flood':
+                    return require('../map-icon/flood.png'); 
+                  case 'Land Slide':
+                    return require('../map-icon/landslide.png'); 
+                  case 'Active Shooting':
+                    return require('../map-icon/criminal.png'); 
+                  default:
+                    return require('../map-icon/default.png');
+                }
+              })()}
+              style={{ width: 40, height: 40 }}
             />
-            <Circle
+            {/* <Circle
               radius={circleRadius}
               center={{ latitude: markerData.latitude, longitude: markerData.longitude }}
               title='Circle'
               strokeColor='red'
               strokeWidth={0}
-              fillColor='rgba(255, 0, 0, 0.3)' // Adjust the color as needed
-            />
+              fillColor='rgba(255, 0, 0, 0.3)' 
+            /> */}
           </React.Fragment>
         ))}
 
