@@ -7,13 +7,11 @@ import MapNew from "./components/MapNew";
 import Erro404 from "./pages/Erro404";
 import Navbar from "./components/Navbar";
 import AdminLoginForm from "./components/Form/AdminLoginForm";
-import Notification from "./pages/Notifcation";
 import Mapcontent from "./components/Mapcontent";
 import Mapuser from "./components/Mapuser";
 import GlobalStyle from "./components/GlobalStyle";
 import Admin from "./pages/ManageAdmin";
 import Line from "./components/auth/Line";
-import LoginLineTest from "./components/Form/LoginLineTest";
 
 function App() {
   return (
@@ -25,12 +23,11 @@ function App() {
           <Switch>
             <Route path="/" component={Mapuser} exact />
             <Route path="/notifications" component={Notification} />
+            <Route path="/line" component={Line} />
             <Route path="/officials" component={AdminLoginForm} />
-            <Route path="/mapadmin" component={MapNew} />
+            <Route path="/Mapadmin" component={MapNew} />
             <Route path="/mapuser" component={Mapcontent} />
             <Route path="/Admin" component={Admin} />
-            <Route path="/line" component={Line} />
-            <Route path="/loginLinetest" component={LoginLineTest} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>

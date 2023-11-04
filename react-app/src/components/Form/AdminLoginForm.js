@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import liff from "@line/liff";
 
 const AdminLoginForm = () => {
   const [formData, setFormData] = useState({
@@ -42,9 +43,22 @@ const AdminLoginForm = () => {
     );
 
     if (loginSuccessful) {
-      history.push("/mapadmin");
+      history.push("/Mapadmin");
     } else {
       setError("Wrong username or password. Please try again."); // Set the error message
+    }
+  };
+  useEffect(() => {
+    liff.init({ liffId: "2001488392-pk27JKYA" });
+  });
+  const handleLoginliff = () => {
+    try {
+      // Perform LINE login
+      liff.login();
+
+      // Assuming the login was successful, navigate to the Line.js component
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -92,6 +106,15 @@ const AdminLoginForm = () => {
               className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600"
             >
               Login
+            </button>
+          </div>
+          <div className="text-center">
+            <button
+              onClick={handleLoginliff}
+              type="submit"
+              className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600"
+            >
+              Login with Line
             </button>
           </div>
         </form>
