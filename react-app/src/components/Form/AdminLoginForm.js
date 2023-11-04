@@ -25,8 +25,8 @@ const AdminLoginForm = () => {
   };
 
   useEffect(() => {
+    liff.init({ liffId: "2001488392-pk27JKYA" });
     fetchAdminData();
-    handleLoginliff();
   }, []);
 
   const handleInputChange = (e) => {
@@ -47,18 +47,6 @@ const AdminLoginForm = () => {
       history.push("/Mapadmin");
     } else {
       setError("Wrong username or password. Please try again."); // Set the error message
-    }
-  };
-
-  const handleLoginliff = () => {
-    liff.init({ liffId: "2001488392-pk27JKYA" });
-    try {
-      // Perform LINE login
-      liff.login();
-
-      // Assuming the login was successful, navigate to the Line.js component
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -110,7 +98,7 @@ const AdminLoginForm = () => {
           </div>
           <div className="text-center mt-0.5">
             <button
-              onClick={handleLoginliff}
+              // onClick={handleLoginliff}
               type="submit"
               className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600"
             >
