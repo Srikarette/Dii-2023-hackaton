@@ -1,7 +1,15 @@
 {
+  "name": "dii-2023-hackaton",
+  "version": "1.0.0",
+  "description": "**Repository for hackation.**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "axios": "^1.5.1",
-    "expo-font": "^11.6.0",
-    "react-native-dotenv": "^3.4.9"
+    "react-native-safe-area-context": "^4.7.4",
+    "react-native-screens": "^3.27.0"
   }
 }

@@ -1,29 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/LogoAlertTown 2.png";
-export function Navbar() {
+
+const Navbar = () => {
   return (
-    <>
-      <nav className="text-white bg bg-red-600 flex justify-between items-center">
-        <Link to="/">
-          <img
-            src={Logo}
-            className="object-cover w-24 h-22 rounded-full bg-gradient-to-r from-purple-400 to-pink-300 ml-4"
-            alt="LogoPng"
-          />
+    <nav className="bg-black text-white">
+      <div className="container m-auto flex justify-between items-center py-4">
+        <Link to="/" className="text-2xl text-white">
+          <div className="flex items-center">
+            <img src={Logo} alt="Logo" className="w-12 h-12 mr-2" />
+            <span>Alert Town</span>
+          </div>
         </Link>
-        <ul className="flex">
-          <li className="list-none mx-3.5">
-            <Link
-              to="/officials"
-              className="border-2 border-rose-500 bg-slate-600 p-1 rounded-lg"
-            >
-              For officials
+        <ul className="flex text-lg">
+          <li className="mx-4">
+            <Link to="/" className="hover:text-red-500">
+              HOME
+            </Link>
+          </li>
+          <li className="mx-4">
+            <Link to="/" className="hover:text-red-500">
+              MAP
+            </Link>
+          </li>
+          <li className="mx-4">
+            <Link to="/officials" className="hover:text-red-500">
+              FOR OFFICIALS
             </Link>
           </li>
         </ul>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
-}
+};
+
 export default Navbar;
