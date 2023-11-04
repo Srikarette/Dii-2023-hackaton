@@ -51,13 +51,6 @@ const MapNew = () => {
     fetchUserLocation();
     fetchDataFromAPI();
   }, []);
-  const loaddata = () => {
-    fetchDataFromAPI()
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
 
   // FETCH USER LOCATION
   const fetchUserLocation = () => {

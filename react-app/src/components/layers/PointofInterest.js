@@ -19,8 +19,8 @@ const PointofInterest = () => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           const me = handleCheck(lat, lng, chiangmai); // Pass lat, lng, and chiangmai separately
-          console.log("I am here! " + me);
-          setCheck(me);
+          // console.log("I am here! " + me);
+          // setCheck(me);
         },
         (err) => {
           console.log("Cannot get Location ", err);
