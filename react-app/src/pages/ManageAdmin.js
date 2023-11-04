@@ -71,6 +71,7 @@ function Admin() {
     setUsername(accountToEdit.username);
     setPassword(accountToEdit.password);
     setEmail(accountToEdit.email);
+    setAgency(accountToEdit.agency)
   };
 
   const handleDelete = (id) => {
