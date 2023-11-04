@@ -73,3 +73,14 @@ exports.login = async (req, res) => {
     res.status(500).send("Server error: " + err.message);
   }
 };
+
+exports.loginLine = async (req, res) => {
+  try {
+    //code
+    console.log("hello Login Line");
+    res.send("hello login Line");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
