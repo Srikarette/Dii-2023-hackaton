@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AppsQr from "../assets/Download-Apps-qr.png";
-import Genocide from "../assets/Genocide.jpg"
+import DecorScreen1 from "../assets/screen1.png"
+import DecorScreen2 from "../assets/screen2.png"
+import DecorScreen3 from "../assets/screen3.png"
 import "../components/Home.css";
 
 function Home() {
@@ -86,23 +88,23 @@ function SlideShow({ slides, currentSlide }) {
                 <h1>OUR APPLICATION</h1>
                 <div className="inline-block mx-4 text-center">
                   <img
-                    src={AppsQr}
+                    src={DecorScreen1}
                     alt="QR Code Left"
-                    className="w-96 h-96"
+                    className="w-96 h-100"
                   />
                 </div>
                 <div className="inline-block mx-4 text-center">
                   <img
-                    src={AppsQr}
+                    src={DecorScreen2}
                     alt="QR Code Right"
-                    className="w-96 h-96"
+                    className="w-96 h-100"
                   />
                 </div>
                 <div className="inline-block mx-4 text-center">
                   <img
-                    src={AppsQr}
+                    src={DecorScreen3}
                     alt="QR Code Right"
-                    className="w-96 h-96"
+                    className="w-96 h-100"
                   />
                 </div>
               </div>
