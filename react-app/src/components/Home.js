@@ -57,13 +57,15 @@ function Home() {
 
 function SlideShow({ slides, currentSlide }) {
     return (
-      <div className="w-100 h-100 relative p-4 duration-500">
+      <div className="w-100 h-100 relative p-4">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
             className={`${
-              currentSlide === index ? "block" : "hidden"
-            } transition-opacity duration-500 text-center`}
+              currentSlide === index 
+              ? "opacity-100 transition-opacity duration-300 ease-in-out"
+              : "opacity-0 transition-opacity duration-300 ease-in-out"
+          } text-center absolute inset-0`}
           >
             {slide.id === 1 ? (
               <div className="h-full justify-center items-center ">
