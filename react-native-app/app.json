@@ -28,6 +28,9 @@
         "projectId": "140ef5d6-9ae8-4789-aab2-e9b40e001adf"
       }
     },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "updates": {
       "url": "https://u.expo.dev/140ef5d6-9ae8-4789-aab2-e9b40e001adf"
     },
@@ -37,13 +40,8 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE"
       ],
-      "runtimeVersion": "1.0.0",
       "package": "com.srikarette.alerttown"
     },
-    "ios": {
-      "runtimeVersion": {
-        "policy": "appVersion"
-      }
-    }
+    "ios": {}
   }
 }
