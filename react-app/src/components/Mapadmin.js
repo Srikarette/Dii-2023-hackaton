@@ -21,7 +21,13 @@ const Mapadmin = () => {
   const [zoom, setZoom] = useState(initialZoomLevel);
   const [center, setCenter] = useState(initialCenter);
 
-  const titleOptions = ["Fire", "Flood", "Land Slide", "Active Shooting"];
+  const titleOptions = [
+    "Select Category",
+    "Fire",
+    "Flood",
+    "Land Slide",
+    "Active Shooting",
+  ];
   const bounds = L.latLngBounds(L.latLng(5, 90), L.latLng(25, 120));
 
   const [fetchedData, setFetchedData] = useState([]);
@@ -154,7 +160,7 @@ const Mapadmin = () => {
     setForm({
       latitude: 0,
       longitude: 0,
-      category: "",
+      category: "", // Reset the category to its default value
     });
     loaddata();
   };
@@ -357,9 +363,10 @@ const Mapadmin = () => {
             )}
             {/* Render newly added markers */}
             {markers.map((newMarker, markerIndex) => {
-              let markerIcon = createCustomIcon("fire.png", [38, 38]);
-
-              if (newMarker.category === "flood") {
+              let markerIcon;
+              if (newMarker.category === "Fire") {
+                markerIcon = createCustomIcon("fire.png", [38, 38]);
+              } else if (newMarker.category === "Flood") {
                 markerIcon = createCustomIcon("flood.png", [38, 38]);
               } else if (newMarker.category === "Land Slide") {
                 markerIcon = createCustomIcon("landslide.png", [38, 38]);
@@ -424,6 +431,7 @@ const Mapadmin = () => {
               </label>
               <select
                 name="category"
+                value={form.category} // Add this line to set the select element's value
                 id="category"
                 onChange={(e) => handleOnChange(e)}
                 className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:border-blue-500"
@@ -470,6 +478,7 @@ const Mapadmin = () => {
             <div className="text-center">
               <button
                 type="submit"
+                disabled={form.category === "Select Category"} // Disable the button when the category is "Select Category"
                 className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover-bg-blue-600 focus:outline-none focus:bg-blue-600"
               >
                 Submit
