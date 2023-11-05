@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef} from 'react';
 import { useNavigation } from '@react-navigation/native';
-import MapView, { Circle, Marker } from 'react-native-maps';
+import MapView, { Circle, Marker, PROVIDER_GOOGLE,enableLatestRenderer } from 'react-native-maps';
 import { Text, StyleSheet, View, Dimensions, Button, TouchableOpacity, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
 import * as Device from 'expo-device';
@@ -13,6 +13,9 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+MapView.setWebApiKey('https://u.expo.dev/140ef5d6-9ae8-4789-aab2-e9b40e001adf');
+enableLatestRenderer();
+
 
 export default function MapScreen() {
   const pinTimer = 3600000; // millisecound
@@ -200,9 +203,10 @@ export default function MapScreen() {
 
   }, []);
 
+  
   return (
-    <View style={styles.container} key={refreshKey}>
-      <MapView style={styles.map} region={mapRegion}>
+    <View style={styles.container} key={refreshKey} >
+      <MapView style={styles.map} region={mapRegion} provider={PROVIDER_GOOGLE}>
         {/* Marker for user's current location */}
         <Marker
           coordinate={mapRegion}
@@ -330,8 +334,8 @@ const styles = StyleSheet.create({
 async function schedulePushNotification() {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "This is just Notification test!! 📬",
-      body: 'Here is the notification body',
+      title: "Emergency Alert !📬",
+      body: 'There are emergency nearby check out!',
       data: { data: 'goes here' },
     },
     trigger: { seconds: 1 },
