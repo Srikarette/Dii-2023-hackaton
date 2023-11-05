@@ -86,7 +86,7 @@ const Navbar = () => {
                     <div className="w-12 h-12 rounded-full overflow-hidden">
                       <img
                         src={userPicture}
-                        alt="User Picture"
+                        alt="User-profile"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -133,7 +133,7 @@ const Navbar = () => {
                       <div className="w-12 h-12 rounded-full overflow-hidden">
                         <img
                           src={userPicture}
-                          alt="User Picture"
+                          alt="User-profile"
                           className="w-12 h-12 mr-2 object-cover"
                         />
                       </div>

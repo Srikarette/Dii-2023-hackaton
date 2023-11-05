@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { Marker } from "react-leaflet";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import L from "leaflet";
 
