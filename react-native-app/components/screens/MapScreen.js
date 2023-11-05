@@ -13,7 +13,7 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-MapView.setWebApiKey('AIzaSyDZzEZFih1r4Y-B1J1m6nhsuGu1WT-Vylo');
+
 enableLatestRenderer();
 
 
@@ -38,7 +38,7 @@ export default function MapScreen() {
   const [isCircleVisible, setIsCircleVisible] = useState(false);
   const [markers, setMarkers] = useState([]);
   const statusRadius = 2000; // 1 meter
-  const circleRadius = 1000; // 4 kilometers
+  const circleRadius = 2000; // 4 kilometers
 
   const [selectedChoice, setSelectedChoice] = useState(null);
   const choices = ['Fire', 'Flood', 'Land Slide', 'Active Shooting'];
