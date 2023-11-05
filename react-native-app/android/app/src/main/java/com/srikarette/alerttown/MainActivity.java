@@ -1,4 +1,4 @@
-package com.phuriphon.alerttown;
+package com.srikarette.alerttown;
 
 import android.os.Build;
 import android.os.Bundle;

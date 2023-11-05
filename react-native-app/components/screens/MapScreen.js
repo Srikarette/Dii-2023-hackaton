@@ -13,7 +13,7 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-MapView.setWebApiKey('https://u.expo.dev/140ef5d6-9ae8-4789-aab2-e9b40e001adf');
+MapView.setWebApiKey('AIzaSyDZzEZFih1r4Y-B1J1m6nhsuGu1WT-Vylo');
 enableLatestRenderer();
 
 

@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.phuriphon.alerttown'
+    namespace 'com.srikarette.alerttown'
     defaultConfig {
-        applicationId 'com.phuriphon.alerttown'
+        applicationId 'com.srikarette.alerttown'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
