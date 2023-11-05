@@ -55,9 +55,9 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-black text-white z-50">
+      <nav className="bg-gray-900 text-white z-50">
         <div className="container m-auto flex justify-between items-center py-4">
-          <Link to="/" className="text-2xl text-white">
+          <Link to="/map" className="text-2xl text-white">
             <div className="flex items-center">
               <img src={Logo} alt="Logo" className="w-12 h-12 mr-2" />
               <span>Alert Town</span>
@@ -66,21 +66,21 @@ const Navbar = () => {
           <div className="hidden md:flex text-lg">
             <ul className="flex ">
               <li className="mx-4">
-                <Link to="/" className="hover:text-red-500">
+                <Link to="/" className="hover:text-red-500 duration-300">
                   HOME
                 </Link>
               </li>
               <li className="mx-4">
-                <Link to="/" className="hover:text-red-500">
+                <Link to="/map" className="hover:text-red-500  duration-300">
                   MAP
                 </Link>
               </li>
               <li className="mx-4">
-                <Link to="/officials" className="hover:text-red-500">
+                <Link to="/officials" className="hover:text-red-500  duration-300">
                   FOR OFFICIALS
                 </Link>
               </li>
-              <li>
+              <li className="mx-4">
                 {userName ? (
                   <div className="flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -90,16 +90,16 @@ const Navbar = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <span className="text-green-200 ml-2">{userName}</span>
+                    <span className="text-green-200 ml-2  duration-300">{userName}</span>
                     <span
                       onClick={handleLogout} // Add a click event to trigger logout
-                      className="cursor-pointer hover:text-red-500 ml-2"
+                      className="cursor-pointer hover:text-red-500 ml-2 duration-300 cursor-pointer"
                     >
                       Logout
                     </span>
                   </div>
                 ) : (
-                  <span onClick={handleLoginliff}> Login with Line</span>
+                  <span onClick={handleLoginliff} className="hover:text-green-500  duration-300 cursor-pointer"> Link with Line</span>
                 )}
               </li>
             </ul>
@@ -113,17 +113,17 @@ const Navbar = () => {
             <div className="md:hidden absolute top-16 right-0 left-0 bg-black z-10">
               <ul className="text-center py-2">
                 <li>
-                  <Link to="/" className="block text-white py-2">
+                  <Link to="/" className="block text-white py-2 duration-300">
                     HOME
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className="block text-white py-2">
+                  <Link to="/map" className="block text-white py-2 duration-300">
                     MAP
                   </Link>
                 </li>
                 <li>
-                  <Link to="/officials" className="block text-white py-2">
+                  <Link to="/officials" className="block text-white py-2 duration-300">
                     FOR OFFICIALS
                   </Link>
                 </li>
@@ -137,14 +137,14 @@ const Navbar = () => {
                           className="w-12 h-12 mr-2 object-cover"
                         />
                       </div>
-                      <span className="text-green-200 ml-2">{userName}</span>
+                      <span className="text-green-200 ml-2 ">{userName}</span>
                     </div>
                   ) : (
                     <span
                       onClick={handleLoginliff}
-                      className="block text-white py-2"
+                      className="block text-white py-2 duration-300 cursor-pointer"
                     >
-                      Login with Line
+                      Link with Line
                     </span>
                   )}
                 </li>
