@@ -1,14 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  useMapEvents,
-  Circle,
-  useMap,
-  TileLayer,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import MarkerClusterGroup from "react-leaflet-cluster";
@@ -19,7 +11,7 @@ import { fetchAllNotifications } from "./functions/fetchNotifications";
 import Formedit from "./Form/Formedit";
 import CombineLayers from "./layers/CombineLayers";
 
-const MapNew = () => {
+const Mapadmin = () => {
   const initialCenter = [13.7563, 100.5018];
   const initialZoomLevel = 6;
   const mapRef = useRef(); // Create a ref to store the map instance
@@ -144,7 +136,7 @@ const MapNew = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    handlePostMarker(form.category, form.lat, form.lng);
+    handlePostMarker(form.category, form.latitude, form.longitude);
 
     // Create a new marker data
     const newMarker = {
@@ -175,7 +167,7 @@ const MapNew = () => {
   // Handle posting a new marker to the server
   const handlePostMarker = async (category, latitude, longitude) => {
     try {
-      const response = await axios.post("http://localhost:8090/notifications", {
+      const response = await axios.post("http://localhost:8080/notifications", {
         category: category,
         latitude: latitude,
         longitude: longitude,
@@ -193,14 +185,19 @@ const MapNew = () => {
 
   // Handle deleting a marker
   const handleDeleteMarker = (notificationId) => {
-    loaddata();
+    // Perform the delete operation
     axios
-      .delete(`http://localhost:8090/notifications/${notificationId}`)
+      .delete(`http://localhost:8080/notifications/${notificationId}`)
       .then((response) => {
-        // Handle success, such as removing the marker from the map
+        if (response.status === 200) {
+          console.log("Data deleted successfully");
+          loaddata(); // Reload data after successful deletion
+        } else {
+          console.error("Failed to delete data:", response.statusText);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error:", error);
       });
   };
 
@@ -224,7 +221,7 @@ const MapNew = () => {
     // Send the updated marker data to the server here
     // For example, you can use an Axios POST request
     axios
-      .patch(`http://localhost:8090/notifications/${id}`, formData, {
+      .patch(`http://localhost:8080/notifications/${id}`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -485,4 +482,4 @@ const MapNew = () => {
   );
 };
 
-export default MapNew;
+export default Mapadmin;
