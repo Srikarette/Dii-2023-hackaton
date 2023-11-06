@@ -69,12 +69,12 @@ const MapNew = () => {
 
   // Fetch data from Spring boot 8090
   const fetchDataFromAPI = async () => {
-    try {
-      const data = await fetchAllNotifications();
-      setFetchedData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+      try {
+        const data = await fetchAllNotifications();
+        setFetchedData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
   };
 
   // Click for ready Marked
