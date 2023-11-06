@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AppsQr from "../assets/Download-Apps-qr.png";
+import LineQr from "../assets/Line-add-friend.png"
 import DecorScreen1 from "../assets/screen1.png"
 import DecorScreen2 from "../assets/screen2.png"
 import DecorScreen3 from "../assets/screen3.png"
@@ -126,7 +127,7 @@ function SlideShow({ slides, currentSlide }) {
                 </div>
                 <div className="inline-block mx-4 text-center">
                   <img
-                    src={AppsQr}
+                    src={LineQr}
                     alt="QR Code Right"
                     className="w-96 h-96"
                   />

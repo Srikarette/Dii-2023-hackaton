@@ -57,7 +57,7 @@ const Navbar = () => {
     <>
       <nav className="bg-gray-900 text-white z-50">
         <div className="container m-auto flex justify-between items-center py-4">
-          <Link to="/map" className="text-2xl text-white">
+          <Link to="/" className="text-2xl text-white">
             <div className="flex items-center">
               <img src={Logo} alt="Logo" className="w-12 h-12 mr-2" />
               <span>Alert Town</span>
