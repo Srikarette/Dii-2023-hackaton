@@ -7,7 +7,6 @@ import Mapadmin from "./components/Mapadmin";
 import Erro404 from "./pages/Erro404";
 import Navbar from "./components/Navbar";
 import AdminLoginForm from "./components/Form/AdminLoginForm";
-import Mapcontent from "./components/Mapcontent";
 import Mapuser from "./components/Mapuser";
 import Admin from "./pages/ManageAdmin";
 import Home from "./components/Home";
@@ -24,7 +23,6 @@ function App() {
             <Route path="/notifications" component={Notification} />
             <Route path="/officials" component={AdminLoginForm} />
             <Route path="/Mapadmin" component={Mapadmin} />
-            <Route path="/mapuser" component={Mapcontent} />
             <Route path="/Admin" component={Admin} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
