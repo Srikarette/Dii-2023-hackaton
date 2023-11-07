@@ -86,10 +86,15 @@ const AdminLoginForm = () => {
               onChange={handleInputChange}
               className="mt-1 block w-full border rounded-lg focus:ring focus:ring-blue-200"
             />
-            <a href="https://shorturl.at/lGLO9" className="text-xs text-blue-500 duration-300  hover:text-blue-900">request account?</a>
+            <a
+              href="https://shorturl.at/lGLO9"
+              className="text-xs text-blue-500 duration-300  hover:text-blue-900"
+            >
+              request account?
+            </a>
           </div>
           {error && <p className="text-red-600 text-center mb-2">{error}</p>}
-          
+
           <div className="text-center">
             <button
               type="submit"
