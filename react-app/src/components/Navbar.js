@@ -9,27 +9,29 @@ const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    liff
-      .init({ liffId: "2001488392-pk27JKYA" })
-      .then(() => {
-        handleLogin();
-      })
-      .catch((err) => console.log(err));
+    async function initializeLine() {
+      try {
+        await liff.init({ liffId: "2001488392-pk27JKYA" });
+
+        if (liff.isLoggedIn()) {
+          handleLogin();
+        }
+      } catch (err) {
+        console.log("LIFF initialization failed", err);
+      }
+    }
+
+    initializeLine();
   }, []);
 
   const handleLogin = async () => {
     try {
       const profile = await liff.getProfile();
-      const idToken = liff.getIDToken();
       const userDisplayName = profile.displayName;
       const userProfilePicture = profile.pictureUrl;
-
+      console.log(profile);
       setUserName(userDisplayName);
       setUserPicture(userProfilePicture);
-      // console.log(profile, idToken);
-      // console.log("User Name:", userDisplayName);
-      // console.log("Profile:", userProfilePicture);
-      // console.log("ID Token:", idToken);
     } catch (err) {
       console.log(err);
     }
@@ -64,21 +66,21 @@ const Navbar = () => {
             </div>
           </Link>
           <div className="hidden md:flex text-lg">
-            <ul className="flex ">
+            <ul className="flex">
               <li className="mx-4">
                 <Link to="/" className="hover:text-red-500 duration-300">
                   HOME
                 </Link>
               </li>
               <li className="mx-4">
-                <Link to="/map" className="hover:text-red-500  duration-300">
+                <Link to="/map" className="hover:text-red-500 duration-300">
                   MAP
                 </Link>
               </li>
               <li className="mx-4">
                 <Link
                   to="/officials"
-                  className="hover:text-red-500  duration-300"
+                  className="hover:text-red-500 duration-300"
                 >
                   FOR OFFICIALS
                 </Link>
@@ -93,11 +95,11 @@ const Navbar = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <span className="text-green-200 ml-2  duration-300">
+                    <span className="text-green-200 ml-2 duration-300">
                       {userName}
                     </span>
                     <span
-                      onClick={handleLogout} // Add a click event to trigger logout
+                      onClick={handleLogout}
                       className="cursor-pointer hover:text-red-500 ml-2 duration-300 cursor-pointer"
                     >
                       Logout
@@ -106,7 +108,7 @@ const Navbar = () => {
                 ) : (
                   <span
                     onClick={handleLoginliff}
-                    className="hover:text-green-500  duration-300 cursor-pointer"
+                    className="hover:text-green-500 duration-300 cursor-pointer"
                   >
                     {" "}
                     Link with Line

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AppsQr from "../assets/Download-Apps-qr.png";
-import LineQr from "../assets/Line-add-friend.png"
-import DecorScreen1 from "../assets/screen1.png"
-import DecorScreen2 from "../assets/screen2.png"
-import DecorScreen3 from "../assets/screen3.png"
+import LineQr from "../assets/Line-add-friend.png";
+import DecorScreen1 from "../assets/screen1.png";
+import DecorScreen2 from "../assets/screen2.png";
+import DecorScreen3 from "../assets/screen3.png";
 import "../components/Home.css";
 
 function Home() {
@@ -29,9 +29,9 @@ function Home() {
   return (
     <div className="h-screen flex flex-col">
       <div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
+        <div className="wave"></div>
+        <div className="wave"></div>
+        <div className="wave"></div>
       </div>
       <div className="flex-1 flex justify-center items-center">
         <div className="w-5/6 h-4/6 mb-64 border border-black p-4 relative duration-500">
@@ -48,7 +48,9 @@ function Home() {
         </div>
       </div>
       <div className="bg-gray-900 text-white py-2 text-center">
-        <div className="px-4 mt-2"> {/* Move address to the bottom */}
+        <div className="px-4 mt-2">
+          {" "}
+          {/* Move address to the bottom */}
           <span>Alert Town since 2023</span>
         </div>
       </div>
@@ -57,95 +59,109 @@ function Home() {
 }
 
 function SlideShow({ slides, currentSlide }) {
-    return (
-      <div className="w-100 h-100 relative p-4">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`${
-              currentSlide === index 
+  return (
+    <div className="w-100 h-100 relative p-4">
+      {slides.map((slide, index) => (
+        <div
+          key={slide.id}
+          className={`${
+            currentSlide === index
               ? "opacity-100 transition-opacity duration-300 ease-in-out"
               : "opacity-0 transition-opacity duration-300 ease-in-out"
           } text-center absolute inset-0`}
-          >
-            {slide.id === 1 ? (
-              <div className="h-full justify-center items-center ">
-                <div className="h-64 text-center border border-black">
-                  <h2 className="whitespace-nowrap mt-6">Background and Significance of the Study</h2>
-                  <p className="m-8 text-lg">
-                    In today's rapidly changing world, the need for effective and efficient emergency alert systems is paramount. Timely and accurate information dissemination during emergencies can save lives and minimize property damage. This project proposal will build on an emergency notification system to ensure that it meets current technological standards and can respond effectively to emergency situations.
-                  </p>
-                </div>
-                <div className="h-58 text-center mt-2 border border-black">
-                  <h2 className="whitespace-nowrap mt-2">Project Objectives</h2>
-                  <ul className="text-left m-4 text-lg">
-                    <li>1) Create emergency notification systems to ensure they are compatible with the latest technology.</li>
-                    <li>2) Build the scalability and reliability of the system to support increased volumes of emergency alerts.</li>
-                    <li>3) Create the user interface and user experience for both the sender and recipient of the notification.</li>
-                    <li>4) Expand the types of emergencies the system can cover, such as natural disasters and public health crises, and report crimes.</li>
-                  </ul>
-                </div>
+        >
+          {slide.id === 1 ? (
+            <div className="h-full justify-center items-center ">
+              <div className="h-64 text-center border border-black">
+                <h2 className="whitespace-nowrap mt-6">
+                  Background and Significance of the Study
+                </h2>
+                <p className="m-8 text-lg">
+                  In today's rapidly changing world, the need for effective and
+                  efficient emergency alert systems is paramount. Timely and
+                  accurate information dissemination during emergencies can save
+                  lives and minimize property damage. This project proposal will
+                  build on an emergency notification system to ensure that it
+                  meets current technological standards and can respond
+                  effectively to emergency situations.
+                </p>
               </div>
-            ) : slide.id === 2 ? (
-                <div className="w-100 h-96 justify-center items-center">
-                <h1>OUR APPLICATION</h1>
-                <div className="inline-block mx-4 text-center">
-                  <img
-                    src={DecorScreen1}
-                    alt="QR Code Left"
-                    className="w-96 h-100"
-                  />
-                </div>
-                <div className="inline-block mx-4 text-center">
-                  <img
-                    src={DecorScreen2}
-                    alt="QR Code Right"
-                    className="w-96 h-100"
-                  />
-                </div>
-                <div className="inline-block mx-4 text-center">
-                  <img
-                    src={DecorScreen3}
-                    alt="QR Code Right"
-                    className="w-96 h-100"
-                  />
-                </div>
+              <div className="h-58 text-center mt-2 border border-black">
+                <h2 className="whitespace-nowrap mt-2">Project Objectives</h2>
+                <ul className="text-left m-4 text-lg">
+                  <li>
+                    1) Create emergency notification systems to ensure they are
+                    compatible with the latest technology.
+                  </li>
+                  <li>
+                    2) Build the scalability and reliability of the system to
+                    support increased volumes of emergency alerts.
+                  </li>
+                  <li>
+                    3) Create the user interface and user experience for both
+                    the sender and recipient of the notification.
+                  </li>
+                  <li>
+                    4) Expand the types of emergencies the system can cover,
+                    such as natural disasters and public health crises, and
+                    report crimes.
+                  </li>
+                </ul>
               </div>
-            ) : slide.id === 3 ? (
-              <div className="w-100 h-96 justify-center items-center">
-                <h1>JOIN US</h1>
-                <div className="inline-block mx-4 text-center">
-                  <img
-                    src={AppsQr}
-                    alt="QR Code Left"
-                    className="w-96 h-96"
-                  />
-                  <p className="mt-1">Download Apps</p>
-                  <p className="text-sm">
-                    (Currently for <span className="text-green-500">Android only</span>)
-                  </p>
-                </div>
-                <div className="inline-block mx-4 text-center">
-                  <img
-                    src={LineQr}
-                    alt="QR Code Right"
-                    className="w-96 h-96"
-                  />
-                  <p className="mt-1">
-                    <span className="text-green-500">Line</span> Add
-                  </p>
-                  <p className="text-sm">For everyone!</p>
-                </div>
+            </div>
+          ) : slide.id === 2 ? (
+            <div className="w-100 h-96 justify-center items-center">
+              <h1>OUR APPLICATION</h1>
+              <div className="inline-block mx-4 text-center">
+                <img
+                  src={DecorScreen1}
+                  alt="QR Code Left"
+                  className="w-96 h-100"
+                />
               </div>
-            ) : (
-              <h2>{slide.text}</h2>
-            )}
-          </div>
-        ))}
-      </div>
-    );
-  }
-  
+              <div className="inline-block mx-4 text-center">
+                <img
+                  src={DecorScreen2}
+                  alt="QR Code Right"
+                  className="w-96 h-100"
+                />
+              </div>
+              <div className="inline-block mx-4 text-center">
+                <img
+                  src={DecorScreen3}
+                  alt="QR Code Right"
+                  className="w-96 h-100"
+                />
+              </div>
+            </div>
+          ) : slide.id === 3 ? (
+            <div className="w-100 h-96 justify-center items-center">
+              <h1>JOIN US</h1>
+              <div className="inline-block mx-4 text-center">
+                <img src={AppsQr} alt="QR Code Left" className="w-96 h-96" />
+                <p className="mt-1">Download Apps</p>
+                <p className="text-sm">
+                  (Currently for{" "}
+                  <span className="text-green-500">Android only</span>)
+                </p>
+              </div>
+              <div className="inline-block mx-4 text-center">
+                <img src={LineQr} alt="QR Code Right" className="w-96 h-96" />
+                <p className="mt-1">
+                  <span className="text-green-500">Line</span> Add
+                </p>
+                <p className="text-sm">For everyone!</p>
+              </div>
+            </div>
+          ) : (
+            <h2>{slide.text}</h2>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function SlideSelector({ slides, currentSlide, onChange }) {
   return (
     <div className="absolute bottom-1 left-0 right-0 text-center mt-2">

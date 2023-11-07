@@ -17,6 +17,7 @@ import "leaflet/dist/leaflet.css";
 //For backend test
 import { fetchAllNotifications } from "./functions/fetchNotifications";
 import CombineLayers from "./layers/CombineLayers";
+import liff from "@line/liff";
 
 const MapNew = () => {
   const initialCenter = [13.7563, 100.5018];
@@ -69,12 +70,12 @@ const MapNew = () => {
 
   // Fetch data from Spring boot 8090
   const fetchDataFromAPI = async () => {
-      try {
-        const data = await fetchAllNotifications();
-        setFetchedData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    try {
+      const data = await fetchAllNotifications();
+      setFetchedData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   // Click for ready Marked
