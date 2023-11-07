@@ -76,7 +76,10 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="mx-4">
-                <Link to="/officials" className="hover:text-red-500  duration-300">
+                <Link
+                  to="/officials"
+                  className="hover:text-red-500  duration-300"
+                >
                   FOR OFFICIALS
                 </Link>
               </li>
@@ -90,7 +93,9 @@ const Navbar = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <span className="text-green-200 ml-2  duration-300">{userName}</span>
+                    <span className="text-green-200 ml-2  duration-300">
+                      {userName}
+                    </span>
                     <span
                       onClick={handleLogout} // Add a click event to trigger logout
                       className="cursor-pointer hover:text-red-500 ml-2 duration-300 cursor-pointer"
@@ -99,7 +104,13 @@ const Navbar = () => {
                     </span>
                   </div>
                 ) : (
-                  <span onClick={handleLoginliff} className="hover:text-green-500  duration-300 cursor-pointer"> Link with Line</span>
+                  <span
+                    onClick={handleLoginliff}
+                    className="hover:text-green-500  duration-300 cursor-pointer"
+                  >
+                    {" "}
+                    Link with Line
+                  </span>
                 )}
               </li>
             </ul>
@@ -118,12 +129,18 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/map" className="block text-white py-2 duration-300">
+                  <Link
+                    to="/map"
+                    className="block text-white py-2 duration-300"
+                  >
                     MAP
                   </Link>
                 </li>
                 <li>
-                  <Link to="/officials" className="block text-white py-2 duration-300">
+                  <Link
+                    to="/officials"
+                    className="block text-white py-2 duration-300"
+                  >
                     FOR OFFICIALS
                   </Link>
                 </li>
