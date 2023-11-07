@@ -34,11 +34,7 @@ const CSVFileLocal = () => {
     ); //กรอง data เก็บไว้ใน item
     setAirport(filterAirport);
   };
-  // return airport
-  //   ? airport.map((item, index) => (
-  //       <Marker key={index} position={[item.lat, item.long]}></Marker>
-  //     ))
-  //   : null; // lat ก่อน long
+
 };
 
 export default CSVFileLocal;
