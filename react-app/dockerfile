@@ -1,0 +1,20 @@
+# Use an official Node.js runtime as the base image
+FROM node:14
+
+# Expose the app port is listening on (e.g., 3000)
+EXPOSE 3000
+
+
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files to the working directory
+COPY package*.json ./
+
+# Install app dependencies
+RUN npm install
+
+# Bundle app source code inside the container
+COPY . .
+
+# Define the command to run your application
+CMD [ "npm", "start" ]

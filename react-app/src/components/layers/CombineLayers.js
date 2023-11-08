@@ -1,5 +1,5 @@
 import React from "react";
-import { LayersControl, LayerGroup, TileLayer } from "react-leaflet";
+import { LayersControl, TileLayer } from "react-leaflet";
 import ProvinceTH from "./ProvinceTH";
 import PointofInterest from "./PointofInterest";
 

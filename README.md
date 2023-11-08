@@ -139,6 +139,8 @@
 
     5. runing database server: ngrok http --domain=generous-snail-nearby.ngrok-free.app 8080
 
+    docker run --name web-app-react -p 3000:3000 -d your-image-name
+
   
 
 

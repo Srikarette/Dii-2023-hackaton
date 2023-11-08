@@ -1,5 +1,3 @@
-import React from "react";
-
 export async function fetchAllNotifications() {
   try {
     const response = await fetch("http://localhost:8080/notifications");

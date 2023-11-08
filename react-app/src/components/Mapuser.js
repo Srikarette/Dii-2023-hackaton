@@ -17,6 +17,7 @@ import "leaflet/dist/leaflet.css";
 //For backend test
 import { fetchAllNotifications } from "./functions/fetchNotifications";
 import CombineLayers from "./layers/CombineLayers";
+import liff from "@line/liff";
 
 const MapNew = () => {
   const initialCenter = [13.7563, 100.5018];
@@ -139,7 +140,7 @@ const MapNew = () => {
             ref={mapRef} // Assign the map instance to the ref
             className="MapContainer"
             bounds={bounds}
-            style={{ height: "89vh", width: "100%" }}
+            style={{ height: "89vh", width: "100%", zIndex: "0" }}
             minZoom={6}
           >
             <CombineLayers />

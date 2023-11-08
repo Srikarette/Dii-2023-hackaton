@@ -1,8 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.content-table {
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geologica:wght@100;200;300;400;500;600;700;800;900&display=swap");
+* {
+  margin: 0;
+  font-family: "Anton", "Geologica", sans-serif;
+}
+/* .content-table {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -29,4 +34,4 @@
 }
 .float-button {
   z-index: 1000;
-}
+} */

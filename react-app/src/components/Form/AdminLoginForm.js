@@ -25,6 +25,7 @@ const AdminLoginForm = () => {
   };
 
   useEffect(() => {
+    liff.init({ liffId: "2001488392-pk27JKYA" });
     fetchAdminData();
   }, []);
 
@@ -48,22 +49,9 @@ const AdminLoginForm = () => {
       setError("Wrong username or password. Please try again."); // Set the error message
     }
   };
-  useEffect(() => {
-    liff.init({ liffId: "2001488392-pk27JKYA" });
-  });
-  const handleLoginliff = () => {
-    try {
-      // Perform LINE login
-      liff.login();
-
-      // Assuming the login was successful, navigate to the Line.js component
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center pt-14 ">
+    <div className="flex items-center justify-center pt-14 ">
       <div className="bg-white p-8 rounded-md shadow-md w-80 border-1">
         <h2 className="text-2xl font-semibold text-center mb-4">Admin Login</h2>
         <form onSubmit={handleSubmit}>
@@ -98,23 +86,21 @@ const AdminLoginForm = () => {
               onChange={handleInputChange}
               className="mt-1 block w-full border rounded-lg focus:ring focus:ring-blue-200"
             />
+            <a
+              href="https://shorturl.at/lGLO9"
+              className="text-xs text-blue-500 duration-300  hover:text-blue-900"
+            >
+              request account?
+            </a>
           </div>
           {error && <p className="text-red-600 text-center mb-2">{error}</p>}
+
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600"
+              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600 duration-300 hover:bg-blue-900"
             >
               Login
-            </button>
-          </div>
-          <div className="text-center">
-            <button
-              onClick={handleLoginliff}
-              type="submit"
-              className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover-bg-blue-600 focus:outline-none focus-bg-blue-600"
-            >
-              Login with Line
             </button>
           </div>
         </form>
