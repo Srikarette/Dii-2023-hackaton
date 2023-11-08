@@ -154,7 +154,8 @@ public class DeviceControllerTest {
     public void testUpdateDeviceSomeFieldNotFound() {
         when(deviceRepository.findById(2L)).thenReturn(Optional.empty());
         DeviceDTO deviceDTO = new DeviceDTO();
-
+        
+        deviceDTO.setDevice_name("newName");
         ResponseEntity<?> response = deviceController.updateDeviceSomeField(2L, deviceDTO);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

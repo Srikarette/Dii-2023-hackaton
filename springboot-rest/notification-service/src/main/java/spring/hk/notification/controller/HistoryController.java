@@ -81,11 +81,11 @@ public class HistoryController {
     @DeleteMapping("/historys/{id}")
     public ResponseEntity<?> deleteHistoryById(@PathVariable Long id) {
         Optional<History> historys = historyRepository.findById(id);
-        if (historys.isPresent()) {
-            historyRepository.deleteById(id);
-            return ResponseEntity.ok("deleted");
+        if (!historys.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("History not found");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("History not found");
+        historyRepository.deleteById(id);
+        return ResponseEntity.ok("deleted");
     }
 
     // update history by id

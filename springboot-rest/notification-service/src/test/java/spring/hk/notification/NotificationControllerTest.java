@@ -100,7 +100,7 @@ public class NotificationControllerTest {
         ResponseEntity<?> response = notificationController.deleteNoti(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(testNotification, ((Optional<?>) response.getBody()).get());
+        assertEquals("deleted",  response.getBody());
     }
 
     @Test
