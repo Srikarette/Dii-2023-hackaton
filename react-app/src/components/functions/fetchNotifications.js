@@ -1,7 +1,7 @@
 export async function fetchAllNotifications() {
   try {
     console.log('Start fetching');
-    const response = await fetch('http://localhost:8080/notifications/', {
+    const response = await fetch('http://localhost:8081/notifications/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export async function fetchAllNotifications() {
 
 export async function fetchNotificationById(id) {
   try {
-    const response = await fetch(`http://localhost:8080/notifications/${id}`);
+    const response = await fetch(`http://localhost:8081/notifications/${id}`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

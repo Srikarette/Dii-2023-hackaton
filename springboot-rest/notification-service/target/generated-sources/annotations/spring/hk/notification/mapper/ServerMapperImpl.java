@@ -15,8 +15,8 @@ import spring.hk.notification.model.User;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-06T12:40:43+0700",
-    comments = "version: 1.3.1.Final, compiler: Eclipse JDT (IDE) 3.36.0.v20231030-1524, environment: Java 17.0.9 (Eclipse Adoptium)"
+    date = "2023-11-08T16:35:05+0700",
+    comments = "version: 1.3.1.Final, compiler: javac, environment: Java 20.0.2 (Oracle Corporation)"
 )
 @Component
 public class ServerMapperImpl implements ServerMapper {
