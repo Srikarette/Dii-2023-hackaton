@@ -19,7 +19,7 @@ import { fetchAllNotifications } from "./functions/fetchNotifications";
 import CombineLayers from "./layers/CombineLayers";
 import liff from "@line/liff";
 
-const MapNew = () => {
+const Mapuser = () => {
   const initialCenter = [13.7563, 100.5018];
   const initialZoomLevel = 6;
   const mapRef = useRef(); // Create a ref to store the map instance
@@ -227,4 +227,4 @@ const MapNew = () => {
   );
 };
 
-export default MapNew;
+export default Mapuser;
