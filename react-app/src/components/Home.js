@@ -23,7 +23,7 @@ import "swiper/css/bundle";
 const Home = () => {
   return (
     <>
-      <div className="container mx-auto ">
+      <div className="container mx-auto">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={50}
@@ -113,7 +113,7 @@ const Home = () => {
       </div>
       {/* */}
 
-      <div>
+      <div className="mt-4">
         <div className="wave"></div>
         <div className="wave"></div>
         <div className="wave"></div>
