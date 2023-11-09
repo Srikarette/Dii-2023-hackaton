@@ -126,14 +126,17 @@ const Navbar = () => {
             <div className="md:hidden absolute top-16 right-0 left-0 bg-black z-10">
               <ul className="text-center py-2">
                 <li>
-                  <Link to="/" className="block text-white py-2 duration-300">
+                  <Link
+                    to="/"
+                    className="block text-white py-2 duration-300  hover:bg-red-500"
+                  >
                     HOME
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/map"
-                    className="block text-white py-2 duration-300"
+                    className="block text-white py-2 duration-300 hover:bg-red-500"
                   >
                     MAP
                   </Link>
@@ -141,7 +144,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/officials"
-                    className="block text-white py-2 duration-300"
+                    className="block text-white py-2 duration-300 hover:bg-red-500"
                   >
                     FOR OFFICIALS
                   </Link>
@@ -153,7 +156,7 @@ const Navbar = () => {
                         <img
                           src={userPicture}
                           alt="User-profile"
-                          className="w-12 h-12 mr-2 object-cover"
+                          className="w-12 h-12 mr-2 object-cover hover:bg-red-500"
                         />
                       </div>
                       <span className="text-green-200 ml-2 ">{userName}</span>
@@ -161,7 +164,7 @@ const Navbar = () => {
                   ) : (
                     <span
                       onClick={handleLoginliff}
-                      className="block text-white py-2 duration-300 cursor-pointer"
+                      className="block text-white py-2 duration-300 cursor-pointer hover:bg-red-500"
                     >
                       Link with Line
                     </span>

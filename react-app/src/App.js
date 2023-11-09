@@ -10,6 +10,7 @@ import AdminLoginForm from "./components/Form/AdminLoginForm";
 import Mapuser from "./components/Mapuser";
 import Admin from "./pages/ManageAdmin";
 import Home from "./components/Home";
+import Hometest from "./components/Home";
 
 function App() {
   return (
@@ -18,12 +19,13 @@ function App() {
         <div className="App">
           <Navbar />
           <Switch>
-          <Route path="/" component={Home} exact />
+            <Route path="/" component={Home} exact />
             <Route path="/map" component={Mapuser} exact />
             <Route path="/notifications" component={Notification} />
             <Route path="/officials" component={AdminLoginForm} />
             <Route path="/Mapadmin" component={Mapadmin} />
             <Route path="/Admin" component={Admin} />
+            <Route path="/hometest" component={Hometest} />
             <Route component={Erro404} />{" "}
             {/* This route will handle 404 cases */}
           </Switch>
