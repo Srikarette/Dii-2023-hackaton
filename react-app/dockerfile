@@ -16,6 +16,15 @@ COPY . .
 # Build the React app for production
 RUN npm run build
 
+FROM alpine:latest
+
+WORKDIR /ngrok
+
+COPY ./ngrok /ngrok/
+
+CMD ["./ngrok", "http", "8081"]
+
+
 # Stage 2: Serve the React app using Nginx
 FROM nginx:1.19
 
