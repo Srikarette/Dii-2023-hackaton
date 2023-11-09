@@ -60,7 +60,7 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notification not found");
         }
         notificationRepository.deleteById(id);
-        return ResponseEntity.ok(notification);
+        return ResponseEntity.ok("deleted");
     }
 
     // update noti some field

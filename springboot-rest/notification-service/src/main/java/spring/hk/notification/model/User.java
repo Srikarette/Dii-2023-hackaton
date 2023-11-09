@@ -30,7 +30,6 @@ public class User {
         this.pictureUrl = pictureUrl;
         this.email = email;
         this.create_at = create_at;
-
     }
 
     public Long getId() {
@@ -72,5 +71,7 @@ public class User {
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
     }
+
+    
 
 }

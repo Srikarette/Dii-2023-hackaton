@@ -120,14 +120,18 @@ public class UserControllerTest {
 
     @Test
     public void testDeleteUser() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+
         ResponseEntity<String> response = userController.userDelete(1L);
 
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("id not found", response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("deleted", response.getBody());
     }
 
     @Test
     public void testDeleteUserNotFound() {
+        when(userRepository.findById(2L)).thenReturn(Optional.empty());
+
         ResponseEntity<String> response = userController.userDelete(2L);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -138,6 +142,7 @@ public class UserControllerTest {
     public void testUpdateUserSomeField() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("NewEmail");
 
         ResponseEntity<?> response = userController.updateUserSomeField(1L, userDTO);
 
@@ -149,7 +154,7 @@ public class UserControllerTest {
     public void testUpdateUserSomeFieldNotFound() {
         when(userRepository.findById(2L)).thenReturn(Optional.empty());
         UserDTO userDTO = new UserDTO();
-
+        userDTO.setEmail("NewEmail");
         ResponseEntity<?> response = userController.updateUserSomeField(2L, userDTO);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

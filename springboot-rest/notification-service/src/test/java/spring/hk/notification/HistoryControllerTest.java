@@ -123,43 +123,48 @@ public class HistoryControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("Id not found", response.getBody());
     }
-
-    @Test
-    public void testDeleteHistoryById() {
-        ResponseEntity<?> response = historyController.deleteHistoryById(1L);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("History not found", response.getBody());
-    }
-
-    @Test
-    public void testDeleteHistoryByIdNotFound() {
-        ResponseEntity<?> response = historyController.deleteHistoryById(2L);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("History not found", response.getBody());
-    }
-
+    
     @Test
     public void testUpdateHistorySomeField() {
         when(historyRepository.findById(1L)).thenReturn(Optional.of(testHistory));
         HistoryDTO historyDTO = new HistoryDTO();
         historyDTO.setUser_count(50);
-
+        
         ResponseEntity<?> response = historyController.updateHistorySomeField(1L, historyDTO);
-
+        
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("updated", response.getBody());
     }
-
+    
     @Test
     public void testUpdateHistorySomeFieldNotFound() {
         when(historyRepository.findById(2L)).thenReturn(Optional.empty());
         HistoryDTO historyDTO = new HistoryDTO();
-
+        
         ResponseEntity<?> response = historyController.updateHistorySomeField(2L, historyDTO);
-
+        
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("id not found", response.getBody());
     }
+    
+        @Test
+        public void testDeleteHistoryById() {   
+            when(historyRepository.findById(1L)).thenReturn(Optional.of(testHistory));
+            ResponseEntity<?> response = historyController.deleteHistoryById(1L);
+        
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertEquals("deleted", response.getBody());
+        }
+        
+        
+    
+        @Test
+        public void testDeleteHistoryByIdNotFound() {
+            when(historyRepository.findById(2L)).thenReturn(Optional.empty());
+
+            ResponseEntity<?> response = historyController.deleteHistoryById(2L);
+    
+            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+            assertEquals("History not found", response.getBody());
+        }
 }
