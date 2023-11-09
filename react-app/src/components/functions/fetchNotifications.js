@@ -1,11 +1,24 @@
 export async function fetchAllNotifications() {
   try {
-    console.log('Start fetching');
-    return fetch('http://localhost:8081/notifications')
-      .then(response => response.json())
-      .then(data => {
-        return data; // Return the parsed JSON data
-      });
+    console.log('Start fetching')
+    const response = await fetch('https://noti-service.azurewebsites.net/notifications', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('Fetch data complete')
+    console.log(response.headers)
+    console.log(response.status)
+    
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Fetched Data:', data);
+    return data;
   } catch (error) {
     console.error('Error fetching data:', error);
     return [];
@@ -15,7 +28,7 @@ export async function fetchAllNotifications() {
 
 export async function fetchNotificationById(id) {
   try {
-    const response = await fetch(`http://localhost:8081/notifications/${id}`);
+    const response = await fetch(`https://noti-service.azurewebsites.net/notifications/${id}`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

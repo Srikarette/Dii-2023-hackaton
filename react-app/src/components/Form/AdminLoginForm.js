@@ -15,7 +15,7 @@ const AdminLoginForm = () => {
 
   const fetchAdminData = () => {
     axios
-      .get("http://localhost:8081/admins")
+      .get("https://noti-service.azurewebsites.net/admins")
       .then((response) => {
         setAdmins(response.data);
       })
