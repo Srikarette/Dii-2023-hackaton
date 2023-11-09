@@ -173,7 +173,7 @@ const Mapadmin = () => {
   // Handle posting a new marker to the server
   const handlePostMarker = async (category, latitude, longitude) => {
     try {
-      const response = await axios.post("http://localhost:8080/notifications", {
+      const response = await axios.post("http://localhost:8081/notifications", {
         category: category,
         latitude: latitude,
         longitude: longitude,
@@ -193,7 +193,7 @@ const Mapadmin = () => {
   const handleDeleteMarker = (notificationId) => {
     // Perform the delete operation
     axios
-      .delete(`http://localhost:8080/notifications/${notificationId}`)
+      .delete(`http://localhost:8081/notifications/${notificationId}`)
       .then((response) => {
         if (response.status === 200) {
           console.log("Data deleted successfully");
@@ -227,7 +227,7 @@ const Mapadmin = () => {
     // Send the updated marker data to the server here
     // For example, you can use an Axios POST request
     axios
-      .patch(`http://localhost:8080/notifications/${id}`, formData, {
+      .patch(`http://localhost:8081/notifications/${id}`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

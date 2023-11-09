@@ -15,7 +15,7 @@ const AdminLoginForm = () => {
 
   const fetchAdminData = () => {
     axios
-      .get("http://localhost:8080/admins")
+      .get("http://localhost:8081/admins")
       .then((response) => {
         setAdmins(response.data);
       })
