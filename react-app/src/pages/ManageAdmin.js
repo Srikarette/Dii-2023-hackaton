@@ -48,7 +48,7 @@ function Admin() {
   useEffect(() => {
     // เรียก API เพื่อดึงข้อมูลบัญชีทั้งหมด
     axios
-      .get("http://localhost:8080/admins")
+      .get("https://noti-service.azurewebsites.net/admins")
       .then((response) => {
         setAccounts(response.data); // ตั้งค่าข้อมูลบัญชีให้กับตัวแปร accounts
       })
@@ -69,7 +69,7 @@ function Admin() {
   const handleDelete = (id) => {
     // ทำการเรียก API เพื่อลบบัญชี
     axios
-      .delete(`http://localhost:8080/admins/${id}`)
+      .delete(`https://noti-service.azurewebsites.net/admins/${id}`)
       .then(() => {
         const updatedAccounts = accounts.filter((account) => account.id !== id);
         setAccounts(updatedAccounts);
@@ -97,7 +97,7 @@ function Admin() {
     };
 
     axios
-      .patch(`http://localhost:8080/admins/${editingAccountId}`, updatedAccount)
+      .patch(`https://noti-service.azurewebsites.net/admins/${editingAccountId}`, updatedAccount)
       .then(() => {
         const updatedAccounts = accounts.map((account) =>
           account.id === editingAccountId ? updatedAccount : account
@@ -122,7 +122,7 @@ function Admin() {
 
     // ทำการเรียก API โดยใช้เมธอด POST
     axios
-      .post("http://localhost:8080/admins", newAccount)
+      .post("https://noti-service.azurewebsites.net/admins", newAccount)
       .then((response) => {
         const createdAccount = response.data;
 
