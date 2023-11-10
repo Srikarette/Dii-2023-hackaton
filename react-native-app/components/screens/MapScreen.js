@@ -87,13 +87,14 @@ export default function MapScreen() {
   const fetchData = async () => {
     try {
       console.log('Start fetching')
-      const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications', {
+      const response = await fetch('https://noti-service.azurewebsites.net/notifications', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       console.log('Fetch data complete')
+      console.log(response.json)
   
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -144,7 +145,7 @@ export default function MapScreen() {
 
   const postUserLocation = async (latitude, longitude, category) => {
     try {
-      const response = await fetch('https://generous-snail-nearby.ngrok-free.app/notifications', {
+      const response = await fetch('https://noti-service.azurewebsites.net/notifications', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
